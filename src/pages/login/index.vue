@@ -199,7 +199,7 @@ export default {
 </script>
 
 <template>
-    <div class="lowin">
+    <div class="lowin lowin-red">
       <div class="lowin-brand">
         <img src="../../assets/images/kodinger.jpg" alt="logo" />
       </div>
@@ -292,6 +292,6 @@ export default {
     </div>
 </template>
 
-<style  scoped >
+<style >
 @import "./index.css";
 </style>

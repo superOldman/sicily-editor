@@ -4,7 +4,7 @@
  * date: 2020/03/17
  * desc: 文章编辑
  */
-import twMarkdownView from "../../components/markdownEditor/markdownEditor.vue";
+// import twMarkdownView from "../../components/markdownEditor/markdownEditor.vue";
 import SkmService from "../../services/api";
 
 export default {
@@ -27,7 +27,7 @@ export default {
     };
   },
   components: {
-    twMarkdownView
+    // twMarkdownView
   },
   // computed:{
   //   isNewEditor(data){ return data },
@@ -113,7 +113,7 @@ export default {
           </el-form-item>
         </el-form>
       </div>
-      <tw-markdown-view v-if="options.markdown" :config="{ markdown: options.markdown  }" @onchange="onchange"></tw-markdown-view>
+      <!-- <tw-markdown-view v-if="options.markdown" :config="{ markdown: options.markdown  }" @onchange="onchange"></tw-markdown-view> -->
     </div>
   </layout>
 </template>
