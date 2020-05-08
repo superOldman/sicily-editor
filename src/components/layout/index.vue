@@ -16,6 +16,7 @@ export default {
   data: function() {
     return {
       MODULES_INFO,
+      userMessage: {},
       // userMessage: {
       //   title: "",
       //   userName: "",
@@ -28,9 +29,9 @@ export default {
     userContent
   },
   computed :{
-    userMessage(){
-      return this.$store.state.userDetails
-    }
+    // userMessage(){
+    //   return this.$store.state.userDetails
+    // }
   },
   // watch: {
   //   // 如果 `question` 发生改变，这个函数就会运行
@@ -50,6 +51,7 @@ export default {
     },
     isLogin() {
       // const self = this;
+      this.userMessage = this.$store.state.userDetails;
       if (!this.$store.state.userDetails) {
         SkmService.islogin().then(data => {
           console.log(data)

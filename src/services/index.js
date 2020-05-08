@@ -61,6 +61,8 @@ axios.interceptors.response.use(
           console.log('401','拦截了')
           console.log('401','拦截了',router)
           router.push({name: 'login'})
+
+          console.log('401','拦截了','导向login')
           break;
         // 403 登陆过期
         case 403:

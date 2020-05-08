@@ -4,14 +4,17 @@
 * date: 2020/03/17
 * desc: home
 */
-
 export default {
   data () {
     return {
     }
   },
   mounted () {
-     
+    //  this.testFun(()=>{
+    //    console.log(this)
+    //  },1)
+     this.test()
+     this.test2()
   },
   methods: {
     add(){
@@ -21,6 +24,32 @@ export default {
     reduction(){
       // this.$store.commit('reduction')
       this.$store.dispatch('reductionFun')
+    },
+    cb(){
+      console.log(this)
+    },
+    test() {
+      var arr = [1];
+      arr.map(function() {
+        console.log(this);
+      })
+
+      arr.forEach(function(item,index){
+        
+        console.log(item)
+        console.log(index)
+        console.log(this)
+      })
+    },
+    test2() {
+      [1].map(() => {
+        console.log(this);
+      })
+    },
+    testFun(callback,num){
+      if(num){
+        callback()
+      }
     }
   }
 }

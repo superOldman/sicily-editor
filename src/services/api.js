@@ -19,6 +19,10 @@ class SkmService {
     const result = await http_post({ api: baseAddress + '/users/login', params });
     return result.data;
   }
+  async logout() {
+    const result = await http_get({ api: baseAddress + '/users/logout' });
+    return result.data;
+  }
   async islogin() {
     const result = await http_get({ api: baseAddress + '/islogin'});
     return result.data;
@@ -34,16 +38,17 @@ class SkmService {
   }
 
   async get_list(params) {
-    const result = await http_get({ api: baseAddress + '/list', params });
+    const result = await http_get({ api: baseAddress + '/list', params:{ params } });
     return result.data;
   }
   async destroyById(params) {
-    const result = await http_get({ api: baseAddress + '/editor/destroy', params });
+    console.log(params)
+    const result = await http_get({ api: baseAddress + '/editor/destroy', params:{ params } });
     return result.data;
   }
 
   async searchById(params) {
-    const result = await http_get({ api: baseAddress + '/searchById', params });
+    const result = await http_get({ api: baseAddress + '/searchById', params:{ params } });
     return result.data;
   }
 

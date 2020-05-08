@@ -179,7 +179,16 @@ export default {
       SkmService.signin(self.userData).then((data) => {
         if (data.code === 0) {
           console.log('登陆成功！');
-          self.$router.push({name: 'home'});
+          let pageName = 'home';
+          let url = window.location.href;
+          if(url.indexOf('?') !== -1 ){
+            pageName = url.split('?redirect=%2F')[1];
+            // console.log(pageName)
+            // console.log(encodeURI(pageName))
+            // console.log(decodeURI(pageName))
+            // console.log(encodeURIComponent(pageName))
+          }
+          self.$router.push({name: pageName});
         }
       });
     },
@@ -187,7 +196,6 @@ export default {
       const self = this;
       console.log(self.registerData)
       SkmService.register(self.registerData).then((data) => {
-       
         if(data.code === 1){
           alert(data.message);
           // self.$router.push({name: 'home'});

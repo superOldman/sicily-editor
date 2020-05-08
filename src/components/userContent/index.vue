@@ -4,7 +4,8 @@
 * date: 2020/03/20
 * desc: 用户信息组件
 */
-
+import SkmServes from '../../services/api';
+import store from '../../store/index';
 export default {
   data () {
     return {
@@ -27,6 +28,10 @@ export default {
   methods: {
     pageToDetails(){
       this.$router.push({name:'userDetails'})
+    },
+    logout(){
+      store.commit('refushUser',null)
+      SkmServes.logout()
     }
   }
 }
@@ -49,7 +54,7 @@ export default {
   <!-- </span> -->
   <el-dropdown-menu slot="dropdown">
     <el-dropdown-item @click.native="pageToDetails()" >详情</el-dropdown-item>
-    <el-dropdown-item >退出</el-dropdown-item>
+    <el-dropdown-item @click.native="logout">退出</el-dropdown-item>
   </el-dropdown-menu>
 </el-dropdown>
 </template>
