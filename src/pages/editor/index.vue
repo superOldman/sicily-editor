@@ -221,7 +221,6 @@ export default {
 }
 
 .cWrcMb {
-    /* display: flex; */
     margin-bottom: 20px;
     height: 200px;
     font-family: Ubuntu, sans-serif;
