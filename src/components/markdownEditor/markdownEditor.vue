@@ -24,8 +24,8 @@ export default {
     };
   },
   props: {
-      // initData: "",
-          // initDataDelay: 0 // 延迟初始化数据时间，单位毫秒
+    // initData: "",
+    // initDataDelay: 0 // 延迟初始化数据时间，单位毫秒
     config: { markdown: '没数据时的字段' }
      
   },
@@ -34,6 +34,7 @@ export default {
 
   },
   mounted() {
+    console.log('加载 编辑页面')
     console.log(this.config)
     this.init();
   },

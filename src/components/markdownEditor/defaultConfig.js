@@ -1,6 +1,6 @@
 const defaultConfig = {
   width: "100%",
-  height: 600,
+  height: 1000,
   path: './static/editor.md-master/lib/',
   // theme: 'dark',
   // previewTheme: 'dark',

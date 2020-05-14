@@ -32,7 +32,19 @@ export default {
       // const params = { author: "superOldman" };
       const self = this;
       SkmService.get_list().then(function(data) {
-        console.log(data);
+
+       data.forEach((item)=>{
+         item.updated_at = myGetTime(item.updated_at)
+       })
+
+       function myGetTime(time){
+         let myTime = new Date(time);
+         return `${myTime.getFullYear()}-${ addZero(myTime.getMonth() + 1)}-${addZero(myTime.getDate())}  ${addZero(myTime.getHours())}:${addZero(myTime.getMinutes())}:${addZero(myTime.getSeconds())}`
+       }
+       function addZero(num){
+         return  num >= 10 ? num : `0${num}` 
+       }
+
         self.listData = data;
         self.createNowTableData();
       });
@@ -103,9 +115,9 @@ export default {
     </el-dialog>
     <el-table :data="tableData" stripe style="width: 90%; margin: 0 auto;">
       <el-table-column type="index" width="50"></el-table-column>
-      <el-table-column prop="updated_at" label="日期" width="100"></el-table-column>
-      <el-table-column prop="title" label="标题" width="180"></el-table-column>
-      <el-table-column prop="author" label="编辑人" width="180"></el-table-column>
+      <el-table-column prop="updated_at" label="日期" width="200"></el-table-column>
+      <el-table-column prop="title" label="标题" width="200"></el-table-column>
+      <el-table-column prop="author" label="编辑人" width="160"></el-table-column>
       <el-table-column prop="info" label="详情"></el-table-column>
       <el-table-column label="操作" width="180">
         <template slot-scope="scope">

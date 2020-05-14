@@ -56,7 +56,7 @@
               action +
               '" target="' +
               iframeName +
-              '" method="post" enctype="multipart/form-data" class="' +
+            '" method="post" enctype= "multipart/form-data" class="' + 
               classPrefix +
               'form">'
             : '<div class="' + classPrefix + 'form">') +
@@ -80,12 +80,11 @@
                   'file-input">' +
                   '<input type="file" name="' +
                   classPrefix +
-                  'image-file" accept="image/*" />' +
+              // 'image-file" accept="image/*" multiple="multiple" enctype= "multipart/form-data" />' +
+              'image-file" accept="image/*" multiple="multiple" />' +
                   "<input class='skmsubmit' value=\"" +
                   imageLang.uploadButton +
                   '" />' +
-                  // "<input type=\"submit\" value=\"" + imageLang.uploadButton + "\" />" +
-
                   '</div>'
               : '';
           })() +
@@ -249,7 +248,7 @@
           var myfile = e.currentTarget.files;
           var submitHandler2 = function() {
             let file = myfile[0];
-            let reader = new FileReader();
+            // let reader = new FileReader();
             if (!file) {
               alert('请重新选择图片！');
               return;
@@ -258,10 +257,10 @@
               //限制大小
               console.log(file.size);
             }
-            reader.readAsDataURL(file);
+            // reader.readAsDataURL(file);
             var formData = new FormData();
             formData.append('pic', file); // 文件数据
-
+            console.log(formData)
             $.ajax({
               url: settings.imageUploadURL,
               method: 'POST',
@@ -277,7 +276,7 @@
                 if (data.success === 1) {
                   dialog
                     .find('[data-url]')
-                    .val('http://localhost:3000/' + data.pic[0].path);
+                    .val('http://localhost:3000/' + data.pic.path);
                 }
               },
               error: function(xhr, status) {

@@ -8,6 +8,9 @@ import userDetails from '../pages/userDetails/index.vue'
 import articleList from '../pages/articleList/index.vue'
 
 
+import setTag from '../components/setTags/setTags.vue'
+
+
 
 
 Vue.use(Router);
@@ -50,6 +53,11 @@ export default new Router({
       path: '/articleList',
       name: 'articleList',
       component: articleList,
+    },
+    {
+      path: '/setTag',
+      name: 'setTag',
+      component: setTag, 
     },
   ]
 })

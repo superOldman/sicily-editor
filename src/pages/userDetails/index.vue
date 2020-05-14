@@ -71,14 +71,17 @@ export default {
   },
   methods: {
     handleAvatarSuccess(res, file) {
-      this.imageUrl = URL.createObjectURL(file.raw);
+
+      console.log('上传回调')
+      console.log(arguments)
+      this.userMessage.imageUrl = URL.createObjectURL(file.raw);
     },
     beforeAvatarUpload(file) {
-      const isJPG = file.type === 'image/jpeg';
+      const isJPG = file.type === ('image/jpeg' || 'image/png' || 'image/jpg');
       const isLt2M = file.size / 1024 / 1024 < 2;
 
       if (!isJPG) {
-        this.$message.error('上传头像图片只能是 JPG 格式!');
+        this.$message.error('上传头像图片只能是 jpeg/jpg/png 格式!');
       }
       if (!isLt2M) {
         this.$message.error('上传头像图片大小不能超过 2MB!');
@@ -96,9 +99,9 @@ export default {
           }
         });
       },
-      resetForm(formName) {
-        this.$refs[formName].resetFields();
-      }
+    resetForm(formName) {
+      this.$refs[formName].resetFields();
+    }
   }
 }
 </script>
@@ -107,11 +110,12 @@ export default {
 <layout>
   <div class="detailwarp">
     <div class="top">
-      <p><span>{{userMessage.title}}</span>:<span>{{ '&nbsp;&nbsp;&nbsp;'+userMessage.userName}}</span></p>
+      <p><span>{{userMessage.title}}</span>:<span>{{ '&nbsp;&nbsp;&nbsp;' + userMessage.userName}}</span></p>
     </div>
     <el-upload
       class="avatar-uploader"
-      action="https://jsonplaceholder.typicode.com/posts/"
+      action="http://127.0.0.1:3000/editor/uploadImg"
+      :with-credentials='true'
       :show-file-list="false"
       :on-success="handleAvatarSuccess"
       :before-upload="beforeAvatarUpload">
@@ -156,7 +160,7 @@ export default {
   line-height: 60px;
 }
 .avatar-uploader{
-  
+  font-size: 0;
 }
 .avatar-uploader .el-upload {
   border: 1px dashed #d9d9d9;
