@@ -8,7 +8,7 @@ import userDetails from '../pages/userDetails/index.vue'
 import articleList from '../pages/articleList/index.vue'
 
 
-import setTag from '../components/setTags/setTags.vue'
+import cover from '../pages/cover/cover.vue'
 
 
 
@@ -55,9 +55,9 @@ export default new Router({
       component: articleList,
     },
     {
-      path: '/setTag',
-      name: 'setTag',
-      component: setTag, 
+      path: '/cover',
+      name: 'cover',
+      component: cover, 
     },
   ]
 })

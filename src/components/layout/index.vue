@@ -22,7 +22,6 @@ export default {
       //   userName: "",
       //   imgUrl: ""
       // }
-      // userMessage: null
     };
   },
   components: {

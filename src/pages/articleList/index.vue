@@ -115,7 +115,7 @@ export default {
     </el-dialog>
     <el-table :data="tableData" stripe style="width: 90%; margin: 0 auto;">
       <el-table-column type="index" width="50"></el-table-column>
-      <el-table-column prop="updated_at" label="日期" width="200"></el-table-column>
+      <el-table-column draggable="true" prop="updated_at" label="日期" width="200" :resizable="true"></el-table-column>
       <el-table-column prop="title" label="标题" width="200"></el-table-column>
       <el-table-column prop="author" label="编辑人" width="160"></el-table-column>
       <el-table-column prop="info" label="详情"></el-table-column>

@@ -4,9 +4,26 @@
 * date: 2020/03/17
 * desc: home
 */
+const echarts = require('echarts');
 export default {
   data () {
     return {
+      option : {
+          visualMap: {
+              show: true,
+              min: 0,
+              max: 10,
+              calculable: true
+          },
+          calendar: {
+              range: '2020'
+          },
+          series: {
+              type: 'heatmap',
+              coordinateSystem: 'calendar',
+              data: this.getVirtulData(2020)
+          }
+      }
     }
   },
   mounted () {
@@ -15,6 +32,8 @@ export default {
     //  },1)
      this.test()
      this.test2()
+
+     this.createDayMap();
   },
   methods: {
     add(){
@@ -50,6 +69,27 @@ export default {
       if(num){
         callback()
       }
+    },
+    getVirtulData(year) {
+        year = year || '2020';
+        var date = +echarts.number.parseDate(year + '-01-01');
+        var end = +echarts.number.parseDate((+year + 1) + '-01-01');
+        var dayTime = 3600 * 24 * 1000;
+        var data = [];
+        for (var time = date; time < end; time += dayTime) {
+            data.push([
+                echarts.format.formatTime('yyyy-MM-dd', time),
+                10
+            ]);
+        }
+        console.log(data)
+        return data;
+    },
+    createDayMap(){
+      var myChart = echarts.init(document.getElementById('dayMap'));
+      console.log(myChart)
+      // 绘制图表
+      myChart.setOption(this.option)
     }
   }
 }
@@ -57,10 +97,15 @@ export default {
 
 <template>
   <layout>
-     state{{this.$store.state.count}}<br>
-     getters{{this.$store.getters.getToCounts}}<br>
-     <button @click="add">+</button>
-     <button @click="reduction">-</button>
+    state{{this.$store.state.count}}
+    <br />
+    getters{{this.$store.getters.getToCounts}}
+    <br />
+    <button @click="add">+</button>
+    <button @click="reduction">-</button>
+
+    <div>-----------------------</div>
+    <div id="dayMap" style="width: 1200px;height:400px;"></div>
   </layout>
 </template>
 

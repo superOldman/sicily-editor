@@ -32,23 +32,42 @@ class SkmService {
     const result = await http_post({ api: baseAddress + '/editor/saveHtml', params });
     return result.data;
   }
+  
+  async saveTop(params) {
+    const result = await http_post({ api: baseAddress + '/top/saveTop', params });
+    return result.data;
+  }
+
   async saveEditorHtml(params) {
     const result = await http_post({ api: baseAddress + '/editor/saveEditorHtml', params });
     return result.data;
   }
-
+  
   async get_list(params) {
-    const result = await http_get({ api: baseAddress + '/list', params:{ params } });
+    const result = await http_get({ api: baseAddress + '/list', params: { params } });
     return result.data;
   }
+  async getTopList(params) {
+    const result = await http_get({ api: baseAddress + '/top/getTopList', params: { params } });
+    return result.data;
+  }
+  async get_titleList(params) {
+    const result = await http_post({ api: baseAddress + '/search/getTitleList', params });
+    return result.data;
+  }
+  
   async destroyById(params) {
     console.log(params)
     const result = await http_get({ api: baseAddress + '/editor/destroy', params:{ params } });
     return result.data;
   }
-
+  
   async searchById(params) {
-    const result = await http_get({ api: baseAddress + '/searchById', params:{ params } });
+    const result = await http_get({ api: baseAddress + '/searchById', params: { params } });
+    return result.data;
+  }
+  async searcByIdpackageTopModel(params) {
+    const result = await http_get({ api: baseAddress + '/search/searcByIdpackageTopModel', params: { params } });
     return result.data;
   }
 

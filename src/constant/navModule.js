@@ -12,9 +12,9 @@ const MODULES_INFO = [
     name: '文章列表',
     router: 'articleList'
   },
-  // {
-  //   name: '编辑',
-  //   router: 'editor'
-  // },
+  {
+    name: '置顶项',
+    router: 'cover'
+  },
 ];
 export default MODULES_INFO

@@ -6,6 +6,7 @@
  */
 import twMarkdownView from "../../components/markdownEditor/markdownEditor.vue";
 import setTags from "../../components/setTags/setTags.vue";
+import setFolder from "../../components/setFolder/setFolder.vue";
 import SkmService from "../../services/api";
 
 export default {
@@ -13,6 +14,7 @@ export default {
     return {
       markdownView: null,
       isNewEditor: false,
+      isShowEditor: false,
       imageUrl: "",
       options: {
         title: "标题",
@@ -32,7 +34,8 @@ export default {
   },
   components: {
     twMarkdownView,
-    setTags
+    setTags,
+    setFolder
   },
   // computed:{
   //   isNewEditor(data){ return data },
@@ -48,15 +51,19 @@ export default {
         SkmService.searchById({ id: articleId }).then(data => {
           if (data.code === 0) {
             this.options = data.list;
-            this.isNewEditor = true;
+            this.isNewEditor = false;
+            this.isShowEditor = true;
+
           }
         });
       } else {
         this.isNewEditor = true;
+        this.isShowEditor = true;
       }
     },
     onchange(obj) {
-      this.markdownView = obj;
+      this.options.content = obj.html
+      this.options.markdown = obj.markdown
       if (this.isNewEditor) {
         this.newEditor();
       } else {
@@ -64,16 +71,8 @@ export default {
       }
     },
     againEditor() {
-      const self = this;
-      SkmService.saveEditorHtml({
-        id: self.options._id,
-        title: self.options.title,
-        info: self.options.info,
-        markdown: self.markdownView.markdown,
-        content: self.markdownView.html,
-        author: self.options.author
-      }).then(data => {
-        self.$alert(data.message, "提示", {
+      SkmService.saveEditorHtml(this.options).then(data => {
+        this.$alert(data.message, "提示", {
           confirmButtonText: "知道了"
         });
       });
@@ -82,11 +81,11 @@ export default {
       // const self = this;
       console.log(this.options)
 
-      // SkmService.saveHtml(this.options).then(data => {
-      //   self.$alert(data.message, "提示", {
-      //     confirmButtonText: "知道了"
-      //   });
-      // });
+      SkmService.saveHtml(this.options).then(data => {
+        this.$alert(data.message, "提示", {
+          confirmButtonText: "知道了"
+        });
+      });
     },
     handleAvatarSuccess(res, file) {
       console.log("上传回调");
@@ -112,7 +111,10 @@ export default {
     removeTag(index){
       this.options.hasTags.splice(index,1)
             
-    }
+    },
+    addFolder(text){
+       this.options.hasFolder = text
+    },
 
   }
 };
@@ -166,16 +168,14 @@ export default {
           </el-upload>
         </el-col>
       </el-row>
+      <el-divider><i class="el-icon-mobile-phone"></i></el-divider>
+      <setTags :hasInput="true" :hasTags="options.hasTags" @addTag="addTags" @removeTag="removeTag"></setTags>
+      <el-divider><i class="el-icon-mobile-phone"></i></el-divider>
+      <setFolder  :folderName="options.hasFolder" @addFolder="addFolder"></setFolder>
 
-      <el-row :gutter="20">
-        <el-col :span="6">
-          <!-- <setTags :options="{ hasInput: true, hasTags:[123] }"></setTags> -->
-          <setTags class="cWrcMb" :hasInput="true" :hasTags="options.hasTags" @addTag="addTags" @removeTag="removeTag"></setTags>
-        </el-col>
-      </el-row>
-
+      <el-divider><i class="el-icon-mobile-phone"></i></el-divider>
       <tw-markdown-view
-        v-if="isNewEditor"
+        v-if="isShowEditor"
         :config="{ markdown: options.markdown  }"
         @onchange="onchange"
       ></tw-markdown-view>
@@ -220,6 +220,7 @@ export default {
   text-align: center;
 }
 
+/* 卡片样式 
 .cWrcMb {
     margin-bottom: 20px;
     height: 200px;
@@ -231,5 +232,5 @@ export default {
     background: rgb(255, 255, 255);
     border-radius:5px;
     overflow: hidden;
-}
+} */
 </style>
