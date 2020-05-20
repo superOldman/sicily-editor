@@ -33,24 +33,63 @@ class SkmService {
     return result.data;
   }
   
-  async saveTop(params) {
-    const result = await http_post({ api: baseAddress + '/top/saveTop', params });
-    return result.data;
-  }
 
   async saveEditorHtml(params) {
     const result = await http_post({ api: baseAddress + '/editor/saveEditorHtml', params });
     return result.data;
   }
+
+
+
   
   async get_list(params) {
     const result = await http_get({ api: baseAddress + '/list', params: { params } });
     return result.data;
   }
-  async getTopList(params) {
-    const result = await http_get({ api: baseAddress + '/top/getTopList', params: { params } });
+
+  // 文件夹接口 
+
+  async getFolderList(params) {
+    const result = await http_get({ api: baseAddress + '/folder/getFolderList', params: { params } });
     return result.data;
   }
+
+  // async getUnclassifiedList(params) {
+  //   const result = await http_get({ api: baseAddress + '/folder/getUnclassifiedList', params: { params } });
+  //   return result.data;
+  // }
+
+  async deleteFolder(params) {
+    const result = await http_post({ api: baseAddress + '/folder/deleteFolder', params });
+    return result.data;
+  }
+  
+  async saveFolder(params) {
+    const result = await http_post({ api: baseAddress + '/folder/saveFolder', params });
+    return result.data;
+  }
+
+  async saveEditorFolder(params) {
+    const result = await http_post({ api: baseAddress + '/folder/saveEditorFolder', params });
+    return result.data;
+  }
+  
+  async pushPaper(params) {
+    const result = await http_post({ api: baseAddress + '/folder/pushPaper', params });
+    return result.data;
+  }
+
+
+
+
+
+
+
+
+
+
+
+
   async get_titleList(params) {
     const result = await http_post({ api: baseAddress + '/search/getTitleList', params });
     return result.data;

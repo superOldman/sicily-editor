@@ -13,8 +13,8 @@ const MODULES_INFO = [
     router: 'articleList'
   },
   {
-    name: '置顶项',
-    router: 'cover'
+    name: '文件夹管理',
+    router: 'createFolder'
   },
 ];
 export default MODULES_INFO

@@ -8,7 +8,7 @@ import userDetails from '../pages/userDetails/index.vue'
 import articleList from '../pages/articleList/index.vue'
 
 
-import cover from '../pages/cover/cover.vue'
+import createFolder from '../pages/createFolder/index.vue'
 
 
 
@@ -55,9 +55,9 @@ export default new Router({
       component: articleList,
     },
     {
-      path: '/cover',
-      name: 'cover',
-      component: cover, 
+      path: '/createFolder',
+      name: 'createFolder',
+      component: createFolder, 
     },
   ]
 })

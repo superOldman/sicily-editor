@@ -6,7 +6,6 @@
  */
 import twMarkdownView from "../../components/markdownEditor/markdownEditor.vue";
 import setTags from "../../components/setTags/setTags.vue";
-import setFolder from "../../components/setFolder/setFolder.vue";
 import SkmService from "../../services/api";
 
 export default {
@@ -24,46 +23,66 @@ export default {
         markdown: null,
         saveImageUrl: "",
         hasTags: [],
-        hasFolder: "",
+        hasFolder: ""
         // config: {
         //   editorId: "markdown-editor",
         //   config: { markdown: "qweqeqweqw" }
         // }
-      }
+      },
+      // 文件夹列表
+      folderListShow: false,
+      createfolderShow: false,
+      folderList: [],
+      showFolderName: "选择文件夹"
     };
   },
   components: {
     twMarkdownView,
-    setTags,
-    setFolder
+    setTags
   },
   // computed:{
   //   isNewEditor(data){ return data },
   // },
   created() {
     this.getArticleById();
+    this.getFolderList();
   },
   mounted() {},
   methods: {
-    getArticleById() {
+    async getArticleById() {
       if (window.location.href.indexOf("?") !== -1) {
+        // this.$route.query.id
         let articleId = window.location.href.split("?id=")[1];
-        SkmService.searchById({ id: articleId }).then(data => {
-          if (data.code === 0) {
-            this.options = data.list;
-            this.isNewEditor = false;
-            this.isShowEditor = true;
+        const result = await SkmService.searchById({ id: articleId });
+        if (result.code === 0) {
+          this.options = result.list;
+          this.isNewEditor = false;
+          this.isShowEditor = true;
+        }
 
-          }
-        });
       } else {
         this.isNewEditor = true;
         this.isShowEditor = true;
       }
     },
+    async getFolderList() {
+      const result = await SkmService.getFolderList();
+      if (result.code === 0) {
+        console.log(result)
+       
+        result.data.forEach((item,index)=>{
+          this.folderList[index] = item.folderName;
+        })
+        this.folderListShow = true;
+      }
+      if(!this.folderList.length){
+        this.createfolderShow = true;
+      }
+    },
+
     onchange(obj) {
-      this.options.content = obj.html
-      this.options.markdown = obj.markdown
+      this.options.content = obj.html;
+      this.options.markdown = obj.markdown;
       if (this.isNewEditor) {
         this.newEditor();
       } else {
@@ -79,7 +98,8 @@ export default {
     },
     newEditor() {
       // const self = this;
-      console.log(this.options)
+      console.log('新建页面保存：');
+      console.log(this.options);
 
       SkmService.saveHtml(this.options).then(data => {
         this.$alert(data.message, "提示", {
@@ -105,25 +125,32 @@ export default {
       }
       return isJPG && isLt2M;
     },
-    addTags(item){
-      item && this.options.hasTags.push(item)
+    addTags(item) {
+      item && this.options.hasTags.push(item);
     },
-    removeTag(index){
-      this.options.hasTags.splice(index,1)
-            
+    removeTag(index) {
+      this.options.hasTags.splice(index, 1);
     },
-    addFolder(text){
-       this.options.hasFolder = text
+    addFolder(name) {
+      console.log('xuanzewenjianjia');
+      console.log(name);
+      this.options.hasFolder = this.showFolderName = name;
     },
-
+    // 新建文件夹
+    createFolder() {
+      this.$router.push({ name: "createFolder", query: { id: 12312313 } });
+    },
+    selectName(name) {
+      this.showFolderName = name;
+      console.log(this.showFolderName);
+    }
   }
 };
 </script>
 
 <template>
   <layout>
-    <div>
-      editor
+    <div class="warp">
       <el-row :gutter="20">
         <el-col :span="10">
           <div class="form_message">
@@ -168,12 +195,32 @@ export default {
           </el-upload>
         </el-col>
       </el-row>
-      <el-divider><i class="el-icon-mobile-phone"></i></el-divider>
+      <el-divider>
+        <i class="el-icon-mobile-phone"></i>
+      </el-divider>
       <setTags :hasInput="true" :hasTags="options.hasTags" @addTag="addTags" @removeTag="removeTag"></setTags>
-      <el-divider><i class="el-icon-mobile-phone"></i></el-divider>
-      <setFolder  :folderName="options.hasFolder" @addFolder="addFolder"></setFolder>
+      <el-divider>
+        <i class="el-icon-mobile-phone"></i>
+      </el-divider>
+      <!-- <setFolder  :folderName="options.hasFolder" @addFolder="addFolder"></setFolder> -->
 
-      <el-divider><i class="el-icon-mobile-phone"></i></el-divider>
+      <el-dropdown v-if="folderListShow" split-button type="primary">
+        {{showFolderName}}
+        <el-dropdown-menu slot="dropdown">
+          <el-dropdown-item
+            v-for="(item,index) in folderList"
+            :key="index"
+            @click.native="addFolder(item)"
+          >{{item}}</el-dropdown-item>
+        </el-dropdown-menu>
+      </el-dropdown>
+
+      <!-- <el-button v-if="!folderListShow && folderList.length === 0" @click="createFolder">创建文件夹</el-button> -->
+
+      <el-divider>
+        <i class="el-icon-mobile-phone"></i>
+      </el-divider>
+
       <tw-markdown-view
         v-if="isShowEditor"
         :config="{ markdown: options.markdown  }"
@@ -184,6 +231,9 @@ export default {
 </template>
 
 <style  scoped >
+.warp {
+  text-align: left;
+}
 .form_message {
   padding-top: 20px;
   width: 100%;

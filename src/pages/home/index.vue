@@ -4,7 +4,8 @@
 * date: 2020/03/17
 * desc: home
 */
-const echarts = require('echarts');
+import echarts from 'echarts'
+// const echarts = require('echarts');
 export default {
   data () {
     return {

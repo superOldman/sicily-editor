@@ -31,9 +31,9 @@ export default {
     getList() {
       // const params = { author: "superOldman" };
       const self = this;
-      SkmService.get_list().then(function(data) {
+      SkmService.get_list().then(function(result) {
 
-       data.forEach((item)=>{
+       result.data.forEach((item)=>{
          item.updated_at = myGetTime(item.updated_at)
        })
 
@@ -45,7 +45,7 @@ export default {
          return  num >= 10 ? num : `0${num}` 
        }
 
-        self.listData = data;
+        self.listData = result.data;
         self.createNowTableData();
       });
     },
@@ -113,12 +113,19 @@ export default {
         <el-button type="primary" @click="dialogVisible = false">确 定</el-button>
       </span>
     </el-dialog>
+    
     <el-table :data="tableData" stripe style="width: 90%; margin: 0 auto;">
       <el-table-column type="index" width="50"></el-table-column>
       <el-table-column draggable="true" prop="updated_at" label="日期" width="200" :resizable="true"></el-table-column>
       <el-table-column prop="title" label="标题" width="200"></el-table-column>
       <el-table-column prop="author" label="编辑人" width="160"></el-table-column>
       <el-table-column prop="info" label="详情"></el-table-column>
+      <el-table-column prop="hasFolder" label="所属文件夹"></el-table-column>
+      <el-table-column label="置顶" width="160">
+        <template slot-scope="scope">
+          <el-switch v-model="scope.row.stick" active-color="#13ce66" inactive-color="#ff4949"></el-switch>
+        </template>
+      </el-table-column>
       <el-table-column label="操作" width="180">
         <template slot-scope="scope">
           <el-button size="mini" @click="handleEdit(scope.$index, scope.row)">编辑</el-button>

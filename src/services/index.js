@@ -175,6 +175,8 @@ axios.interceptors.response.use(
 
 
 export function http_post(config) {
+  console.log('参数：')
+  console.log(config.params)
   const _data = config.params;
   if (config.format) {
     return new Promise((resolve,reject) => {
