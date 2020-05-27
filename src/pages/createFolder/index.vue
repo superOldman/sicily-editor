@@ -5,6 +5,7 @@ import myDialog from "../../components/myDialog/index.vue";
 import SkmService from "../../services/api";
 
 export default {
+  name: 'createFolder',
   data() {
     return {
       listData: [
@@ -342,7 +343,7 @@ export default {
     </myDialog>
 
 
-    <div class="warp">
+    <div class="massive_css massive_style">
       <el-row class="listTop">
         <el-col :span="6">
           <div class="listTop_left">
@@ -360,7 +361,7 @@ export default {
           </ul>
         </el-col>
       </el-row>
-      <el-table :data="listData"  style="width: 100%">
+      <el-table :data="listData"  style="width: 98%; margin: 0 auto;">
         <el-table-column label="名称" prop="folderName"></el-table-column>
         <el-table-column label="背景">
           <template slot-scope="scope">
@@ -400,14 +401,14 @@ export default {
 
 
 <style scoped>
-.warp {
-  width: 100%;
+.massive_style {
+  width: 98%;
   /* height: 100%; */
-  box-shadow: rgba(0, 0, 0, 0.5) 0px 1px 20px -8px;
+  /* box-shadow: rgba(0, 0, 0, 0.5) 0px 1px 20px -8px; */
   /* position: relative; */
   /* overflow: hidden; */
-  margin-top: 30px;
-}
+  margin: 30px auto 0;
+} 
 .listTop {
   background-color: #fff;
   border-bottom: 1px solid #000;
@@ -421,9 +422,10 @@ export default {
 .pageTitle {
   /* display: inline-block; */
   float: left;
+  margin-left: 100px;
 }
 .saveButton {
-  position: relative;
+  position: absolute;
   top: -25px;
   left: 25px;
   background-color: deeppink;
@@ -439,7 +441,7 @@ export default {
 
 .btns {
   width: 100%;
-  height: 100px;
+  /* height: 100px; */
   font-size: 28px;
   color: #ccc;
 }

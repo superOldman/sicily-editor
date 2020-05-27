@@ -27,12 +27,25 @@ export default {
     this.getList();
   },
   mounted() {},
+  watch: {
+    'this.$store.state.loadingStatus.loading': {
+      handler(val) {
+        console.log(12121, val);
+      }
+    },
+    // formData: {
+    //   deep: true,
+    //   handler(val, old) {
+
+    //   }
+    // }
+
+  },
   methods: {
     getList() {
       // const params = { author: "superOldman" };
       const self = this;
       SkmService.get_list().then(function(result) {
-
        result.data.forEach((item)=>{
          item.updated_at = myGetTime(item.updated_at)
        })
@@ -101,7 +114,7 @@ export default {
 </script>
 
 <template>
-  <layout>
+  <layout class="warp">
     <!-- list
     <div>
       <editorForm :formData="formData"></editorForm>
@@ -113,38 +126,101 @@ export default {
         <el-button type="primary" @click="dialogVisible = false">确 定</el-button>
       </span>
     </el-dialog>
-    
-    <el-table :data="tableData" stripe style="width: 90%; margin: 0 auto;">
-      <el-table-column type="index" width="50"></el-table-column>
-      <el-table-column draggable="true" prop="updated_at" label="日期" width="200" :resizable="true"></el-table-column>
-      <el-table-column prop="title" label="标题" width="200"></el-table-column>
-      <el-table-column prop="author" label="编辑人" width="160"></el-table-column>
-      <el-table-column prop="info" label="详情"></el-table-column>
-      <el-table-column prop="hasFolder" label="所属文件夹"></el-table-column>
-      <el-table-column label="置顶" width="160">
-        <template slot-scope="scope">
-          <el-switch v-model="scope.row.stick" active-color="#13ce66" inactive-color="#ff4949"></el-switch>
-        </template>
-      </el-table-column>
-      <el-table-column label="操作" width="180">
-        <template slot-scope="scope">
-          <el-button size="mini" @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
-          <el-button size="mini" type="danger" @click="handleDelete(scope.$index, scope.row)">删除</el-button>
-        </template>
-      </el-table-column>
-    </el-table>
-    <el-pagination
-      v-if="listData.length"
-      @size-change="handleSizeChange"
-      @current-change="handleCurrentChange"
-      :current-page="currentPage"
-      :page-size="10"
-      :page-sizes="[10, 20, 30, 40]"
-      layout="total, sizes, prev, pager, next, jumper"
-      :total="listData.length"
-    ></el-pagination>
+    <div class="massive_css massive_style">
+      <el-row class="listTop">
+        <el-col :span="6">
+          <div class="listTop_left">
+            <div class="saveButton">
+              <i class="el-icon-upload"></i>
+            </div>
+            <div class="pageTitle">Article</div>
+          </div>
+        </el-col>
+        <!-- <el-col :span="6" :offset="12">
+          <ul class="btns">
+            <li @click="showDialog">
+              <i class="el-icon-folder-add"></i>
+            </li>
+          </ul>
+        </el-col> -->
+      </el-row>
+      <el-table v-loading="$store.state.loadingStatus.loading" :data="tableData" stripe style="width: 98%; margin: 0 auto;">
+        <el-table-column type="index" width="50"></el-table-column>
+        <el-table-column draggable="true" prop="updated_at" label="日期" width="200" :resizable="true"></el-table-column>
+        <el-table-column prop="title" label="标题" width="200"></el-table-column>
+        <el-table-column prop="author" label="编辑人" width="160"></el-table-column>
+        <el-table-column prop="info" label="详情"></el-table-column>
+        <el-table-column prop="hasFolder" label="所属文件夹"></el-table-column>
+        <el-table-column label="置顶" width="160">
+          <template slot-scope="scope">
+            <el-switch v-model="scope.row.stick" active-color="#13ce66" inactive-color="#ff4949"></el-switch>
+          </template>
+        </el-table-column>
+        <el-table-column label="操作" width="180">
+          <template slot-scope="scope">
+            <el-button size="mini" @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
+            <el-button size="mini" type="danger" @click="handleDelete(scope.$index, scope.row)">删除</el-button>
+          </template>
+        </el-table-column>
+      </el-table>
+      <el-pagination
+        v-if="listData.length"
+        @size-change="handleSizeChange"
+        @current-change="handleCurrentChange"
+        :current-page="currentPage"
+        :page-size="10"
+        :page-sizes="[10, 20, 30, 40]"
+        layout="total, sizes, prev, pager, next, jumper"
+        :total="listData.length"
+      ></el-pagination>
+    </div>
+
   </layout>
 </template>
 
 <style  scoped >
+.warp{
+  min-height: 1080px
+}
+.massive_style{
+
+  width: 98%;
+  margin: 30px auto 0;
+  position: relative;
+}
+
+.listTop {
+  background-color: #fff;
+  border-bottom: 1px solid #000;
+  height: 50px;
+  line-height: 50px;
+  font-size: 18px;
+}
+.listTop_left {
+  height: 50px;
+}
+.pageTitle {
+  /* display: inline-block; */
+  float: left;
+  margin-left: 100px;
+}
+.saveButton {
+  position: absolute;
+  top: -25px;
+  left: 25px;
+  background-color: deeppink;
+  width: 50px;
+  height: 50px;
+  color: cornsilk;
+  line-height: 50px;
+  text-align: center;
+  font-size: 24px;
+  box-shadow: rgba(0, 0, 0, 0.5) 0px 1px 10px -8px;
+}
+
+
+
+.el-pagination{
+  padding: 20px;
+}
 </style>

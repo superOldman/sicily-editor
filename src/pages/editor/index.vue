@@ -169,6 +169,7 @@ export default {
           </div>
         </el-col>
         <el-col :span="8">
+          <div class="form_upLoadImg"></div>
           <div class="upLoadImgTitle">上传图片</div>
           <el-upload
             class="avatar-uploader"
@@ -239,10 +240,12 @@ export default {
   width: 100%;
 }
 .form_message_text {
-  font-size: 24px;
+  font-size: 26px;
   margin: 20px 0;
 }
-
+.form_upLoadImg{
+   padding-top: 20px;
+}
 .upLoadImgTitle {
   margin: 20px 0;
   font-size: 26px;

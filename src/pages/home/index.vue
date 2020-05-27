@@ -83,14 +83,14 @@ export default {
                 10
             ]);
         }
-        console.log(data)
+        // console.log(data)
         return data;
     },
     createDayMap(){
-      var myChart = echarts.init(document.getElementById('dayMap'));
-      console.log(myChart)
-      // 绘制图表
-      myChart.setOption(this.option)
+      // var myChart = echarts.init(document.getElementById('dayMap'));
+      // console.log(myChart)
+      // // 绘制图表
+      // myChart.setOption(this.option)
     }
   }
 }

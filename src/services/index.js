@@ -1,9 +1,12 @@
 import axios from 'axios';
-import qs from 'qs'
+import qs from 'qs';
 
 import router from '../router/index';
 
-import ElementUI from 'element-ui'
+import ElementUI from 'element-ui';
+
+import store from '../store/index';
+
 
 // 让ajax携带cookie
 axios.defaults.withCredentials = true; 
@@ -14,8 +17,8 @@ axios.defaults.timeout = 10000;
 // 默认请求头
 axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded;charset=UTF-8';
 
-console.log('axios',axios)
-console.log('axios.defaults',axios.defaults)
+// console.log('axios',axios)
+// console.log('axios.defaults',axios.defaults)
 
 
 // 请求拦截
@@ -37,13 +40,34 @@ console.log('axios.defaults',axios.defaults)
 //         return Promise.error(error);    
 // })
 
+
+
+axios.interceptors.request.use(
+  config => {
+
+    if(config.url.endsWith('list')){
+      
+      store.commit('changeLoadingStatus')
+    }
+    
+    return config
+  },
+  error => {
+    return Promise.error(error)
+  }
+)
+
 axios.interceptors.response.use(
   response => {
     // 如果状态码是 200， 说明请求成功了， 可以拿到数据
     // 否则抛出错误
-
-    console.log('interceptors.response',response)
+    
+    // console.log('interceptors.response',response)
     if (response.status === 200) {
+
+      if(response.config.url.endsWith('list')){
+        store.commit('changeLoadingStatus')
+      }
       return Promise.resolve(response);
     }else{
       return Promise.reject(response);
@@ -51,8 +75,8 @@ axios.interceptors.response.use(
   },
   error => {
     console.log('interceptors.error',error)
-    console.log('interceptors.error',error.response)
-    console.log('interceptors.error',error.response.status)
+    console.log('interceptors.error', error.response && error.response)
+    console.log('interceptors.error', error.response.status && error.response.status)
 
     if (error.response.status) {
       switch (error.response.status) {
@@ -175,8 +199,8 @@ axios.interceptors.response.use(
 
 
 export function http_post(config) {
-  console.log('参数：')
-  console.log(config.params)
+  // console.log('参数：')
+  // console.log(config.params)
   const _data = config.params;
   if (config.format) {
     return new Promise((resolve,reject) => {
@@ -188,7 +212,6 @@ export function http_post(config) {
       })
     });
   } else {
-    // console.log(_data)
     return new Promise((resolve, reject) => {
       axios.post(config.api, _data).then((res) => {
         resolve(res);

@@ -1,31 +1,43 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import userDetails from './modules/userDetails'
+import loadingStatus from './modules/loadingStatus'
 Vue.use(Vuex)
 
 const store = new Vuex.Store({
-  state: userDetails,
+  state: {
+    loadingStatus,
+    userDetails
+  }, 
+  // state: userDetails,
   getters: {
-    getToCounts : function(state){
+    getToCounts: function (state) {
       return state.count + 1;
     }
   },
   mutations: {
-    add: function(state){
+    add: function (state) {
       state.count++
     },
-    reduction: function(state){
+    reduction: function (state) {
       state.count--
     },
-    refushUser: function(state,newValue){
-      state.userDetails = newValue;
+    refushUser: function (state, newValue) {
+
+      console.log('refushUser:')
+      console.log(state)
+      state.userDetails.userDetails = newValue;
+    },
+    changeLoadingStatus: function (state) {
+      state.loadingStatus.loading = !state.loadingStatus.loading
+      console.log(111, state.loadingStatus.loading);
     }
   },
-  actions:{
-    addFun:function(context){
+  actions: {
+    addFun: function (context) {
       context.commit('add')
     },
-    reductionFun:function(context){
+    reductionFun: function (context) {
       context.commit('reduction')
     },
     // refushUserFun: function(context,newValue){

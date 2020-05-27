@@ -10,13 +10,17 @@
 import MODULES_INFO from "../../constant/navModule.js";
 import SkmService from "../../services/api";
 import userContent from "../userContent/index.vue";
-
+// import mapState from "vuex";
 export default {
   name: "layout",
   data: function() {
     return {
       MODULES_INFO,
-      userMessage: {},
+      pageMessageIcon: MODULES_INFO[0].icon,
+      pageMessage: MODULES_INFO[0].name,
+      date_year_mounth: '',
+      date_hour_min_sec: '',
+      userMessage: {}
       // userMessage: {
       //   title: "",
       //   userName: "",
@@ -27,11 +31,12 @@ export default {
   components: {
     userContent
   },
-  computed :{
-    // userMessage(){
-    //   return this.$store.state.userDetails
-    // }
+  computed:{
+    // ...mapState({
+    //    userDetails: state => state.userDetails,
+    // })
   },
+ 
   // watch: {
   //   // 如果 `question` 发生改变，这个函数就会运行
   //   userMessage: function (newQuestion, oldQuestion) {
@@ -40,31 +45,69 @@ export default {
   //     }
   //   }
   // },
+  created() {},
   mounted() {
     // console.log(MODULES_INFO)
     this.isLogin();
+    this.renderTime();
+    this.bg_animate();
   },
   methods: {
-    clickToPage(route) {
-      this.$router.push({ name: route });
+    getMyTime() {
+      let nowTime = new Date();
+      this.date_year_mounth = `${nowTime.getFullYear()}-${ addZero(nowTime.getMonth() + 1)}-${addZero(nowTime.getDate())}`;
+      this.date_hour_min_sec = `${addZero(nowTime.getHours())}:${addZero(nowTime.getMinutes())}:${addZero(nowTime.getSeconds())}`;
+
+       function addZero(num){
+         return  num >= 10 ? num : `0${num}` 
+       }
+    },
+    renderTime() {
+      this.getMyTime();
+      // setTimeout(this.renderTime,1000)
+    },
+    selectHandle(item, a) {
+
+      console.log('item',item, a)
+      this.pageMessage = item.name;
+      this.pageMessageIcon = item.icon;
+      // console.log('pageMessageIcon',this.pageMessageIcon)
+      // console.log('pageMessage',this.pageMessage)
+      // this.$router.push({ name: item.router });
+
+
     },
     isLogin() {
-      // const self = this;
-      this.userMessage = this.$store.state.userDetails;
-      if (!this.$store.state.userDetails) {
+
+      this.userMessage = this.$store.state.userDetails.userDetails;
+      if (!this.$store.state.userDetails.userDetails) {
         SkmService.islogin().then(data => {
-          console.log(data)
-          if (data.code === 1) {
-            // self.$router.push({ name: "login" });
-          } else {
-            console.log(data);
+        
+            // console.log(data);
             this.userMessage = data.userMessage;
             this.$store.commit("refushUser", data.userMessage);
-            console.log(this.$store.state.userDetails);
-            console.log(this.$store.state.userDetails.title);
-          }
+            // console.log(this.$store.state.userDetails);
+            // console.log(this.$store.state.userDetails.title);
+          
         });
       }
+    },
+    
+
+    /** 字体背景动画 */
+    bg_animate() {
+      const canvas = document.createElement("canvas");
+      this.ctx = canvas.getContext("2d");
+      this.ctx.font = "oblique bolder 24px fantasy";
+      const textWidth =
+        Math.ceil(this.ctx.measureText("sicilymarmot").width) + 10;
+      canvas.width = textWidth;
+      this.ctx.font = "oblique bolder 24px fantasy";
+      this.ctx.fillText("sicilymarmot", 0, 50);
+      this.dom = document.getElementById("logo");
+      this.dom.style.width = textWidth + "px";
+      this.dom.style.webkitMask =
+        "url(" + canvas.toDataURL("image/png", 0.92) + ")";
     }
   }
 };
@@ -72,12 +115,18 @@ export default {
 
 <template>
   <el-container class="warp">
-    <el-header>
+    <el-header height="70px">
       <el-row :gutter="20">
         <el-col :span="4">
-          <div class="grid-content bg-purple">sicilyEditor</div>
+          <div class="grid-content bg-purple" id="logo"></div>
         </el-col>
-        <el-col :span="8" :offset="12">
+        <el-col :span="12" class="header_center" >
+          <div id="nt-title-container" class="navbar-left running-text visible-lg clearfix">
+            <div class="date-top"><i class="el-icon-date"></i> {{date_year_mounth}}</div>
+            <div class="digital"><i class="el-icon-time"></i> {{date_hour_min_sec}}</div>
+          </div>
+        </el-col>
+        <el-col :span="8">
           <div class="grid-content bg-purple">
             <user-content v-if="userMessage" :userMessage="userMessage"></user-content>
           </div>
@@ -86,28 +135,50 @@ export default {
       </el-row>
     </el-header>
     <el-container>
-      <el-aside width="200px">
-        <el-menu :default-openeds="['1', '3']">
-          <el-submenu index="1">
-            <template slot="title">
-              <i class="el-icon-message"></i>导航一
-            </template>
-            <el-menu-item-group>
-              <!-- <template slot="title">分组一</template> -->
-              <el-menu-item
-                v-for="(item,index) in MODULES_INFO"
-                :key="index"
-                index="1-1"
-                @click="clickToPage(item.router)"
-              >{{item.name}}</el-menu-item>
-              <!-- <el-menu-item index="1-1" @click="clickToPage('editor')">选项1</el-menu-item> -->
-              <!-- <el-menu-item index="1-2">选项2</el-menu-item> -->
-            </el-menu-item-group>
-          </el-submenu>
+      <el-aside width="225px">
+        <el-menu @select="selectHandle" router :default-active="MODULES_INFO.find(a => a.router === $route.name).name">
+          <el-menu-item
+            v-for="(item,index) in MODULES_INFO"
+            :key="index"
+            :index="item.name"
+            :route="{name: item.router}"
+          >
+            <i :class="item.icon"></i>
+            {{item.name}}
+          </el-menu-item>
         </el-menu>
       </el-aside>
+
       <el-main>
-        <slot />
+        <div class="main_top">
+          <div class="main_top_content">
+            <el-row>
+              <el-col :span="4">
+                <div class="main_top_text">
+                  <i class="el-icon-s-platform"></i>BACKSTAGE MANAGEMENT
+                </div>
+              </el-col>
+              <el-col :span="16">
+                <div class="main_top_message">
+                  <i class="el-icon-info"></i> back, Dave mattew! Your last sig in at Yesterday, 16:54 PM
+                </div>
+              </el-col>
+            </el-row>
+          </div>
+        </div>
+        <div class="main_top_bottom"></div>
+        <div class="main_top_base">
+          <div></div>
+          <el-row>
+            <el-col :span="4">
+              <i :class="MODULES_INFO.find(a => a.router === $route.name).icon"></i>
+              {{MODULES_INFO.find(a => a.router === $route.name).name}}
+            </el-col>
+          </el-row>
+        </div>
+        <div class="slot">
+          <slot />
+        </div>
       </el-main>
     </el-container>
   </el-container>
@@ -116,36 +187,204 @@ export default {
 <style  scoped>
 .el-header,
 .el-footer {
-  background-color: #b3c0d1;
   color: #333;
   text-align: center;
-  line-height: 60px;
-  height: 60px;
+  line-height: 70px;
+  height: 70px;
 }
 .grid-content {
-  height: 60px;
+  height: 70px;
 }
+
+#logo {
+  width: 140px;
+  height: 74px;
+  -webkit-animation: move 10s infinite;
+  animation: move 10s infinite;
+  background-image: url("~@/assets/images/layout_font_bg.jpg");
+  /* background-image: url('~@/assets/images/bg2.jpg'); */
+  background-size: cover;
+  /* -webkit-mask: url(https://www.17sucai.com/preview/1424582/2018-10-22/mask/svg/seeklogo.com.svg); */
+  /* mask: url(https://www.17sucai.com/preview/1424582/2018-10-22/mask/svg/seeklogo.com.svg); */
+  -webkit-mask-size: cover;
+  mask-size: cover;
+}
+.header_center{
+  height: 70px;
+  display: flex;
+  align-items: center;
+  font-size: 14px;
+
+}
+.running-text {
+  box-shadow: rgba(255, 255, 255, 0.1) 0px 1px 0px;
+  color: rgb(255, 255, 255);
+  width: 50%;
+  height: 36px;
+  /* display: inline-block; */
+  /* display: flex; */
+ 
+  background: none 0px 0px repeat scroll rgba(0, 0, 0, 0.2);
+  border-width: 1px;
+  border-style: solid;
+  border-color: rgba(0, 0, 0, 0.2);
+  border-image: initial;
+  border-radius: 30px;
+  /* margin: 6px; */
+
+  line-height: 36px;
+}
+
+.date-top {
+  box-shadow: rgba(255, 255, 255, 0.1) 1px 0px 0px;
+  float: left;
+  margin-left: 30px;
+  padding-right: 15px;
+  border-right: 1px solid rgba(0, 0, 0, 0.4);
+}
+
+.digital {
+  box-shadow: rgba(255, 255, 255, 0.1) 1px 0px 0px;
+  float: left;
+  margin-left: 25px;
+  /* margin-right: -25px; */
+  padding-right: 15px;
+  border-right: 1px solid rgba(0, 0, 0, 0.4);
+}
+.digital li,
+.date-top li {
+  float: left;
+}
+
 .el-aside {
-  background-color: #d3dce6;
-  color: #333;
+  color: #fff;
   text-align: center;
-  /* line-height: 200px; */
-  /* padding-left: 20px; */
+
   height: 100%;
+  text-align: left;
+}
+
+.el-menu {
+  margin: 0 10px;
+  background-color: rgba(0, 0, 0, 0.1);
+  border: none;
+  border-radius: 7px;
+}
+
+.el-menu-item {
+  color: #fff;
+}
+.el-menu-item:hover {
+  background-color: rgba(0, 0, 0, 0.2);
+  border-left: 2px solid #fff;
+  margin-left: -2px;
+}
+.el-menu-item:hover::after {
+  width: 0px;
+  height: 0px;
+  position: absolute;
+  top: 24px;
+  left: -6px;
+  content: "";
+  display: block;
+  transform: rotate(90deg);
+  border-bottom: 6px solid rgb(255, 255, 255);
+  border-left: 8px solid transparent;
+  border-right: 8px solid transparent;
 }
 
 .el-main {
-  background-color: #e9eef3;
   color: #333;
   text-align: center;
   height: 100%;
+  position: relative;
+  margin-right: 20px;
+  padding: 0px;
 }
 
+.el-main:before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  border-width: 0 42px 42px 0;
+  border-style: solid;
+  border-color: #fff rgba(55, 55, 55, 0.3);
+  -webkit-box-shadow: 0 0 0 rgba(0, 0, 0, 0.4), 0 0 10px rgba(0, 0, 0, 0.3);
+  -moz-box-shadow: 0 0 0 rgba(0, 0, 0, 0.4), 0 0 10px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 0 0 rgba(0, 0, 0, 0.4), 0 0 10px rgba(0, 0, 0, 0.3);
+  transform: rotate(-90deg);
+  -webkit-transform: rotate(-90deg);
+  -moz-transform: rotate(-90deg);
+  -ms-transform: rotate(-90deg);
+  -o-transform: rotate(-90deg);
+  filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=3);
+}
+
+.el-main .main_top {
+  margin-left: 42px;
+  height: 42px;
+  background-color: #f5f5f5;
+  color: #9ea7b3;
+}
+.el-main .main_top_bottom {
+  height: 20px;
+  background-color: #f5f5f5;
+}
+
+.main_top_content {
+  /* position: absolute;
+  top: 0px; */
+  line-height: 62px;
+  height: 62px;
+}
+.main_top_message {
+  border-left: 1px dashed #ccc;
+  border-right: 1px dashed #ccc;
+  height: 62px;
+}
+.main_top_message i {
+  color: #4ac4bc;
+}
+.main_top_base {
+  background-color: #f0f0f0;
+  height: 50px;
+  line-height: 50px;
+  border-top: 1px solid #ddd;
+  border-bottom: 1px solid #ddd;
+  color: #9ea7b3;
+}
+
+.slot {
+  background-color: #fff;
+  padding: 20px;
+  min-height: 1000px;
+}
 body > .el-container {
   margin-bottom: 40px;
   height: 100%;
 }
 .warp {
   height: 100%;
+  background: url("../../assets/images/bg.jpg") center top / cover no-repeat
+    fixed;
+}
+
+@-webkit-keyframes move {
+  0% {
+    background-position: 0 0;
+  }
+  50% {
+    background-position: 100% 0;
+  }
+}
+
+@keyframes move {
+  0% {
+    background-position: 0 0;
+  }
+  50% {
+    background-position: 100% 0;
+  }
 }
 </style>
