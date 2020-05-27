@@ -82,9 +82,6 @@ export default {
       this.listData = result.data;
     },
 
-
-
-
     /** 列表编辑 */
     handleEdit(index, row) {     
       this.ruleForm = {
