@@ -41,23 +41,31 @@ class SkmService {
 
 
 
-  
+  // 列表接口
+
   async get_list(params) {
     const result = await http_get({ api: baseAddress + '/list', params: { params } });
     return result.data;
   }
 
-  // 文件夹接口 
+  async setTop(params) {
+    const result = await http_post({ api: baseAddress + '/editor/setTop', params });
+    return result.data;
+  }
 
+
+
+
+
+
+
+  // 文件夹接口 
   async getFolderList(params) {
     const result = await http_get({ api: baseAddress + '/folder/getFolderList', params: { params } });
     return result.data;
   }
 
-  // async getUnclassifiedList(params) {
-  //   const result = await http_get({ api: baseAddress + '/folder/getUnclassifiedList', params: { params } });
-  //   return result.data;
-  // }
+
 
   async deleteFolder(params) {
     const result = await http_post({ api: baseAddress + '/folder/deleteFolder', params });
@@ -96,7 +104,6 @@ class SkmService {
   }
   
   async destroyById(params) {
-    console.log(params)
     const result = await http_get({ api: baseAddress + '/editor/destroy', params:{ params } });
     return result.data;
   }
@@ -111,6 +118,7 @@ class SkmService {
   }
 
 
+  // 注册
   async register(params) {
     const result = await http_post({ api: baseAddress + '/users/register', params });
     return result.data;

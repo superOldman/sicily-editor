@@ -10,8 +10,10 @@ export default {
   data() {
     return {
       currentPage: 1,
-      tableData: [],
+      pageSize: 10,
       listData: [],
+      paperSum: 0,
+
       formData: {
         title: "sdfafa",
         info: "sdfadfa",
@@ -42,11 +44,14 @@ export default {
 
   },
   methods: {
-    getList() {
-      // const params = { author: "superOldman" };
-      const self = this;
-      SkmService.get_list().then(function(result) {
-       result.data.forEach((item)=>{
+    getList( params = { 
+        page: this.currentPage,
+        pageSize: this.pageSize,
+      }) {
+      
+
+      SkmService.get_list(params).then((result) => {
+       result.data.list.forEach((item)=>{
          item.updated_at = myGetTime(item.updated_at)
        })
 
@@ -55,28 +60,50 @@ export default {
          return `${myTime.getFullYear()}-${ addZero(myTime.getMonth() + 1)}-${addZero(myTime.getDate())}  ${addZero(myTime.getHours())}:${addZero(myTime.getMinutes())}:${addZero(myTime.getSeconds())}`
        }
        function addZero(num){
-         return  num >= 10 ? num : `0${num}` 
+         return  num >= 10 ? num : `0${num}`;
        }
 
-        self.listData = result.data;
-        self.createNowTableData();
+        this.listData = result.data.list;
+        this.paperSum = result.data.sum;
       });
     },
-    createNowTableData(pageNum = 1, pageSize = 10) {
-      let lastData = pageSize * pageNum;
-      if (lastData > this.listData.length) {
-        lastData = this.listData.length;
-      }
-      this.tableData = this.listData.slice(pageSize * (pageNum - 1), lastData);
-
-      console.log(this.tableData);
-    },
+ 
     handleSizeChange(val) {
       console.log(`每页 ${val} 条`);
+      this.getList({
+        page: this.currentPage = val,
+        pageSize: this.pageSize,
+      })
+
     },
     handleCurrentChange(val) {
       console.log(`当前页: ${val}`);
-      this.createNowTableData(val);
+
+      console.log('handleCurrentChange')
+
+      this.getList({
+        page: this.currentPage = val,
+        pageSize: this.pageSize,
+      })
+    },
+
+
+    topChange(val) {
+      console.log('滑块改变了')
+      console.log(val)
+      console.log(val.stick)
+
+      let title = !val.stick? '置顶':'取消置顶';
+      this.$confirm(`确定${title}？`).then( async () => {
+      
+        let { _id, stick} = val;
+        const data = await SkmService.setTop({ _id, stick: !stick });
+        if(data.code === 0 ){
+          // this.getList();
+          val.stick = !val.stick;
+        }  
+      }).catch(() => {});
+
     },
     // 编辑
     handleEdit(index, row) {
@@ -85,22 +112,18 @@ export default {
       this.dialogVisible = true;
       this.formData = row
 
-      // this.open();
-      // SkmService.searchById(row._id).then(function(){
-
-      // })
     },
     // 删除
     handleDelete(index, row) {
       console.log("删除", "destroyById");
       console.log(index, row);
-      const self = this;
-      SkmService.destroyById({ id: row._id }).then(function(data) {    
+      this.$confirm('确认关闭？').then( async () => {
+        const data = await SkmService.destroyById({ id: row._id });
         if(data.code === 0 ){
-          self.listData = data.article;
-          self.createNowTableData();
+          this.getList()
         }  
-      });
+      }).catch(() => {});
+
     },
     handleClose(done) {
       this.$confirm('确认关闭？')
@@ -144,7 +167,7 @@ export default {
           </ul>
         </el-col> -->
       </el-row>
-      <el-table v-loading="$store.state.loadingStatus.loading" :data="tableData" stripe style="width: 98%; margin: 0 auto;">
+      <el-table v-loading="$store.state.loadingStatus.loading" :data="listData" stripe style="width: 98%; margin: 0 auto;">
         <el-table-column type="index" width="50"></el-table-column>
         <el-table-column draggable="true" prop="updated_at" label="日期" width="200" :resizable="true"></el-table-column>
         <el-table-column prop="title" label="标题" width="200"></el-table-column>
@@ -153,7 +176,9 @@ export default {
         <el-table-column prop="hasFolder" label="所属文件夹"></el-table-column>
         <el-table-column label="置顶" width="160">
           <template slot-scope="scope">
-            <el-switch v-model="scope.row.stick" active-color="#13ce66" inactive-color="#ff4949"></el-switch>
+            <el-switch class="changeTop" v-model="scope.row.stick" disabled @click.native="topChange(scope.row)" active-color="#13ce66" inactive-color="#ff4949">
+
+            </el-switch>
           </template>
         </el-table-column>
         <el-table-column label="操作" width="180">
@@ -168,10 +193,9 @@ export default {
         @size-change="handleSizeChange"
         @current-change="handleCurrentChange"
         :current-page="currentPage"
-        :page-size="10"
-        :page-sizes="[10, 20, 30, 40]"
-        layout="total, sizes, prev, pager, next, jumper"
-        :total="listData.length"
+        :page-size="pageSize"
+        layout="total, prev, pager, next, jumper"
+        :total="paperSum"
       ></el-pagination>
     </div>
 
@@ -218,6 +242,13 @@ export default {
   box-shadow: rgba(0, 0, 0, 0.5) 0px 1px 10px -8px;
 }
 
+
+.changeTop.el-switch.is-disabled {
+  opacity: 1;
+}
+.massive_style .changeTop.el-switch.is-disabled .el-switch__core {
+  cursor: pointer;
+}
 
 
 .el-pagination{
