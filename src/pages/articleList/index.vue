@@ -99,8 +99,10 @@ export default {
         let { _id, stick} = val;
         const data = await SkmService.setTop({ _id, stick: !stick });
         if(data.code === 0 ){
-          // this.getList();
+          
           val.stick = !val.stick;
+        }else{
+          this.$alert(data.message, '提示', { confirmButtonText: '确定'});
         }  
       }).catch(() => {});
 
