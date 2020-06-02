@@ -59,7 +59,6 @@ export default {
           this.isNewEditor = false;
           this.isShowEditor = true;
         }
-
       } else {
         this.isNewEditor = true;
         this.isShowEditor = true;
@@ -68,14 +67,14 @@ export default {
     async getFolderList() {
       const result = await SkmService.getFolderList();
       if (result.code === 0) {
-        console.log(result)
-       
-        result.data.forEach((item,index)=>{
+        console.log(result);
+
+        result.data.forEach((item, index) => {
           this.folderList[index] = item.folderName;
-        })
+        });
         this.folderListShow = true;
       }
-      if(!this.folderList.length){
+      if (!this.folderList.length) {
         this.createfolderShow = true;
       }
     },
@@ -89,23 +88,31 @@ export default {
         this.againEditor();
       }
     },
-    againEditor() {
-      SkmService.saveEditorHtml(this.options).then(data => {
-        this.$alert(data.message, "提示", {
-          confirmButtonText: "知道了"
-        });
-      });
+    async againEditor() {
+      const result = await SkmService.saveEditorHtml(this.options);
+
+      this.$confirm(result.message)
+        .then(confirm => {
+          if (confirm) {
+            this.$router.push({ name: 'editor' });
+          }
+        })
+        .catch(() => {});
     },
-    newEditor() {
+    async newEditor() {
       // const self = this;
-      console.log('新建页面保存：');
+      console.log("新建页面保存：");
       console.log(this.options);
 
-      SkmService.saveHtml(this.options).then(data => {
-        this.$alert(data.message, "提示", {
-          confirmButtonText: "知道了"
-        });
-      });
+      const result = await SkmService.saveHtml(this.options);
+
+      this.$confirm(result.message)
+        .then(confirm => {
+          if (confirm) {
+            this.$router.push({ name: 'editor' });
+          }
+        })
+        .catch(() => {});
     },
     handleAvatarSuccess(res, file) {
       console.log("上传回调");
@@ -114,7 +121,7 @@ export default {
       this.options.saveImageUrl = res.file.path;
     },
     beforeAvatarUpload(file) {
-      const isJPG = file.type === ("image/jpeg" || "image/png" || "image/jpg");
+      const isJPG = file.type; // === ("image/jpeg" || "image/png" || "image/jpg");
       const isLt2M = file.size / 1024 / 1024 < 2;
 
       if (!isJPG) {
@@ -132,7 +139,7 @@ export default {
       this.options.hasTags.splice(index, 1);
     },
     addFolder(name) {
-      console.log('xuanzewenjianjia');
+      console.log("xuanzewenjianjia");
       console.log(name);
       this.options.hasFolder = this.showFolderName = name;
     },
@@ -243,8 +250,8 @@ export default {
   font-size: 26px;
   margin: 20px 0;
 }
-.form_upLoadImg{
-   padding-top: 20px;
+.form_upLoadImg {
+  padding-top: 20px;
 }
 .upLoadImgTitle {
   margin: 20px 0;

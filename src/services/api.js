@@ -28,6 +28,8 @@ class SkmService {
     return result.data;
   }
 
+
+  // 编辑
   async saveHtml(params) {
     const result = await http_post({ api: baseAddress + '/editor/saveHtml', params });
     return result.data;
@@ -41,7 +43,7 @@ class SkmService {
 
 
 
-  // 列表接口
+  // 列表页
 
   async get_list(params) {
     const result = await http_get({ api: baseAddress + '/list', params: { params } });
@@ -53,6 +55,10 @@ class SkmService {
     return result.data;
   }
 
+  async destroyById(params) {
+    const result = await http_post({ api: baseAddress + '/editor/destroy', params });
+    return result.data;
+  }
 
 
 
@@ -87,35 +93,18 @@ class SkmService {
     return result.data;
   }
 
-
-
-
-
-
-
-
-
-
-
-
   async get_titleList(params) {
     const result = await http_post({ api: baseAddress + '/search/getTitleList', params });
     return result.data;
   }
   
-  async destroyById(params) {
-    const result = await http_get({ api: baseAddress + '/editor/destroy', params:{ params } });
-    return result.data;
-  }
+
   
   async searchById(params) {
     const result = await http_get({ api: baseAddress + '/searchById', params: { params } });
     return result.data;
   }
-  async searcByIdpackageTopModel(params) {
-    const result = await http_get({ api: baseAddress + '/search/searcByIdpackageTopModel', params: { params } });
-    return result.data;
-  }
+
 
 
   // 注册
@@ -123,6 +112,20 @@ class SkmService {
     const result = await http_post({ api: baseAddress + '/users/register', params });
     return result.data;
   }
+
+
+
+  // 首页
+  async resourceStats(params) {
+    const result = await http_get({ api: baseAddress + '/statsHome/resourceStats', params: { params } });
+    return result.data;
+  }
+
+  async visitList(params) {
+    const result = await http_get({ api: baseAddress + '/statsHome/visitList', params: { params } });
+    return result.data;
+  }
+
 
 }
 

@@ -119,8 +119,8 @@ export default {
     handleDelete(index, row) {
       console.log("删除", "destroyById");
       console.log(index, row);
-      this.$confirm('确认关闭？').then( async () => {
-        const data = await SkmService.destroyById({ id: row._id });
+      this.$confirm('确认删除？').then( async () => {
+        const data = await SkmService.destroyById({ _id: row._id });
         if(data.code === 0 ){
           this.getList()
         }  

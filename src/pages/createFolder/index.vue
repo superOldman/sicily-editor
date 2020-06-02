@@ -210,7 +210,7 @@ export default {
       this.ruleForm.cover = 'http://localhost:3000/' + res.file.path;
     },
     beforeAvatarUpload(file) {
-      const isJPG = file.type === ("image/jpeg" || "image/png" || "image/jpg");
+      const isJPG = file.type; // === ("image/jpeg" || "image/png" || "image/jpg");
       const isLt2M = file.size / 1024 / 1024 < 2;
 
       if (!isJPG) {
