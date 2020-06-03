@@ -126,6 +126,11 @@ class SkmService {
     return result.data;
   }
 
+  
+  async pushPaperCount(params) {
+    const result = await http_get({ api: baseAddress + '/statsHome/lastYearPushPaperCount', params: { params } });
+    return result.data;
+  }
 
 }
 

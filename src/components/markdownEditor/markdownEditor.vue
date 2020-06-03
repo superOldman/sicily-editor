@@ -80,10 +80,8 @@ export default {
         html,
         text: window.$(html).text()
       };
-      // this.onchange(savehtml);
-      // console.log(this.$emit)
+     
       this.$emit('onchange',savehtml)
-      // this.$emit('againEditor',savehtml)
     },
     init() {
       const vm = this;

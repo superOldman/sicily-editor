@@ -94,7 +94,9 @@ export default {
       this.$confirm(result.message)
         .then(confirm => {
           if (confirm) {
-            this.$router.push({ name: 'editor' });
+            // this.$router.push({ name: 'editor' });
+            this.$router.go(0);
+
           }
         })
         .catch(() => {});
@@ -109,7 +111,8 @@ export default {
       this.$confirm(result.message)
         .then(confirm => {
           if (confirm) {
-            this.$router.push({ name: 'editor' });
+            // this.$router.push({ name: 'editor' });
+            this.$router.go(0);
           }
         })
         .catch(() => {});

@@ -11,63 +11,6 @@ import SkmService from "../../services/api";
 export default {
   data() {
     return {
-      option: {
-        visualMap: {
-          show: true,
-          min: 0,
-          max: 10,
-          calculable: true
-        },
-        calendar: {
-          range: "2020"
-        },
-        series: {
-          type: "heatmap",
-          coordinateSystem: "calendar",
-          data: this.getVirtulData(2020)
-        }
-      },
-
-      option2: {
-        tooltip: {
-          trigger: "item",
-          formatter: "{a} <br/>{b}: {c} ({d}%)"
-        },
-        legend: {
-          orient: "vertical",
-          left: 10,
-          data: ["直接访问", "邮件营销", "联盟广告", "视频广告", "搜索引擎"]
-        },
-        series: [
-          {
-            name: "访问来源",
-            type: "pie",
-            radius: ["50%", "70%"],
-            avoidLabelOverlap: false,
-            label: {
-              show: false,
-              position: "center"
-            },
-            emphasis: {
-              label: {
-                show: true,
-                fontSize: "30",
-                fontWeight: "bold"
-              }
-            },
-            labelLine: {
-              show: false
-            },
-            data: [
-              { value: 335, name: "直接访问" },
-              { value: 310, name: "邮件营销" },
-              { value: 234, name: "联盟广告" },
-              { value: 135, name: "视频广告" },
-              { value: 1548, name: "搜索引擎" }
-            ]
-          }
-        ]
-      },
 
       sourceStats: {
         // pictureDetail: {
@@ -83,66 +26,39 @@ export default {
       sourceSpace: 0,
       sourceStatsPercent: 0,
       estimateCapacity: '20G',
-
-
-
-
+      pushPaperCountData:[],
     };
   },
   mounted() {
     //  this.testFun(()=>{
     //    console.log(this)
     //  },1)
+    // 显示状态栏
     this.resourceStats();
-    this.test2();
-
+    // 访问表
     this.createDayMap();
+
+    this.getVirtulData();
+
   },
   methods: {
-    add() {
-      // this.$store.commit('add');
-      this.$store.dispatch("addFun");
-    },
-    reduction() {
-      // this.$store.commit('reduction')
-      this.$store.dispatch("reductionFun");
-    },
-    cb() {
-      console.log(this);
-    },
-    test() {
-      var arr = [1];
-      arr.map(function() {
-        console.log(this);
-      });
+  
+    async getVirtulData() {
+      // year = year || "2020";
+      // let date = +echarts.number.parseDate(year + "-01-01");
+      // let end = +echarts.number.parseDate(+year + 1 + "-01-01");
+      // let dayTime = 3600 * 24 * 1000;
+      // let data = [];
+      // for (let time = date; time < end; time += dayTime) {
+      //   data.push([echarts.format.formatTime("yyyy-MM-dd", time), 10]);
+      // }
 
-      arr.forEach(function(item, index) {
-        console.log(item);
-        console.log(index);
-        console.log(this);
-      });
-    },
-    test2() {
-      [1].map(() => {
-        console.log(this);
-      });
-    },
-    testFun(callback, num) {
-      if (num) {
-        callback();
-      }
-    },
-    getVirtulData(year) {
-      year = year || "2020";
-      var date = +echarts.number.parseDate(year + "-01-01");
-      var end = +echarts.number.parseDate(+year + 1 + "-01-01");
-      var dayTime = 3600 * 24 * 1000;
-      var data = [];
-      for (var time = date; time < end; time += dayTime) {
-        data.push([echarts.format.formatTime("yyyy-MM-dd", time), 10]);
-      }
+      const result = await SkmService.pushPaperCount();
+
+      this.pushPaperCountData = result.data;
       // console.log(data)
-      return data;
+      this.lastYearPushPaperCount();
+
     },
 
     getMyTime(time) {
@@ -162,7 +78,7 @@ export default {
        }
     },
     async createDayMap() {
-      //  var  data = [["2000-06-05",116],["2000-06-06",129],["2000-06-08",129]];
+      //  let  data = [["2000-06-05",116],["2000-06-06",129],["2000-06-08",129]];
        
       const result = await SkmService.visitList();
       let  resultData = [];
@@ -194,27 +110,18 @@ export default {
           data.push(pushData)
           day--;
       }
-          // result.data.reverse()[0].updated_at
-          // for(let i =0;i<30;i++){
-
-
-          // }
-
-
-      console.log(data)
+      
       data.reverse();
 
-      var dateList = data.map(function (item) {
+      let dateList = data.map(function (item) {
           return item[0];
       });
-      var valueList = data.map(function (item) {
+      let valueList = data.map(function (item) {
           return item[1];
       });
       setMax.sort((a,b)=>b-a);
 
-
-      console.log(setMax)
-      var option3= {
+      let option3= {
         // Make gradient line here
         visualMap: [{
             show: false,
@@ -245,11 +152,9 @@ export default {
             data: valueList
         }]
       }
-
-      var myChart = echarts.init(document.getElementById('dayMap'));
-        console.log(myChart)
-        // 绘制图表
-        myChart.setOption(option3)
+      // 绘制图表
+      let myChart = echarts.init(document.getElementById('dayMap'));
+      myChart.setOption(option3)
 
     },
 
@@ -262,7 +167,7 @@ export default {
       this.sourceSpace = parseInt(this.sourceStats.pictureDetail.size) + parseInt(this.sourceStats.baseDataSize) / 1024 ;
       this.sourceStatsPercent = ( parseInt(this.sourceStats.pictureDetail.size) + parseInt(this.sourceStats.baseDataSize) / 1024 ) / estimateCapacity;
 
-      console.log( estimateCapacity * 1024 + 'mb' )
+      
 
     },
 
@@ -270,9 +175,88 @@ export default {
       if ((size / 1024 ) > 1) {
           return (size / 1024).toFixed(2) + 'gb'
       } else {
-          return size  + 'mb'
+          return size.toFixed(2)  + 'mb'
       }
-}
+    },
+    /**
+     * 封装服务次数区间数据
+     * @param {*} maxValue 最大值
+     * @param {*} colorBox 区间颜色集
+     */
+    generatePieces() {
+        let colorBox = ['#ebedf0', '#c6e48b', '#7bc96f', '#239a3b', '#196127'];
+        // gte >             lte <
+        let pieces = [
+            { lt: 1, label: 0, color: colorBox[0] },
+            { lte: 1, label: 1, color: colorBox[1] },
+            { gte: 2, lte: 3, color: colorBox[2] },
+            { gte: 4, lte: 5, color: colorBox[3] },
+            { gte: 5, color: colorBox[4] },
+        ]
+        return pieces;
+    },
+
+    // 提交表
+    lastYearPushPaperCount(){
+      console.log(this.pushPaperCountData)
+      let option = {
+        visualMap: {
+            // show: false,
+            min: 0,
+            max: 5,
+            calculable: true,
+            orient: 'horizontal',
+            bottom: 'bottom',
+            right: '50px',
+            type: 'piecewise', // 类型为分段型
+            pieces: this.generatePieces() // 自定义颜色规则
+        },
+        tooltip: {},
+        calendar: {
+            // top: 120,
+            // left: 30,
+            // right: 30,
+            range: (new Date()).getFullYear(),
+            // splitLine: {
+            // show: false
+            // lineStyle: {
+            //     color: 'red'
+            // }
+            // },
+            itemStyle: {
+                normal: {
+                    color: '#ebedf0',
+                    borderWidth: 2,
+                    borderColor: '#fff'
+                },
+            }
+        },
+        series: {
+            type: "heatmap",
+            coordinateSystem: "calendar",
+            data: this.pushPaperCountData
+        }
+      };
+
+
+        // function getVirtulData(year) {
+        //     year = year || "2020";
+        //     let date = +echarts.number.parseDate(year + "-01-01");
+        //     let end = +echarts.number.parseDate(+year + 1 + "-01-01");
+        //     let dayTime = 3600 * 24 * 1000;
+        //     let data = [];
+        //     // for (let time = date; time < end; time += dayTime) {
+        //     //     data.push([echarts.format.formatTime("yyyy-MM-dd", time), Math.floor(Math.random() * 10)]);
+        //     // }
+        //     data = [["2020-06-01", 2], ["2020-06-02", 19], ["2020-06-03", 1], ["2020-06-04", 0]]
+        //     console.log(data)
+        //     return data;
+        // };
+        // 绘制图表
+        let myChart = echarts.init(document.getElementById('dayMap2'));
+        myChart.setOption(option)
+    }
+
   }
 };
 </script>
@@ -304,7 +288,14 @@ export default {
 
 
     </div>
-    <div id="dayMap" style="width: 1200px;height:400px; position:relative"></div>
+    <div class="mid">
+      <h4>博客访问量：</h4>
+      <div id="dayMap" style="width: 1200px;height:400px; position:relative"></div>
+    </div>
+    <div class="bot">
+      <h4>文章提交统计：</h4>
+      <div id="dayMap2" style="width: 1200px;height:250px; position:relative"></div>
+    </div>
   </layout>
 </template>
 
@@ -327,5 +318,8 @@ export default {
 
   width: 80%;
   
+}
+.mid,.bot{
+  text-align: left;
 }
 </style>

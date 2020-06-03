@@ -2,6 +2,7 @@ const defaultConfig = {
   width: "100%",
   height: 1000,
   path: './static/editor.md-master/lib/',
+  autoFocus: false,
   // theme: 'dark',
   // previewTheme: 'dark',
   // editorTheme: 'pastel-on-dark',
