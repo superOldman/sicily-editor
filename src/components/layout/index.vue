@@ -12,14 +12,14 @@ import SkmService from "../../services/api";
 import userContent from "../userContent/index.vue";
 // import mapState from "vuex";
 export default {
-  name: "layout",
+  // name: "layout",
   data: function() {
     return {
       MODULES_INFO,
       pageMessageIcon: MODULES_INFO[0].icon,
       pageMessage: MODULES_INFO[0].name,
-      date_year_mounth: '',
-      date_hour_min_sec: '',
+      date_year_mounth: "",
+      date_hour_min_sec: "",
       userMessage: {}
       // userMessage: {
       //   title: "",
@@ -31,12 +31,12 @@ export default {
   components: {
     userContent
   },
-  computed:{
+  computed: {
     // ...mapState({
     //    userDetails: state => state.userDetails,
     // })
   },
- 
+
   // watch: {
   //   // 如果 `question` 发生改变，这个函数就会运行
   //   userMessage: function (newQuestion, oldQuestion) {
@@ -55,44 +55,33 @@ export default {
   methods: {
     getMyTime() {
       let nowTime = new Date();
-      this.date_year_mounth = `${nowTime.getFullYear()}-${ addZero(nowTime.getMonth() + 1)}-${addZero(nowTime.getDate())}`;
-      this.date_hour_min_sec = `${addZero(nowTime.getHours())}:${addZero(nowTime.getMinutes())}:${addZero(nowTime.getSeconds())}`;
+      this.date_year_mounth = `${nowTime.getFullYear()}-${addZero(
+        nowTime.getMonth() + 1
+      )}-${addZero(nowTime.getDate())}`;
+      this.date_hour_min_sec = `${addZero(nowTime.getHours())}:${addZero(
+        nowTime.getMinutes()
+      )}:${addZero(nowTime.getSeconds())}`;
 
-       function addZero(num){
-         return  num >= 10 ? num : `0${num}` 
-       }
+      function addZero(num) {
+        return num >= 10 ? num : `0${num}`;
+      }
     },
     renderTime() {
       this.getMyTime();
-      // setTimeout(this.renderTime,1000)
     },
-    selectHandle(item, a) {
-
-      console.log('item',item, a)
+    selectHandle(item) {
       this.pageMessage = item.name;
       this.pageMessageIcon = item.icon;
-      // console.log('pageMessageIcon',this.pageMessageIcon)
-      // console.log('pageMessage',this.pageMessage)
-      // this.$router.push({ name: item.router });
-
-
     },
     isLogin() {
-
       this.userMessage = this.$store.state.userDetails.userDetails;
       if (!this.$store.state.userDetails.userDetails) {
         SkmService.islogin().then(data => {
-        
-            // console.log(data);
-            this.userMessage = data.userMessage;
-            this.$store.commit("refushUser", data.userMessage);
-            // console.log(this.$store.state.userDetails);
-            // console.log(this.$store.state.userDetails.title);
-          
+          this.userMessage = data.userMessage;
+          this.$store.commit("refushUser", data.userMessage);
         });
       }
     },
-    
 
     /** 字体背景动画 */
     bg_animate() {
@@ -120,10 +109,16 @@ export default {
         <el-col :span="4">
           <div class="grid-content bg-purple" id="logo"></div>
         </el-col>
-        <el-col :span="12" class="header_center" >
+        <el-col :span="12" class="header_center">
           <div id="nt-title-container" class="navbar-left running-text visible-lg clearfix">
-            <div class="date-top"><i class="el-icon-date"></i> {{date_year_mounth}}</div>
-            <div class="digital"><i class="el-icon-time"></i> {{date_hour_min_sec}}</div>
+            <div class="date-top">
+              <i class="el-icon-date"></i>
+              {{date_year_mounth}}
+            </div>
+            <div class="digital">
+              <i class="el-icon-time"></i>
+              {{date_hour_min_sec}}
+            </div>
           </div>
         </el-col>
         <el-col :span="8">
@@ -136,9 +131,13 @@ export default {
     </el-header>
     <el-container>
       <el-aside width="225px">
-        <el-menu @select="selectHandle" router :default-active="MODULES_INFO.find(a => a.router === $route.name).name">
+        <el-menu
+          @select="selectHandle"
+          router
+          :default-active="MODULES_INFO.find(a => a.router === $route.name).name"
+        >
           <el-menu-item
-            v-for="(item,index) in MODULES_INFO"
+            v-for="(item,index) in MODULES_INFO.filter(a=> a.navShow)"
             :key="index"
             :index="item.name"
             :route="{name: item.router}"
@@ -159,8 +158,9 @@ export default {
                 </div>
               </el-col>
               <el-col :span="16">
-                <div class="main_top_message">
-                  <i class="el-icon-info"></i> back, Dave mattew! Your last sig in at Yesterday, 16:54 PM
+                <div v-if="userMessage && userMessage.lastLogin" class="main_top_message">
+                  <i class="el-icon-info"></i>
+                  欢迎回来，上次登录：{{userMessage.lastLogin}}
                 </div>
               </el-col>
             </el-row>
@@ -209,12 +209,11 @@ export default {
   -webkit-mask-size: cover;
   mask-size: cover;
 }
-.header_center{
+.header_center {
   height: 70px;
   display: flex;
   align-items: center;
   font-size: 14px;
-
 }
 .running-text {
   box-shadow: rgba(255, 255, 255, 0.1) 0px 1px 0px;
@@ -223,7 +222,7 @@ export default {
   height: 36px;
   /* display: inline-block; */
   /* display: flex; */
- 
+
   background: none 0px 0px repeat scroll rgba(0, 0, 0, 0.2);
   border-width: 1px;
   border-style: solid;
@@ -366,7 +365,7 @@ body > .el-container {
 }
 .warp {
   height: 100%;
-  background: url("../../assets/images/bg.jpg") center top / cover no-repeat
+  background: url("../../assets/images/bg_city.png") center top / cover no-repeat
     fixed;
 }
 

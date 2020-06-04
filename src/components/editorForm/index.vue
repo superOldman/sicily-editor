@@ -22,7 +22,6 @@ export default {
     }
   },
   mounted() {
-    console.log(this.formData)
   },
   methods: {
     onSubmit() {

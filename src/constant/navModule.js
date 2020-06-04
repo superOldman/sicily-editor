@@ -3,25 +3,34 @@ const MODULES_INFO = [
   {
     name: '主页',
     icon: 'el-icon-s-home',
-    router: 'home'
+    router: 'home',
+    navShow: true
+
   },
   {
     name: '编辑',
     icon: 'el-icon-tickets',
+    router: 'editor',
+    navShow: true
 
-    router: 'editor'
   },
   {
     name: '文章列表',
     icon: 'el-icon-coin',
-
-    router: 'articleList'
+    router: 'articleList',
+    navShow: true
   },
   {
     name: '文件夹管理',
     icon: 'el-icon-folder-add',
-
-    router: 'createFolder'
+    router: 'createFolder',
+    navShow: true
+  },
+  {
+    name: '用户详情',
+    icon: 'el-icon-folder-add',
+    router: 'userDetails',
+    navShow: false
   },
 ];
 export default MODULES_INFO

@@ -24,13 +24,10 @@ const store = new Vuex.Store({
     },
     refushUser: function (state, newValue) {
 
-      console.log('refushUser:')
-      console.log(state)
       state.userDetails.userDetails = newValue;
     },
     changeLoadingStatus: function (state) {
       state.loadingStatus.loading = !state.loadingStatus.loading
-      console.log(111, state.loadingStatus.loading);
     }
   },
   actions: {

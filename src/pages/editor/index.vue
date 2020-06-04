@@ -67,7 +67,6 @@ export default {
     async getFolderList() {
       const result = await SkmService.getFolderList();
       if (result.code === 0) {
-        console.log(result);
 
         result.data.forEach((item, index) => {
           this.folderList[index] = item.folderName;
@@ -102,24 +101,19 @@ export default {
         .catch(() => {});
     },
     async newEditor() {
-      // const self = this;
-      console.log("新建页面保存：");
-      console.log(this.options);
 
       const result = await SkmService.saveHtml(this.options);
 
       this.$confirm(result.message)
         .then(confirm => {
           if (confirm) {
-            // this.$router.push({ name: 'editor' });
             this.$router.go(0);
           }
         })
         .catch(() => {});
     },
     handleAvatarSuccess(res, file) {
-      console.log("上传回调");
-      console.log(arguments);
+
       this.imageUrl = URL.createObjectURL(file.raw);
       this.options.saveImageUrl = res.file.path;
     },
@@ -142,8 +136,6 @@ export default {
       this.options.hasTags.splice(index, 1);
     },
     addFolder(name) {
-      console.log("xuanzewenjianjia");
-      console.log(name);
       this.options.hasFolder = this.showFolderName = name;
     },
     // 新建文件夹
@@ -152,7 +144,6 @@ export default {
     },
     selectName(name) {
       this.showFolderName = name;
-      console.log(this.showFolderName);
     }
   }
 };

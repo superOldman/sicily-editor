@@ -132,6 +132,28 @@ class SkmService {
     return result.data;
   }
 
+  // 用户详情
+
+  async userUpdate(params) {
+    const result = await http_post({ api: baseAddress + '/users/userUpdate', params });
+    return result.data;
+  }
+
+  async writeOff(params) {
+    const result = await http_post({ api: baseAddress + '/users/writeOff', params });
+    return result.data;
+  }
+
+
+
+
+
+
+
 }
+
+
+
+
 
 export default new SkmService();

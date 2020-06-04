@@ -30,9 +30,7 @@ export default {
     };
   },
   mounted() {
-    //  this.testFun(()=>{
-    //    console.log(this)
-    //  },1)
+
     // 显示状态栏
     this.resourceStats();
     // 访问表
@@ -56,7 +54,6 @@ export default {
       const result = await SkmService.pushPaperCount();
 
       this.pushPaperCountData = result.data;
-      // console.log(data)
       this.lastYearPushPaperCount();
 
     },
@@ -198,7 +195,6 @@ export default {
 
     // 提交表
     lastYearPushPaperCount(){
-      console.log(this.pushPaperCountData)
       let option = {
         visualMap: {
             // show: false,
@@ -249,7 +245,6 @@ export default {
         //     //     data.push([echarts.format.formatTime("yyyy-MM-dd", time), Math.floor(Math.random() * 10)]);
         //     // }
         //     data = [["2020-06-01", 2], ["2020-06-02", 19], ["2020-06-03", 1], ["2020-06-04", 0]]
-        //     console.log(data)
         //     return data;
         // };
         // 绘制图表
@@ -267,19 +262,19 @@ export default {
       <h4>容量监测</h4>
 
       <div class="homeTopContent" v-if="sourceStatsPercent">
-        <div class="massive_css statsBlock">
+        <div class="massive_css2 statsBlock">
           <h4>总容量</h4>
           <p>资源占有量：{{mbOrgb(sourceSpace)}}</p>
           <p>预估容量：20G</p>
           <el-progress class="statsBlock_progress"  :text-inside="true" :stroke-width="20" :percentage="sourceStatsPercent" status="success"></el-progress>
         </div>
-        <div class="massive_css statsBlock">
+        <div class="massive_css2 statsBlock">
           <h4>图片资源</h4>
           <p>图片：{{sourceStats.pictureDetail.count}} 个</p>
           <p>图片占有容量：{{sourceStats.pictureDetail.size}}</p>
           
         </div>
-        <div class="massive_css statsBlock">
+        <div class="massive_css2 statsBlock">
           <h4>文章资源</h4>
           <p>文章：{{sourceStats.paperDetail.count}} 篇</p>
           <p>文章占有量：{{sourceStats.paperDetail.size}}</p>

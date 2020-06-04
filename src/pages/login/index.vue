@@ -175,8 +175,8 @@ export default {
       });
     },
     login() {
-      const self = this;
-      SkmService.signin(self.userData).then((data) => {
+      console.log(this.userData)
+      SkmService.signin(this.userData).then((data) => {
         if (data.code === 0) {
           console.log('登陆成功！');
           let pageName = 'home';
@@ -188,18 +188,17 @@ export default {
             // console.log(decodeURI(pageName))
             // console.log(encodeURIComponent(pageName))
           }
-          self.$router.push({name: pageName});
+          this.$router.push({name: pageName});
         }
       });
     },
     register() {
-      const self = this;
-      console.log(self.registerData)
-      SkmService.register(self.registerData).then((data) => {
-        if(data.code === 1){
+
+      SkmService.register(this.registerData).then((data) => {
+        
           alert(data.message);
           // self.$router.push({name: 'home'});
-        }
+        
       });
     }
   }

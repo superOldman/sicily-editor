@@ -1,3 +1,11 @@
 .massive_css{
   box-shadow: rgba(0, 0, 0, 0.5) 0px 1px 20px -8px;
 }
+
+.massive_css2{
+  border-radius: 10px;
+  background: linear-gradient(145deg, #e6e6e6, #ffffff);
+  box-shadow:  3px 3px 5px #b5b5b5, 
+             -3px -3px 5px #fff;
+             overflow: hidden;
+}
