@@ -14,6 +14,16 @@ export default {
       }
       callback();
     };
+    var checkUserName = (rule, value, callback) => {
+      if (!value) {
+        return callback(new Error("不能为空"));
+      } else {
+        if (this.ruleForm2.delete !== this.getUserInfo.userName) {
+          callback(new Error("用户名输错了"));
+        }
+        callback();
+      }
+    };
     var validatePass = (rule, value, callback) => {
       if (value === "") {
         callback(new Error("请输入密码"));
@@ -36,7 +46,7 @@ export default {
     return {
       showUPForm: false,
       showEMForm: false,
-
+      showDELETEForm: false,
       userMessage: {
         // title: "管理员",
         // userName: "sdfsdfs",
@@ -47,17 +57,23 @@ export default {
         newPass: "",
         checkNewPass: ""
       },
-
-      
       rules: {
         oldPass: [{ validator: baseCheck, trigger: "blur" }],
         newPass: [{ validator: validatePass, trigger: "blur" }],
-        checkNewPass: [{ validator: validatePass2, trigger: "blur" }]
+        checkNewPass: [{ validator: validatePass2, trigger: "blur" }],
+        delete: [{ validator: checkUserName, trigger: "blur" }]
+      },
+
+      ruleForm2: {
+        delete: ""
       }
+      // rules2: {
+
+      // }
     };
   },
   computed: {
-    ...mapGetters('userMessageModule',["getUserInfo"])
+    ...mapGetters("userMessageModule", ["getUserInfo"])
   },
   created() {},
   watch: {
@@ -65,7 +81,6 @@ export default {
     //   handler(val) {
     //     console.log(12121, val);
     //     this.userMessage = val;
-        
     //   },
     //   deep: true
     // }
@@ -98,19 +113,34 @@ export default {
         }
       });
     },
+    deleteUser(formName) {
+      this.$refs[formName].validate(valid => {
+        if (valid) {
+          console.log("删除用户");
+
+          this.$confirm(`确定删除该用户？`)
+            .then(() => {
+              //  console.log("确定删除用户");
+               this.$store.commit("userMessageModule/clearUser");
+               SkmService.writeOff({ username: this.ruleForm2.delete });
+             
+            })
+            .catch(() => {});
+         
+        }
+      });
+    },
     resetForm(formName) {
       this.$refs[formName].resetFields();
     },
 
     async userUpDate(params) {
       const result = await SkmService.userUpdate(params);
-      if(result.code === 0 ){
-        this.$store.commit('userMessageModule/clearUser');
-        SkmService.islogin()
-      }else{
-        
+      if (result.code === 0) {
+        this.$store.commit("userMessageModule/clearUser");
+        SkmService.islogin();
+      } else {
         this.$alert(result.message, "错误", { confirmButtonText: "确定" });
-
       }
     }
   }
@@ -121,10 +151,6 @@ export default {
   <layout>
     <div class="detailwarp">
       <div class="top massive_css2">
-        <!-- <p>
-          <span>管理员：</span>
-          <span v-if="userMessage.userName">{{userMessage.userName}}</span>
-        </p>-->
         <div class="topHead">
           <el-row>
             <el-col :span="1" :offset="1">
@@ -187,7 +213,7 @@ export default {
         <div class="settingGrid">
           <el-row class="settingGridSetheight">
             <el-col :span="6">
-              <i class="el-icon-warning"></i>密码
+              <i class="el-icon-success"></i>密码
             </el-col>
             <el-col :span="12" class="setting_mid">设置了</el-col>
             <el-col :span="6">
@@ -204,7 +230,6 @@ export default {
                 ref="ruleForm"
                 label-width="100px"
                 label-position="left"
-                class="demo-ruleForm"
               >
                 <el-form-item label="旧密码" prop="oldPass">
                   <el-input type="password" v-model="ruleForm.oldPass" autocomplete="off"></el-input>
@@ -219,6 +244,36 @@ export default {
                 <el-form-item>
                   <el-button type="primary" @click="submitForm('ruleForm')">提交</el-button>
                   <el-button @click="resetForm('ruleForm')">重置</el-button>
+                </el-form-item>
+              </el-form>
+            </div>
+          </el-collapse-transition>
+        </div>
+        <div class="settingGrid">
+          <el-row class="settingGridSetheight">
+            <el-col :span="6">
+              <i class="el-icon-warning"></i>
+              <el-button @click="showDELETEForm = !showDELETEForm">注销用户</el-button>
+            </el-col>
+          </el-row>
+          <el-collapse-transition>
+            <div v-show="showDELETEForm" class="form_message">
+              <p class="form_message_text">注销</p>
+              <el-form
+                :model="ruleForm2"
+                status-icon
+                :rules="rules"
+                ref="ruleForm2"
+                label-width="100px"
+                label-position="top"
+              >
+                <el-form-item label="输入用户名确定注销" prop="delete">
+                  <el-input type="text" v-model="ruleForm2.delete" autocomplete="off"></el-input>
+                </el-form-item>
+
+                <el-form-item>
+                  <el-button type="primary" @click="deleteUser('ruleForm2')">提交</el-button>
+                  <el-button @click="resetForm('ruleForm2')">重置</el-button>
                 </el-form-item>
               </el-form>
             </div>

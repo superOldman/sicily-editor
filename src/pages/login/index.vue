@@ -199,8 +199,13 @@ export default {
     },
     register() {
       SkmService.register(this.registerData).then(data => {
-        alert(data.message);
-        // self.$router.push({name: 'home'});
+        
+        if(data.code === 0 ){
+          this.$router.go(0);
+        }else{
+          alert(data.message);
+        }
+        
       });
     }
   }

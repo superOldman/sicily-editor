@@ -6,7 +6,7 @@ export default {
         state.userDetails = newValue;
     },
     clearUser(state) {
-        state.userDetails = {}
+        state.userDetails = null
     },
 
 }
