@@ -47,7 +47,7 @@ axios.interceptors.request.use(
 
     if(config.url.endsWith('list')){
       
-      store.commit('changeLoadingStatus')
+      store.commit('pageStatsModule/changeLoadingStatus')
     }
     
     return config
@@ -66,7 +66,7 @@ axios.interceptors.response.use(
     if (response.status === 200) {
 
       if(response.config.url.endsWith('list')){
-        store.commit('changeLoadingStatus')
+        store.commit('pageStatsModule/changeLoadingStatus')
       }
       return Promise.resolve(response);
     }else{

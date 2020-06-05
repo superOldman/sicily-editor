@@ -10,9 +10,9 @@
 import MODULES_INFO from "../../constant/navModule.js";
 import SkmService from "../../services/api";
 import userContent from "../userContent/index.vue";
-// import mapState from "vuex";
+import { mapGetters } from "vuex";
 export default {
-  // name: "layout",
+  name: "layout",
   data: function() {
     return {
       MODULES_INFO,
@@ -32,6 +32,7 @@ export default {
     userContent
   },
   computed: {
+    ...mapGetters('userMessageModule',['getUserInfo'])
     // ...mapState({
     //    userDetails: state => state.userDetails,
     // })
@@ -74,11 +75,11 @@ export default {
       this.pageMessageIcon = item.icon;
     },
     isLogin() {
-      this.userMessage = this.$store.state.userDetails.userDetails;
-      if (!this.$store.state.userDetails.userDetails) {
+      // this.userMessage = this.$store.state.userDetails.userDetails;
+      if (!this.getUserInfo) {
         SkmService.islogin().then(data => {
-          this.userMessage = data.userMessage;
-          this.$store.commit("refushUser", data.userMessage);
+          this.$store.commit("userMessageModule/refushUser", data.userMessage);
+     
         });
       }
     },
@@ -123,7 +124,7 @@ export default {
         </el-col>
         <el-col :span="8">
           <div class="grid-content bg-purple">
-            <user-content v-if="userMessage" :userMessage="userMessage"></user-content>
+            <user-content></user-content>
           </div>
         </el-col>
         <!-- <el-col :span="8" :offset="12"></el-col> -->
@@ -158,9 +159,9 @@ export default {
                 </div>
               </el-col>
               <el-col :span="16">
-                <div v-if="userMessage && userMessage.lastLogin" class="main_top_message">
+                <div class="main_top_message">
                   <i class="el-icon-info"></i>
-                  欢迎回来，上次登录：{{userMessage.lastLogin}}
+                  欢迎回来，上次登录：{{ (getUserInfo || {}).lastLogin}}
                 </div>
               </el-col>
             </el-row>

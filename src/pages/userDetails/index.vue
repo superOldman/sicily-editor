@@ -5,12 +5,14 @@
  * desc: 用户详情页
  */
 import SkmService from "../../services/api";
+import { mapGetters } from "vuex";
 export default {
   data() {
     var baseCheck = (rule, value, callback) => {
       if (!value) {
         return callback(new Error("不能为空"));
       }
+      callback();
     };
     var validatePass = (rule, value, callback) => {
       if (value === "") {
@@ -35,7 +37,6 @@ export default {
       showUPForm: false,
       showEMForm: false,
 
-      userMessageShow: false,
       userMessage: {
         // title: "管理员",
         // userName: "sdfsdfs",
@@ -46,6 +47,8 @@ export default {
         newPass: "",
         checkNewPass: ""
       },
+
+      
       rules: {
         oldPass: [{ validator: baseCheck, trigger: "blur" }],
         newPass: [{ validator: validatePass, trigger: "blur" }],
@@ -53,26 +56,22 @@ export default {
       }
     };
   },
+  computed: {
+    ...mapGetters('userMessageModule',["getUserInfo"])
+  },
   created() {},
   watch: {
-    "this.$store.state": {
-      handler(val) {
-        console.log(12121, val);
-        this.userMessage = val;
-        this.userMessageShow = true;
-      },
-      deep: true
-    }
+    // "$store.state.userDetails.userDetails": {
+    //   handler(val) {
+    //     console.log(12121, val);
+    //     this.userMessage = val;
+        
+    //   },
+    //   deep: true
+    // }
   },
-  mounted() {
-    // this.getUserMessage();
-  },
+  mounted() {},
   methods: {
-    getUserMessage() {
-      console.log(this.$store.state.userDetails.userDetails);
-      this.userMessage = this.$store.state.userDetails.userDetails;
-      this.userMessageShow = true;
-    },
     handleAvatarSuccess(res, file) {
       console.log("上传回调");
       console.log(arguments);
@@ -92,19 +91,27 @@ export default {
     },
 
     submitForm(formName) {
-      console.log(this.$refs[formName]);
-      console.log(this.$refs[formName].validate);
-      console.log("formName", formName);
       this.$refs[formName].validate(valid => {
-        console.log("valid", valid);
+        if (valid) {
+          let userMessage = this.ruleForm;
+          this.userUpDate({ username: this.getUserInfo.userName, userMessage });
+        }
       });
     },
     resetForm(formName) {
       this.$refs[formName].resetFields();
     },
 
-    async userUpDate() {
-      SkmService.userUpdate({});
+    async userUpDate(params) {
+      const result = await SkmService.userUpdate(params);
+      if(result.code === 0 ){
+        this.$store.commit('userMessageModule/clearUser');
+        SkmService.islogin()
+      }else{
+        
+        this.$alert(result.message, "错误", { confirmButtonText: "确定" });
+
+      }
     }
   }
 };
@@ -130,15 +137,14 @@ export default {
                 :before-upload="beforeAvatarUpload"
               >
                 <div class="el-upload">
-                  <img v-if="userMessageShow" :src="userMessage.photo" class="avatar" />
-                  <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+                  <img :src="(getUserInfo || {}).photo" class="avatar" />
+                  <i class="el-icon-plus avatar-uploader-icon"></i>
                   <div class="after">上传头像</div>
                 </div>
               </el-upload>
             </el-col>
             <el-col :span="8" class="nameAndpush">
-              <div class="userName">superOldman</div>
-
+              <div class="userName">{{(getUserInfo || {}).userName }}</div>
               <input
                 id="h-sign"
                 type="text"
@@ -179,7 +185,6 @@ export default {
           </el-row>
         </div>
         <div class="settingGrid">
-          <!-- <transition-group  class="settingGrid"> -->
           <el-row class="settingGridSetheight">
             <el-col :span="6">
               <i class="el-icon-warning"></i>密码
@@ -189,34 +194,35 @@ export default {
               <el-button @click="showUPForm = !showUPForm">修改</el-button>
             </el-col>
           </el-row>
+          <el-collapse-transition>
+            <div v-show="showUPForm" class="form_message">
+              <p class="form_message_text">重置密码</p>
+              <el-form
+                :model="ruleForm"
+                status-icon
+                :rules="rules"
+                ref="ruleForm"
+                label-width="100px"
+                label-position="left"
+                class="demo-ruleForm"
+              >
+                <el-form-item label="旧密码" prop="oldPass">
+                  <el-input type="password" v-model="ruleForm.oldPass" autocomplete="off"></el-input>
+                </el-form-item>
+                <el-form-item label="新密码" prop="newPass">
+                  <el-input type="password" v-model="ruleForm.newPass" autocomplete="off"></el-input>
+                </el-form-item>
+                <el-form-item label="确认新密码" prop="checkNewPass">
+                  <el-input type="password" v-model="ruleForm.checkNewPass" autocomplete="off"></el-input>
+                </el-form-item>
 
-          <div v-if="showUPForm" class="form_message">
-            <p class="form_message_text">重置密码</p>
-            <el-form
-              :model="ruleForm"
-              status-icon
-              :rules="rules"
-              ref="ruleForm1"
-              label-width="100px"
-              label-position="left"
-              class="demo-ruleForm"
-            >
-              <el-form-item label="旧密码" prop="oldPass">
-                <el-input type="password" v-model="ruleForm.oldPass" autocomplete="off"></el-input>
-              </el-form-item>
-              <el-form-item label="新密码" prop="newPass">
-                <el-input type="password" v-model="ruleForm.newPass" autocomplete="off"></el-input>
-              </el-form-item>
-              <el-form-item label="确认新密码" prop="checkNewPass">
-                <el-input type="password" v-model="ruleForm.checkNewPass" autocomplete="off"></el-input>
-              </el-form-item>
-
-              <el-form-item>
-                <el-button type="primary" @click="submitForm('ruleForm1')">提交</el-button>
-                <el-button @click="resetForm('ruleForm')">重置</el-button>
-              </el-form-item>
-            </el-form>
-          </div>
+                <el-form-item>
+                  <el-button type="primary" @click="submitForm('ruleForm')">提交</el-button>
+                  <el-button @click="resetForm('ruleForm')">重置</el-button>
+                </el-form-item>
+              </el-form>
+            </div>
+          </el-collapse-transition>
         </div>
       </div>
     </div>

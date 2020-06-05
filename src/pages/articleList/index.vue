@@ -6,6 +6,7 @@
  */
 import editorForm from "../../components/editorForm/index.vue";
 import SkmService from "../../services/api";
+import { mapGetters } from "vuex";
 export default {
   data() {
     return {
@@ -29,8 +30,11 @@ export default {
     this.getList();
   },
   mounted() {},
+  computed: {
+    ...mapGetters('pageStatsModule',['getLoading'])
+  },
   watch: {
-    'this.$store.state.loadingStatus.loading': {
+    '$store.state.loadingStatus.loading': {
       handler(val) {
         console.log(12121, val);
       }
@@ -169,7 +173,7 @@ export default {
           </ul>
         </el-col> -->
       </el-row>
-      <el-table v-loading="$store.state.loadingStatus.loading" :data="listData" stripe style="width: 98%; margin: 0 auto;">
+      <el-table v-loading="getLoading" :data="listData" stripe style="width: 98%; margin: 0 auto;">
         <el-table-column type="index" width="50"></el-table-column>
         <el-table-column draggable="true" prop="updated_at" label="日期" width="200" :resizable="true"></el-table-column>
         <el-table-column prop="title" label="标题" width="200"></el-table-column>

@@ -5,7 +5,7 @@
  * desc: 用户信息组件
  */
 import SkmServes from "../../services/api";
-import store from '../../store/index';
+import { mapGetters } from 'vuex';
 export default {
   data() {
     return {
@@ -14,23 +14,18 @@ export default {
       // imgUrl: 'https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png',
     };
   },
-  props: {
-    userMessage: {
-      title: String,
-      userName: String,
-      imgUrl: String
-    }
+  computed: {
+    ...mapGetters('userMessageModule',['getUserInfo'])
   },
   mounted() {
-    //  this.pageToDetails()
-    console.log(this.userMessage);
+
   },
   methods: {
     pageToDetails() {
       this.$router.push({ name: "userDetails" });
     },
     logout() {
-      store.commit('refushUser',null)
+      this.$store.commit('userMessageModule/refushUser',null);
       SkmServes.logout();
     }
   }
@@ -41,10 +36,10 @@ export default {
   <el-dropdown class="el-dropDown">
     <div class="el-dropdown-link">
       <ul class="userDetails clearfix">
-        <li>{{userMessage.title}}</li>
-        <li>{{userMessage.userName}}</li>
+        <li>{{(getUserInfo || {}).title}}</li>
+        <li>{{(getUserInfo || {}).userName}}</li>
         <li class="imgBorder">
-          <img :src="userMessage.photo" alt srcset />
+          <img :src="(getUserInfo || {}).photo" alt srcset />
         </li>
       </ul>
     </div>

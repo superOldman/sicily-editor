@@ -1,0 +1,5 @@
+
+
+export default {
+  userDetails: null,
+}
