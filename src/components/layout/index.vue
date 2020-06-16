@@ -20,7 +20,8 @@ export default {
       pageMessage: MODULES_INFO[0].name,
       date_year_mounth: "",
       date_hour_min_sec: "",
-      userMessage: {}
+      userMessage: {},
+      timerId: null,
       // userMessage: {
       //   title: "",
       //   userName: "",
@@ -53,6 +54,9 @@ export default {
     this.renderTime();
     this.bg_animate();
   },
+  beforeDestroy() {
+    clearInterval(this.timerId);
+  },
   methods: {
     getMyTime() {
       let nowTime = new Date();
@@ -68,7 +72,9 @@ export default {
       }
     },
     renderTime() {
-      this.getMyTime();
+      this.timerId = setInterval(()=>{
+        this.getMyTime()
+      },1000)
     },
     selectHandle(item) {
       this.pageMessage = item.name;
@@ -161,7 +167,7 @@ export default {
               <el-col :span="16">
                 <div class="main_top_message">
                   <i class="el-icon-info"></i>
-                  欢迎回来，上次登录：{{ (getUserInfo || {}).lastLogin}}
+                  欢迎回来，上次登录：{{ (getUserInfo || {}).lastLogin }}
                 </div>
               </el-col>
             </el-row>
