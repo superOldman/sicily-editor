@@ -260,7 +260,7 @@
             // reader.readAsDataURL(file);
             var formData = new FormData();
             formData.append('pic', file); // 文件数据
-            console.log(formData)
+            const address = window.location.host.includes('top') ? 'http://47.96.2.170:3000' : 'http://localhost:3000/';
             $.ajax({
               url: settings.imageUploadURL,
               method: 'POST',
@@ -276,7 +276,7 @@
                 if (data.success === 1) {
                   dialog
                     .find('[data-url]')
-                    .val('http://localhost:3000/' + data.pic.path);
+                    .val(address + data.pic.path);
                 }
               },
               error: function(xhr, status) {

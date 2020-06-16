@@ -6,6 +6,7 @@
  */
 import SkmService from "../../services/api";
 import { mapGetters } from "vuex";
+import address from "../../constant/address";
 export default {
   data() {
     var baseCheck = (rule, value, callback) => {
@@ -66,10 +67,8 @@ export default {
 
       ruleForm2: {
         delete: ""
-      }
-      // rules2: {
-
-      // }
+      },
+      uploadAddress: address + '/editor/uploadImg',
     };
   },
   computed: {
@@ -156,7 +155,7 @@ export default {
             <el-col :span="1" :offset="1">
               <el-upload
                 class="avatar-uploader"
-                action="http://127.0.0.1:3000/editor/uploadImg"
+                :action="uploadAddress"
                 :with-credentials="true"
                 :show-file-list="false"
                 :on-success="handleAvatarSuccess"

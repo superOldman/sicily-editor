@@ -1,8 +1,8 @@
 <script>
 import layout from "../../components/layout/index.vue";
 import myDialog from "../../components/myDialog/index.vue";
-
 import SkmService from "../../services/api";
+import address from "../../constant/address";
 
 export default {
   name: 'createFolder',
@@ -52,6 +52,7 @@ export default {
       },
 
 
+      uploadAddress: address + '/editor/uploadImg',
 
       /** 文分类文章列表 */
       pushPaperFormFolderId: '',
@@ -206,8 +207,7 @@ export default {
 
     /** 上传图片 */ 
     handleAvatarSuccess(res) {
-
-      this.ruleForm.cover = 'http://localhost:3000/' + res.file.path;
+      this.ruleForm.cover = address + '/' + res.file.path;
     },
     beforeAvatarUpload(file) {
       const isJPG = file.type; // === ("image/jpeg" || "image/png" || "image/jpg");
@@ -279,7 +279,7 @@ export default {
           <el-form-item label="封面">
             <el-upload
               class="avatar-uploader"
-              action="http://127.0.0.1:3000/editor/uploadImg"
+              :action="uploadAddress"
               :with-credentials="true"
               :show-file-list="false"
               :on-success="handleAvatarSuccess"

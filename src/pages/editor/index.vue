@@ -7,6 +7,7 @@
 import twMarkdownView from "../../components/markdownEditor/markdownEditor.vue";
 import setTags from "../../components/setTags/setTags.vue";
 import SkmService from "../../services/api";
+import address from "../../constant/address";
 
 export default {
   data() {
@@ -33,7 +34,8 @@ export default {
       folderListShow: false,
       createfolderShow: false,
       folderList: [],
-      showFolderName: "选择文件夹"
+      showFolderName: "选择文件夹",
+      uploadAddress: address + '/editor/uploadImg',
     };
   },
   components: {
@@ -176,7 +178,7 @@ export default {
             class="avatar-uploader"
             drag
             :show-file-list="false"
-            action="http://127.0.0.1:3000/editor/uploadImg"
+            :action="uploadAddress"
             :with-credentials="true"
             :on-success="handleAvatarSuccess"
             :before-upload="beforeAvatarUpload"
