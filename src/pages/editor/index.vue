@@ -8,6 +8,7 @@ import twMarkdownView from "../../components/markdownEditor/markdownEditor.vue";
 import setTags from "../../components/setTags/setTags.vue";
 import SkmService from "../../services/api";
 import address from "../../constant/address";
+import { mapGetters } from 'vuex';
 
 export default {
   data() {
@@ -18,7 +19,7 @@ export default {
       imageUrl: "",
       options: {
         title: "标题",
-        author: "superOldman",
+        author: '',//this.$store.state.getUserInfo(),
         info: "简介...",
         content: null,
         markdown: null,
@@ -42,12 +43,16 @@ export default {
     twMarkdownView,
     setTags
   },
-  // computed:{
-  //   isNewEditor(data){ return data },
-  // },
+  computed:{
+    // isNewEditor(data){ return data },
+    ...mapGetters('userMessageModule',['getUserInfo'])
+  },
   created() {
     this.getArticleById();
     this.getFolderList();
+
+     console.log(this.$store.state)
+      // return this.$store.state.getUserInfo()
   },
   mounted() {},
   methods: {
@@ -160,13 +165,14 @@ export default {
             <p class="form_message_text">编辑</p>
             <el-form label-width="100px" label-position="left" class="title">
               <el-form-item label="标题">
-                <el-input type="text" v-model="options.title"></el-input>
+                <el-input type="text" :placeholder="options.title"></el-input>
               </el-form-item>
               <el-form-item label="详情">
-                <el-input type="textarea" v-model="options.info"></el-input>
+                <el-input type="textarea" :placeholder="options.info"></el-input>
               </el-form-item>
               <el-form-item label="作者">
-                <el-input type="text" v-model="options.author"></el-input>
+                <!-- <el-input type="text" v-model="options.author"></el-input>getUserInfo -->
+                <el-input type="text" v-model="(getUserInfo || {}).userName"></el-input>
               </el-form-item>
             </el-form>
           </div>
@@ -183,12 +189,12 @@ export default {
             :on-success="handleAvatarSuccess"
             :before-upload="beforeAvatarUpload"
           >
-            <img
+            <img 
               v-if="imageUrl || options.saveImageUrl"
               :src="imageUrl || options.saveImageUrl"
               class="avatar"
             />
-            <div v-else>
+            <div v-else class="avatar_else">
               <i class="el-icon-upload"></i>
               <div class="el-upload__text">
                 将文件拖到此处，或
@@ -256,6 +262,15 @@ export default {
 .avatar-uploader {
   font-size: 0;
 }
+.avatar-uploader .avatar{
+  width: 100%;
+  height: 100%;
+}
+.avatar-uploader .avatar_else{
+  height: 100%;
+}
+
+
 .avatar-uploader .el-upload {
   border: 1px dashed #d9d9d9;
   border-radius: 6px;

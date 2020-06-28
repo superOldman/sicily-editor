@@ -314,8 +314,8 @@ export default {
           @selection-change="handleSelectionChange"
         >
           <el-table-column type="selection" width="55"></el-table-column>
-          <el-table-column prop="_id" label="id" width="120"></el-table-column>
-          <el-table-column prop="title" label="标题" width="120"></el-table-column>
+          <el-table-column prop="_id" label="id" width=""></el-table-column>
+          <el-table-column prop="title" label="标题" width=""></el-table-column>
           <el-table-column prop="info" label="简介" show-overflow-tooltip></el-table-column>
         </el-table>
         <el-pagination

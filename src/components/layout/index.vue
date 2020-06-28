@@ -33,7 +33,7 @@ export default {
     userContent
   },
   computed: {
-    ...mapGetters('userMessageModule',['getUserInfo'])
+    ...mapGetters('userMessageModule',['getUserInfo']),
     // ...mapState({
     //    userDetails: state => state.userDetails,
     // })
@@ -58,15 +58,21 @@ export default {
     clearInterval(this.timerId);
   },
   methods: {
-    getMyTime() {
-      let nowTime = new Date();
-      this.date_year_mounth = `${nowTime.getFullYear()}-${addZero(
-        nowTime.getMonth() + 1
-      )}-${addZero(nowTime.getDate())}`;
-      this.date_hour_min_sec = `${addZero(nowTime.getHours())}:${addZero(
-        nowTime.getMinutes()
-      )}:${addZero(nowTime.getSeconds())}`;
-
+    getMyTime(time) {
+      let nowTime;
+      if (time) {
+        nowTime = new Date(time);
+        return `${nowTime.getFullYear()}-${addZero(nowTime.getMonth() + 1)}-${addZero(nowTime.getDate())}
+        ${addZero(nowTime.getHours())}:${addZero(nowTime.getMinutes())}:${addZero(nowTime.getSeconds())}`
+      } else {
+        nowTime = new Date();
+        this.date_year_mounth = `${nowTime.getFullYear()}-${addZero(
+          nowTime.getMonth() + 1
+        )}-${addZero(nowTime.getDate())}`;
+        this.date_hour_min_sec = `${addZero(nowTime.getHours())}:${addZero(
+          nowTime.getMinutes()
+        )}:${addZero(nowTime.getSeconds())}`;
+      }
       function addZero(num) {
         return num >= 10 ? num : `0${num}`;
       }
@@ -167,7 +173,7 @@ export default {
               <el-col :span="16">
                 <div class="main_top_message">
                   <i class="el-icon-info"></i>
-                  欢迎回来，上次登录：{{ (getUserInfo || {}).lastLogin }}
+                  欢迎回来，上次登录：{{ getMyTime((getUserInfo || {}).lastLogin) }}
                 </div>
               </el-col>
             </el-row>

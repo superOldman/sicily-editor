@@ -179,8 +179,8 @@ export default {
         <el-table-column prop="title" label="标题" width="200"></el-table-column>
         <el-table-column prop="author" label="编辑人" width="160"></el-table-column>
         <el-table-column prop="info" label="详情"></el-table-column>
-        <el-table-column prop="hasFolder" label="所属文件夹"></el-table-column>
-        <el-table-column label="置顶" width="160">
+        <el-table-column prop="hasFolder" label="所属文件夹" width="150"></el-table-column>
+        <el-table-column label="置顶" width="80">
           <template slot-scope="scope">
             <el-switch class="changeTop" v-model="scope.row.stick" disabled @click.native="topChange(scope.row)" active-color="#13ce66" inactive-color="#ff4949">
 
