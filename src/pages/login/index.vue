@@ -178,7 +178,6 @@ export default {
       });
     },
     login() {
-      
       SkmService.signin(this.userData).then(data => {
         if (data.code === 0) {
           console.log("登陆成功！");
