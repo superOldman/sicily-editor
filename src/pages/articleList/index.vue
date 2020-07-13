@@ -4,9 +4,11 @@
  * date: 2020/03/23
  * desc: 文章列表
  */
-import editorForm from "../../components/editorForm/index.vue";
+// import editorForm from "../../components/editorForm/index.vue";
 import SkmService from "../../services/api";
 import { mapGetters } from "vuex";
+import { myGetTime } from "../../utils/utils";
+
 export default {
   data() {
     return {
@@ -25,7 +27,7 @@ export default {
       dialogVisible: false,
     };
   },
-  components: { editorForm },
+  // components: { editorForm },
   created() {
     this.getList();
   },
@@ -58,14 +60,6 @@ export default {
        result.data.list.forEach((item)=>{
          item.updated_at = myGetTime(item.updated_at)
        })
-
-       function myGetTime(time){
-         let myTime = new Date(time);
-         return `${myTime.getFullYear()}-${ addZero(myTime.getMonth() + 1)}-${addZero(myTime.getDate())}  ${addZero(myTime.getHours())}:${addZero(myTime.getMinutes())}:${addZero(myTime.getSeconds())}`
-       }
-       function addZero(num){
-         return  num >= 10 ? num : `0${num}`;
-       }
 
         this.listData = result.data.list;
         this.paperSum = result.data.sum;
@@ -115,9 +109,9 @@ export default {
     handleEdit(index, row) {
       console.log("编辑", "searchById");
       console.log(index, row);
-      this.dialogVisible = true;
-      this.formData = row
-
+      // this.dialogVisible = true;
+      this.formData = row;
+      this.$router.push({ path:'/editor', query:{ id: this.formData._id } })
     },
     // 删除
     handleDelete(index, row) {
@@ -143,18 +137,18 @@ export default {
 </script>
 
 <template>
-  <layout class="warp">
+  <layout class="articleListWarp">
     <!-- list
     <div>
       <editorForm :formData="formData"></editorForm>
     </div> -->
-    <el-dialog title="提示" :visible.sync="dialogVisible" width="30%" :before-close="handleClose">
+    <!-- <el-dialog title="提示" :visible.sync="dialogVisible" width="30%" :before-close="handleClose">
       <editorForm :formData="formData"></editorForm>
       <span slot="footer" class="dialog-footer">
         <el-button @click="dialogVisible = false">取 消</el-button>
         <el-button type="primary" @click="dialogVisible = false">确 定</el-button>
       </span>
-    </el-dialog>
+    </el-dialog> -->
     <div class="massive_css massive_style">
       <el-row class="listTop">
         <el-col :span="6">
@@ -181,10 +175,13 @@ export default {
         <el-table-column prop="info" label="详情"></el-table-column>
         <el-table-column prop="hasFolder" label="所属文件夹" width="150"></el-table-column>
         <el-table-column label="置顶" width="80">
-          <template slot-scope="scope">
-            <el-switch class="changeTop" v-model="scope.row.stick" disabled @click.native="topChange(scope.row)" active-color="#13ce66" inactive-color="#ff4949">
+          <template slot-scope="scope" >
+            <div id="changeTop">
+            <el-switch class="changeTop" style="cursor: pointer;" v-model="scope.row.stick" disabled @click.native="topChange(scope.row)" active-color="#13ce66" inactive-color="#ff4949">
+ </el-switch>
+            </div>
 
-            </el-switch>
+           
           </template>
         </el-table-column>
         <el-table-column label="操作" width="180">
@@ -208,33 +205,32 @@ export default {
   </layout>
 </template>
 
-<style  scoped >
-.warp{
+<style   >
+.articleListWarp{
   min-height: 1080px
 }
-.massive_style{
-
+.articleListWarp .massive_style{
   width: 98%;
   margin: 30px auto 0;
   position: relative;
 }
 
-.listTop {
+.articleListWarp .listTop {
   background-color: #fff;
   border-bottom: 1px solid #000;
   height: 50px;
   line-height: 50px;
   font-size: 18px;
 }
-.listTop_left {
+.articleListWarp .listTop_left {
   height: 50px;
 }
-.pageTitle {
+.articleListWarp .pageTitle {
   /* display: inline-block; */
   float: left;
   margin-left: 100px;
 }
-.saveButton {
+.articleListWarp .saveButton {
   position: absolute;
   top: -25px;
   left: 25px;
@@ -248,16 +244,16 @@ export default {
   box-shadow: rgba(0, 0, 0, 0.5) 0px 1px 10px -8px;
 }
 
-
-.changeTop.el-switch.is-disabled {
+.articleListWarp .changeTop.el-switch.is-disabled {
   opacity: 1;
 }
-.massive_style .changeTop.el-switch.is-disabled .el-switch__core {
-  cursor: pointer;
-}
 
+#changeTop .el-switch.is-disabled .el-switch__core,
+.el-switch.is-disabled .el-switch__label{
+      cursor: pointer;
+} 
 
-.el-pagination{
+.articleListWarp .el-pagination{
   padding: 20px;
 }
 </style>

@@ -68,11 +68,12 @@ export default {
       ruleForm2: {
         delete: ""
       },
-      uploadAddress: address + '/editor/uploadImg',
+      uploadAddress: address + '/users/uploadUserPhoto',
     };
   },
   computed: {
-    ...mapGetters("userMessageModule", ["getUserInfo"])
+    ...mapGetters("userMessageModule", ["getUserInfo"]),
+    // ...mapActions("userMessageModule",['refushUserFun'])
   },
   created() {},
   watch: {
@@ -89,7 +90,9 @@ export default {
     handleAvatarSuccess(res, file) {
       console.log("上传回调");
       console.log(arguments);
-      this.userMessage.imageUrl = URL.createObjectURL(file.raw);
+      // this.userMessage.imageUrl = ;
+       this.$store.commit("userMessageModule/refushUserPhoto", URL.createObjectURL(file.raw));
+      // getUserInfo
     },
     beforeAvatarUpload(file) {
       const isJPG = file.type; //=== ('image/jpeg' || 'image/png' || 'image/jpg');
@@ -157,6 +160,7 @@ export default {
                 class="avatar-uploader"
                 :action="uploadAddress"
                 :with-credentials="true"
+                
                 :show-file-list="false"
                 :on-success="handleAvatarSuccess"
                 :before-upload="beforeAvatarUpload"

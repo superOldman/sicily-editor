@@ -127,10 +127,10 @@ export default {
             min: -1,
             max: setMax[0],
         }],
-        title: [{
-            left: 'center',
-            text: 'Gradient along the y axis'
-        }],
+        // title: [{
+        //     left: 'center',
+        //     text: 'Gradient along the y axis'
+        // }],
         tooltip: {
             trigger: 'axis'
         },
@@ -257,27 +257,27 @@ export default {
 </script>
 
 <template>
-  <layout>
+  <layout class="homeWarp">
     <div class="homeTop">
       <h4>容量监测</h4>
 
       <div class="homeTopContent" v-if="sourceStatsPercent">
         <div class="massive_css2 statsBlock">
-          <h4>总容量</h4>
-          <p>资源占有量：{{mbOrgb(sourceSpace)}}</p>
-          <p>预估容量：20G</p>
-          <el-progress class="statsBlock_progress"  :text-inside="true" :stroke-width="20" :percentage="sourceStatsPercent" status="success"></el-progress>
+          <h5>总容量</h5>
+          <p class="card_p">资源占有量：{{mbOrgb(sourceSpace)}}</p>
+          <p class="card_p">预估容量：20G</p>
+          <el-progress class="statsBlock_progress"  :text-inside="true" :stroke-width="18" :percentage="sourceStatsPercent" status="success"></el-progress>
         </div>
         <div class="massive_css2 statsBlock">
-          <h4>图片资源</h4>
-          <p>图片：{{sourceStats.pictureDetail.count}} 个</p>
-          <p>图片占有容量：{{sourceStats.pictureDetail.size}}</p>
+          <h5>图片资源</h5>
+          <p class="card_p">图片：{{sourceStats.pictureDetail.count}} 个</p>
+          <p class="card_p">图片占有容量：{{sourceStats.pictureDetail.size}}</p>
           
         </div>
         <div class="massive_css2 statsBlock">
-          <h4>文章资源</h4>
-          <p>文章：{{sourceStats.paperDetail.count}} 篇</p>
-          <p>文章占有量：{{sourceStats.paperDetail.size}}</p>
+          <h5>文章资源</h5>
+          <p class="card_p">文章：{{sourceStats.paperDetail.count}} 篇</p>
+          <p class="card_p">文章占有量：{{sourceStats.paperDetail.size}}</p>
         </div>
       </div>
 
@@ -294,7 +294,10 @@ export default {
   </layout>
 </template>
 
-<style  scoped >
+<style   >
+.homeWarp{
+  color: #000;
+}
 .homeTop{
   text-align: left;
 }
@@ -312,9 +315,24 @@ export default {
 .statsBlock_progress{
 
   width: 80%;
-  
+  color: #000;
 }
 .mid,.bot{
   text-align: left;
+}
+h4 {
+  font-size: 24px;
+  line-height: 60px;
+}
+h5 {
+  font-size: 20px;
+  line-height: 34px;
+}
+.card_p {
+  line-height: 24px;
+}
+
+.homeWarp .el-progress-bar__innerText{
+  color: #000;
 }
 </style>

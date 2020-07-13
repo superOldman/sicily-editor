@@ -8,7 +8,7 @@ import twMarkdownView from "../../components/markdownEditor/markdownEditor.vue";
 import setTags from "../../components/setTags/setTags.vue";
 import SkmService from "../../services/api";
 import address from "../../constant/address";
-import { mapGetters } from 'vuex';
+import { mapGetters } from "vuex";
 
 export default {
   data() {
@@ -17,10 +17,14 @@ export default {
       isNewEditor: false,
       isShowEditor: false,
       imageUrl: "",
-      options: {
+      placeholder: {
         title: "标题",
-        author: '',//this.$store.state.getUserInfo(),
-        info: "简介...",
+        info: "简介..."
+      },
+      options: {
+        title: "",
+        author: '', //this.$store.state.getUserInfo(),
+        info: "",
         content: null,
         markdown: null,
         saveImageUrl: "",
@@ -36,23 +40,22 @@ export default {
       createfolderShow: false,
       folderList: [],
       showFolderName: "选择文件夹",
-      uploadAddress: address + '/editor/uploadImg',
+      uploadAddress: address + "/editor/uploadImg"
     };
   },
   components: {
     twMarkdownView,
     setTags
   },
-  computed:{
-    // isNewEditor(data){ return data },
-    ...mapGetters('userMessageModule',['getUserInfo'])
+  computed: {
+    ...mapGetters("userMessageModule", ["getUserInfo"])
   },
   created() {
     this.getArticleById();
     this.getFolderList();
 
-     console.log(this.$store.state)
-      // return this.$store.state.getUserInfo()
+    console.log(this.$store.state);
+    // return this.$store.state.getUserInfo()
   },
   mounted() {},
   methods: {
@@ -74,7 +77,6 @@ export default {
     async getFolderList() {
       const result = await SkmService.getFolderList();
       if (result.code === 0) {
-
         result.data.forEach((item, index) => {
           this.folderList[index] = item.folderName;
         });
@@ -95,6 +97,7 @@ export default {
       }
     },
     async againEditor() {
+      this.options.author = this.getUserInfo.userName;
       const result = await SkmService.saveEditorHtml(this.options);
 
       this.$confirm(result.message)
@@ -102,13 +105,12 @@ export default {
           if (confirm) {
             // this.$router.push({ name: 'editor' });
             this.$router.go(0);
-
           }
         })
         .catch(() => {});
     },
     async newEditor() {
-
+      this.options.author = this.getUserInfo.userName;
       const result = await SkmService.saveHtml(this.options);
 
       this.$confirm(result.message)
@@ -120,7 +122,6 @@ export default {
         .catch(() => {});
     },
     handleAvatarSuccess(res, file) {
-
       this.imageUrl = URL.createObjectURL(file.raw);
       this.options.saveImageUrl = res.file.path;
     },
@@ -157,21 +158,20 @@ export default {
 </script>
 
 <template>
-  <layout>
-    <div class="warp">
+  <layout class="editorWarp">
+    <div class="content">
       <el-row :gutter="20">
         <el-col :span="10">
           <div class="form_message">
             <p class="form_message_text">编辑</p>
             <el-form label-width="100px" label-position="left" class="title">
               <el-form-item label="标题">
-                <el-input type="text" :placeholder="options.title"></el-input>
+                <el-input type="text" :placeholder="placeholder.title" v-model="options.title"></el-input>
               </el-form-item>
               <el-form-item label="详情">
-                <el-input type="textarea" :placeholder="options.info"></el-input>
+                <el-input type="textarea" :placeholder="placeholder.info" v-model="options.info"></el-input>
               </el-form-item>
               <el-form-item label="作者">
-                <!-- <el-input type="text" v-model="options.author"></el-input>getUserInfo -->
                 <el-input type="text" v-model="(getUserInfo || {}).userName"></el-input>
               </el-form-item>
             </el-form>
@@ -189,7 +189,7 @@ export default {
             :on-success="handleAvatarSuccess"
             :before-upload="beforeAvatarUpload"
           >
-            <img 
+            <img
               v-if="imageUrl || options.saveImageUrl"
               :src="imageUrl || options.saveImageUrl"
               class="avatar"
@@ -236,12 +236,12 @@ export default {
         :config="{ markdown: options.markdown  }"
         @onchange="onchange"
       ></tw-markdown-view>
-    </div>
+      </div>
   </layout>
 </template>
 
 <style  scoped >
-.warp {
+.editorWarp .content {
   text-align: left;
 }
 .form_message {
@@ -262,14 +262,13 @@ export default {
 .avatar-uploader {
   font-size: 0;
 }
-.avatar-uploader .avatar{
+.avatar-uploader .avatar {
   width: 100%;
   height: 100%;
 }
-.avatar-uploader .avatar_else{
+.avatar-uploader .avatar_else {
   height: 100%;
 }
-
 
 .avatar-uploader .el-upload {
   border: 1px dashed #d9d9d9;

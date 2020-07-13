@@ -1,5 +1,5 @@
 <template>
-  <div class="warp">
+  <div class="setTagsWarp">
     <div v-if="hasInput">
       <h4>添加标签</h4>
       <el-input v-model="input" class="input" placeholder="请输入内容">
@@ -9,41 +9,37 @@
         添加
         <i class="el-icon-upload el-icon--right"></i>
       </el-button>
-      <div>---------------------------------------------------------------------</div>
     </div>
     <div class="tags">
-    <el-tag
-      class="tit"
-      v-for="(item,index) in hasTags"
-      :key="index"
-      closable
-      @close="handleClose(index)">
-      {{item}}
-    </el-tag>
-
+      <el-tag
+        class="tit"
+        v-for="(item,index) in hasTags"
+        :key="index"
+        closable
+        @close="handleClose(index)"
+      >{{item}}</el-tag>
     </div>
   </div>
 </template>
 
 
 <style scoped>
-.warp{
-    padding: 20px 0;
-    text-align: left;
+.setTagsWarp {
+  padding: 20px 0;
+  text-align: left;
 }
-.warp h4{
-    font-size: 26px;
-    line-height: 30px;
-    margin: 20px 0;
+.setTagsWarp h4 {
+  font-size: 26px;
+  line-height: 30px;
+  margin: 20px 0;
 }
-.warp .input {
+.setTagsWarp .input {
   width: 200px;
   margin-right: 20px;
 }
 
-.warp .tags .tit{
-    margin: 5px;
-
+.setTagsWarp .tags .tit {
+  margin: 5px;
 }
 </style>
 <script>
@@ -55,23 +51,30 @@ export default {
     };
   },
   props: {
-      hasInput: {
-        type: Boolean,
-        default: true
-      },
-      hasTags: {
-        type: Array,
-        default() {
-          return [];
-        }
+    hasInput: {
+      type: Boolean,
+      default: true
+    },
+    hasTags: {
+      type: Array,
+      default() {
+        return [];
       }
+    }
   },
   methods: {
     addTag() {
-      this.$emit('addTag', this.input)
+      if (this.input) {
+        this.$emit("addTag", this.input);
+        this.input = "";
+      } else {
+        this.$alert('请先输入文字', '错误',{
+          lockScroll: false,
+        });
+      }
     },
-    handleClose(index){
-      this.$emit('removeTag', index)
+    handleClose(index) {
+      this.$emit("removeTag", index);
     }
   },
   mounted() {}

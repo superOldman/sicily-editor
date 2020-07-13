@@ -23,13 +23,16 @@ export default {
   },
   mounted() {
     this.init();
+    this.addKeyBoardListener();
   },
   computed: {
-    ...mapGetters('userMessageModule',['getUserInfo'])
+    ...mapGetters("userMessageModule", ["getUserInfo"])
+  },
+  destroyed() {
+    this.removeKeyBoardListener();
   },
   methods: {
     init() {
-
       if (this.getUserInfo) {
         this.$router.push({ name: "home" });
       } else {
@@ -198,14 +201,24 @@ export default {
     },
     register() {
       SkmService.register(this.registerData).then(data => {
-        
-        if(data.code === 0 ){
+        if (data.code === 0) {
           this.$router.go(0);
-        }else{
+        } else {
           alert(data.message);
         }
-        
       });
+    },
+    addKeyBoardListener() {
+      window.addEventListener("keydown", this.keyboardListenerFn);
+    },
+    keyboardListenerFn(e) {
+      if (e && e.keyCode === 13) {
+        this.login();
+      }
+    },
+    removeKeyBoardListener() {
+      console.log('chanshu?')
+      window.removeEventListener("keydown", this.keyboardListenerFn);
     }
   }
 };

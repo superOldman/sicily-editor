@@ -9,7 +9,7 @@ import store from '../store/index';
 
 
 // 让ajax携带cookie
-axios.defaults.withCredentials = true; 
+axios.defaults.withCredentials = true;
 
 // 请求超时
 axios.defaults.timeout = 10000;
@@ -39,17 +39,17 @@ axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded
 //     error => {        
 //         return Promise.error(error);    
 // })
-
-
+// 用户掉线
+let isHoldup = false;
 
 axios.interceptors.request.use(
   config => {
 
-    if(config.url.endsWith('list')){
-      
+    if (config.url.endsWith('list')) {
+
       store.commit('pageStatsModule/changeLoadingStatus')
     }
-    
+
     return config
   },
   error => {
@@ -61,52 +61,61 @@ axios.interceptors.response.use(
   response => {
     // 如果状态码是 200， 说明请求成功了， 可以拿到数据
     // 否则抛出错误
-    
+
     // console.log('interceptors.response',response)
     if (response.status === 200) {
-
-      if(response.config.url.endsWith('list')){
+      // loading 状态
+      if (response.config.url.endsWith('list')) {
         store.commit('pageStatsModule/changeLoadingStatus')
       }
+      // 403 状态
+      if (response.config.url.endsWith('islogin')) {
+        isHoldup = false;
+      }
+
       return Promise.resolve(response);
-    }else{
+    } else {
       return Promise.reject(response);
     }
   },
   error => {
-    console.log('interceptors.error',error)
-    console.log('interceptors.error', error.response && error.response)
-    console.log('interceptors.error', error.response.status && error.response.status)
+    // console.log('interceptors.error', error)
+    // console.log('interceptors.error', error.response && error.response)
+    // console.log('interceptors.error', error.response.status && error.response.status)
 
     if (error.response.status) {
       switch (error.response.status) {
         // 401 未登录
         case 401:
-          console.log('401','拦截了')
-          console.log('401','拦截了',router)
-          router.push({name: 'login'})
+          console.log('401', '拦截了')
+          console.log('401', '拦截了', router)
+          router.push({ name: 'login' })
 
-          console.log('401','拦截了','导向login')
+          console.log('401', '拦截了', '导向login')
           break;
         // 403 登陆过期
         case 403:
           console.log(ElementUI)
-          ElementUI.MessageBox.alert('登录过期，请重新登录', '提示', {
-            confirmButtonText: '确定',
-            callback: (action) => {
-              console.log(action)
-              // 清除token
-              // ...todo
+          if (!isHoldup) {
+            isHoldup = true;
+            ElementUI.MessageBox.alert('登录过期，请重新登录', '提示', {
+              confirmButtonText: '确定',
+              callback: (action) => {
+                console.log('确定之后', action)
+                // 清除token
+                // ...todo
+                
+                // 跳转
+                router.replace({
+                  path: '/login',
+                  query: {
+                    redirect: router.currentRoute.fullPath
+                  }
+                })
+              }
+            });
+          }
 
-              // 跳转
-              router.replace({
-                path: '/login',
-                query: {
-                  redirect: router.currentRoute.fullPath
-                }
-              })
-            }
-          });
           break;
         // 错误
         case 404:
@@ -203,19 +212,19 @@ export function http_post(config) {
   // console.log(config.params)
   const _data = config.params;
   if (config.format) {
-    return new Promise((resolve,reject) => {
+    return new Promise((resolve, reject) => {
       axios.post(config.api, qs.stringify(_data, { headers: { 'Content-Type': 'application/x-www-form-urlencoded' } }))
-      .then((res) => {
-        resolve(res);
-      }).catch((err)=>{
-        reject(err)
-      })
+        .then((res) => {
+          resolve(res);
+        }).catch((err) => {
+          reject(err)
+        })
     });
   } else {
     return new Promise((resolve, reject) => {
       axios.post(config.api, _data).then((res) => {
         resolve(res);
-      }).catch((err)=>{
+      }).catch((err) => {
         reject(err)
       });
     });
@@ -228,14 +237,14 @@ export function http_get(config) {
   if (config.params) {
     _data = config.params;
   }
-  return new Promise((resolve,reject)=>{
+  return new Promise((resolve, reject) => {
     axios.get(config.api, _data)
-    .then((res)=>{
-      resolve(res)
-    })
-    .catch((err)=>{
-      reject(err)
-    })
+      .then((res) => {
+        resolve(res)
+      })
+      .catch((err) => {
+        reject(err)
+      })
   })
   // console.log(config)
   // return new Promise((resolve) => {

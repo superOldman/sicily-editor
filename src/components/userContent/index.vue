@@ -56,19 +56,23 @@ export default {
 
 <style  scoped >
 .el-dropdown {
-  height: 60px;
-  line-height: 80px;
+  height: 70px;
+  line-height: 70px;
   overflow: hidden;
 }
 .el-dropdown-link {
   cursor: pointer;
-  color: #409eff;
+  color: #fff;
 }
 .el-icon-arrow-down {
   font-size: 12px;
 }
+.userDetails{
+  display: flex;
+  align-items: center;
+
+}
 .userDetails > li {
-  float: left;
   margin-right: 5px;
 }
 .imgBorder {
@@ -76,7 +80,6 @@ export default {
   height: 40px;
   border-radius: 50%;
   overflow: hidden;
-  margin-top: 10px;
   font-size: 0px;
 }
 .imgBorder > img {

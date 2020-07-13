@@ -28,7 +28,7 @@ const MODULES_INFO = [
   },
   {
     name: '用户详情',
-    icon: 'el-icon-folder-add',
+    icon: 'el-icon-user-solid',
     router: 'userDetails',
     navShow: false
   },

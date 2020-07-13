@@ -14,7 +14,7 @@ import { mapGetters } from "vuex";
 export default {
   name: "layout",
   data: function() {
-    return {
+    return {    
       MODULES_INFO,
       pageMessageIcon: MODULES_INFO[0].icon,
       pageMessage: MODULES_INFO[0].name,
@@ -47,11 +47,11 @@ export default {
   //     }
   //   }
   // },
-  created() {},
+  created() {this.renderTime();},
   mounted() {
     // console.log(MODULES_INFO)
     this.isLogin();
-    this.renderTime();
+    
     this.bg_animate();
   },
   beforeDestroy() {
@@ -78,8 +78,9 @@ export default {
       }
     },
     renderTime() {
+      this.getMyTime();
       this.timerId = setInterval(()=>{
-        this.getMyTime()
+        this.getMyTime();
       },1000)
     },
     selectHandle(item) {
@@ -132,6 +133,9 @@ export default {
               <i class="el-icon-time"></i>
               {{date_hour_min_sec}}
             </div>
+            <div>
+              Lv.1
+            </div>
           </div>
         </el-col>
         <el-col :span="8">
@@ -167,7 +171,7 @@ export default {
             <el-row>
               <el-col :span="4">
                 <div class="main_top_text">
-                  <i class="el-icon-s-platform"></i>BACKSTAGE MANAGEMENT
+                  <i class="el-icon-s-platform"></i>博客状态管理 V 1.0
                 </div>
               </el-col>
               <el-col :span="16">
@@ -186,6 +190,11 @@ export default {
             <el-col :span="4">
               <i :class="MODULES_INFO.find(a => a.router === $route.name).icon"></i>
               {{MODULES_INFO.find(a => a.router === $route.name).name}}
+            </el-col>
+            <el-col :span="16">
+              <p class="motto">
+                发大发发发发的发大发发发发的发大发发发发的发大发发发发的发大发发发发的
+              </p>
             </el-col>
           </el-row>
         </div>
@@ -366,7 +375,9 @@ export default {
   border-bottom: 1px solid #ddd;
   color: #9ea7b3;
 }
-
+.motto{
+  text-align: center;
+}
 .slot {
   background-color: #fff;
   padding: 20px;
