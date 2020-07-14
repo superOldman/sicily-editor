@@ -1,0 +1,95 @@
+.createFolderWarp {
+  width: 98%;
+  position: relative;
+  margin: 30px auto 0;
+  .listTop {
+    background-color: #fff;
+    border-bottom: 1px solid #000;
+    height: 50px;
+    line-height: 50px;
+    font-size: 18px;
+    .listTop_left {
+      height: 50px;
+      .saveButton {
+        position: absolute;
+        top: -25px;
+        left: 25px;
+        background-color: deeppink;
+        width: 50px;
+        height: 50px;
+        color: cornsilk;
+        line-height: 50px;
+        text-align: center;
+        font-size: 24px;
+        box-shadow: rgba(0, 0, 0, 0.5) 0px 1px 10px -8px;
+      }
+      .pageTitle {
+        /* display: inline-block; */
+        float: left;
+        margin-left: 100px;
+      }
+
+    }
+    .btns {
+      width: 100%;
+      font-size: 16px;
+      color: #ccc;
+      display: inline-flex;
+      align-items: center;
+      li {
+        display: inline-block;
+        margin: 0 20px;
+        cursor: pointer;
+        &:hover {
+          color: coral;
+        }
+        i {
+          font-size: 28px;
+          position: relative;
+          top: 4px;
+          margin-right: 5px;
+        }
+      }
+    }
+  }
+
+  .el-pagination {
+    text-align: right;
+    padding: 4px 20px;
+    .myDialogBody {
+      padding-right: 20px;
+      .avatar-uploader {
+        font-size: 0;
+        .imageWarp {
+          width: 178px;
+          height: 178px;
+
+          border: 1px dashed #d9d9d9;
+          border-radius: 6px;
+          cursor: pointer;
+          position: relative;
+          overflow: hidden;
+          transition: all 0.5s;
+          &:hover {
+            border-color: #409eff;
+          }
+          .avatar-uploader-icon {
+            font-size: 28px;
+            color: #8c939d;
+            width: 178px;
+            height: 178px;
+            line-height: 178px;
+            text-align: center;
+          }
+          .avatar {
+            width: 178px;
+            height: 178px;
+            display: block;
+          }
+        }
+      }
+    }
+  }
+}
+
+

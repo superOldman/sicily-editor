@@ -2,9 +2,13 @@
 
 
 export default {
-
-    refushUserFun: function (context) {
-        context.commit('refushUser')
-    }
-
+	refushUserFun(context) {
+		context.commit('refushUser')
+	},
+	refushUserPhotoFun(context, val) {
+		context.commit('refushUserPhoto', val)
+	},
+	refushUserMottoFun(context, val) {
+		context.commit('refushUserMotto', val)
+	}
 }

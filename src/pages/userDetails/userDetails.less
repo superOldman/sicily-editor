@@ -1,0 +1,185 @@
+.detailwarp {
+	text-align: left;
+	.top {
+		.topHead {
+			height: 84px;
+			background-image: url("~@/assets/images/userTopbg.webp");
+			background-position: 50%;
+			background-size: cover;
+			transition: background-image 0.2s ease, background-size 1s ease;
+			padding-top: 116px;
+			position: relative;
+			.avatar-uploader {
+				font-size: 0;
+				.el-upload {
+					border: 2px solid rgba(255, 255, 255, 0.5);
+					border-radius: 50%;
+					cursor: pointer;
+					position: relative;
+					overflow: hidden;
+					transition: all 0.5s;
+					width: 68px;
+					height: 68px;
+					&:hover {
+						border-color: #409eff;
+					}
+					&:hover .after {
+						opacity: 1;
+					}
+					.after {
+						width: 100%;
+						height: 100%;
+						position: absolute;
+						top: 0;
+						left: 0;
+						background-color: rgba(0, 0, 0, 0.6);
+						color: #fff;
+						font-size: 14px;
+						line-height: 68px;
+						text-align: center;
+						transition: all 0.5s;
+						opacity: 0;
+					}
+					.avatar-uploader-icon {
+						font-size: 28px;
+						color: #8c939d;
+						width: 68px;
+						height: 68px;
+						line-height: 68px;
+						text-align: center;
+					}
+					.avatar {
+						width: 68px;
+						height: 68px;
+						display: block;
+					}
+				}
+			}
+			.nameAndpush {
+				margin-left: 30px;
+				.userName {
+					line-height: 50px;
+					color: #fff;
+					height: 50px;
+					font-size: 24px;
+					font-weight: bold;
+				}
+				#h-sign {
+					box-shadow: none;
+					color: rgb(214, 222, 228);
+					font-size: 12px;
+					font-family: "Microsoft Yahei";
+					line-height: 26px;
+					height: 26px;
+					margin-left: -5px;
+					position: relative;
+					top: -1px;
+					width: 730px;
+					background: transparent;
+					border-radius: 4px;
+					border-width: initial;
+					border-style: none;
+					border-color: initial;
+					border-image: initial;
+					padding: 0px 5px;
+					&:hover {
+						box-shadow: rgba(255, 255, 255, 0.5) 0px 0px 0px 1px;
+						background: rgba(255, 255, 255, 0.2);
+					}
+					&:focus {
+						box-shadow: rgba(35, 54, 86, 0.3) 0px 2px 4px inset;
+						color: rgb(109, 117, 122);
+						background: rgb(255, 255, 255);
+					}
+
+					input.el-input__inner {
+						line-height: 28px;
+						height: 28px;
+						vertical-align: top;
+						padding: 0px 10px;
+						transition: all 0.3s ease 0s;
+						border-width: 1px;
+						border-style: solid;
+						border-color: rgb(204, 208, 215);
+						border-image: initial;
+						border-radius: 0px;
+					}
+				}
+
+			}
+
+
+		}
+
+		.topFoot {
+			height: 60px;
+			line-height: 30px;
+			font-size: 14px;
+
+			.topFoot_first {
+				text-align: center;
+			}
+
+			.topFoot_title {
+				color: dimgray;
+			}
+
+			.topFoot_sum {
+				color: #8c939d;
+			}
+
+		}
+
+	}
+	.contentSetting {
+		border-top: 1px solid #e5e9ef;
+		width: 1000px;
+		margin: 100px auto 0;
+		text-align: center;
+		font-size: 16px;
+		.settingGrid {
+			border-bottom: 1px solid #e5e9ef;
+			transition: 0.5s all;
+			i {
+				color: #48bd86;
+				margin-right: 15px;
+			}
+			.settingGridSetheight {
+				height: 60px;
+				line-height: 60px;
+				.setting_mid {
+					color: #6d757a;
+					font-size: 14px;
+				}
+			}
+			.form_message {
+				padding-top: 20px;
+				padding-left: 100px;
+				width: 50%;
+				.form_message_text {
+					font-size: 24px;
+					margin: 20px 0;
+					text-align: left;
+				}
+			}
+		}
+	}
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

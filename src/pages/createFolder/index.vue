@@ -262,7 +262,62 @@ export default {
 </script>
 <template>
   <layout>
-    <myDialog
+    <div class="massive_css createFolderWarp">
+      <el-row class="listTop">
+        <el-col :span="6">
+          <div class="listTop_left">
+            <div class="saveButton">
+              <i class="el-icon-upload"></i>
+            </div>
+            <div class="pageTitle">Folder</div>
+          </div>
+        </el-col>
+        <el-col :span="4" :offset="14">
+          <ul class="btns">
+            <li @click="showDialog">
+              <i class="el-icon-folder-add"></i>新建文件夹
+            </li>
+            <li></li>
+          </ul>
+        </el-col>
+      </el-row>
+      <el-table :data="listData" style="width: 98%; margin: 0 auto;">
+        <el-table-column label="名称" prop="folderName" width="100"></el-table-column>
+        <el-table-column label="背景" width="100">
+          <template slot-scope="scope">
+            <img
+              :src="scope.row.cover || 'http://img0.imgtn.bdimg.com/it/u=1003180970,3716906246&fm=26&gp=0.jpg'"
+              width="80"
+              height="80"
+              class="head_pic"
+            />
+          </template>
+        </el-table-column>
+        <el-table-column label="创建日期" prop="updated_at" width="180"></el-table-column>
+        <el-table-column label="简介" prop="info" width></el-table-column>
+        <el-table-column label="包含文章" width>
+          <template slot-scope="scope">
+            <el-tag v-for="(item,key) in scope.row.folderHasPaper" :key="key">{{item.title}}</el-tag>
+          </template>
+        </el-table-column>
+        <el-table-column label="编辑" width="280">
+          <template slot-scope="scope">
+            <el-button size="mini" @click="pushPaperBtn(scope.$index, scope.row)">加文章</el-button>
+            <el-button size="mini" @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
+            <el-button size="mini" type="danger" @click="handleDelete(scope.$index, scope.row)">删除</el-button>
+          </template>
+        </el-table-column>
+      </el-table>
+
+      <el-pagination
+        v-if="listData.length"
+        :current-page="currentPage"
+        :page-size="10"
+        layout="total, prev, pager, next  "
+        :total="listData.length"
+      ></el-pagination>
+
+          <myDialog
       v-if="dialogVisible"
       :dialogVisible="dialogVisible"
       :dialogTitle="dialogTitle"
@@ -289,7 +344,7 @@ export default {
               :on-success="handleAvatarSuccess"
               :before-upload="beforeAvatarUpload"
             >
-              <div class="el-upload">
+              <div class="imageWarp">
                 <img v-if="ruleForm.cover" :src="ruleForm.cover" class="avatar" />
                 <i v-else class="el-icon-plus avatar-uploader-icon"></i>
               </div>
@@ -345,164 +400,11 @@ export default {
       </div>
     </myDialog>
 
-    <div class="massive_css massive_style">
-      <el-row class="listTop">
-        <el-col :span="6">
-          <div class="listTop_left">
-            <div class="saveButton">
-              <i class="el-icon-upload"></i>
-            </div>
-            <div class="pageTitle">Folder</div>
-          </div>
-        </el-col>
-        <el-col :span="4" :offset="14">
-          <ul class="btns">
-            <li @click="showDialog">
-              <i class="el-icon-folder-add"></i>新建文件夹
-            </li>
-            <li></li>
-          </ul>
-        </el-col>
-      </el-row>
-      <el-table :data="listData" style="width: 98%; margin: 0 auto;">
-        <el-table-column label="名称" prop="folderName" width="100"></el-table-column>
-        <el-table-column label="背景" width="100">
-          <template slot-scope="scope">
-            <img
-              :src="scope.row.cover || 'http://img0.imgtn.bdimg.com/it/u=1003180970,3716906246&fm=26&gp=0.jpg'"
-              width="80"
-              height="80"
-              class="head_pic"
-            />
-          </template>
-        </el-table-column>
-        <el-table-column label="创建日期" prop="updated_at" width="180"></el-table-column>
-        <el-table-column label="简介" prop="info" width></el-table-column>
-        <el-table-column label="包含文章" width>
-          <template slot-scope="scope">
-            <el-tag v-for="(item,key) in scope.row.folderHasPaper" :key="key">{{item.title}}</el-tag>
-          </template>
-        </el-table-column>
-        <el-table-column label="编辑" width="280">
-          <template slot-scope="scope">
-            <el-button size="mini" @click="pushPaperBtn(scope.$index, scope.row)">加文章</el-button>
-            <el-button size="mini" @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
-            <el-button size="mini" type="danger" @click="handleDelete(scope.$index, scope.row)">删除</el-button>
-          </template>
-        </el-table-column>
-      </el-table>
-
-      <el-pagination
-        v-if="listData.length"
-        :current-page="currentPage"
-        :page-size="10"
-        layout="total, prev, pager, next  "
-        :total="listData.length"
-      ></el-pagination>
     </div>
   </layout>
 </template>
 
 
-<style scoped>
-.massive_style {
-  width: 98%;
-  /* height: 100%; */
-  /* box-shadow: rgba(0, 0, 0, 0.5) 0px 1px 20px -8px; */
-  position: relative;
-  /* overflow: hidden; */
-  margin: 30px auto 0;
-}
-.listTop {
-  background-color: #fff;
-  border-bottom: 1px solid #000;
-  height: 50px;
-  line-height: 50px;
-  font-size: 18px;
-}
-.listTop_left {
-  height: 50px;
-}
-.pageTitle {
-  /* display: inline-block; */
-  float: left;
-  margin-left: 100px;
-}
-.saveButton {
-  position: absolute;
-  top: -25px;
-  left: 25px;
-  background-color: deeppink;
-  width: 50px;
-  height: 50px;
-  color: cornsilk;
-  line-height: 50px;
-  text-align: center;
-  font-size: 24px;
-  box-shadow: rgba(0, 0, 0, 0.5) 0px 1px 10px -8px;
-}
-
-.btns {
-  width: 100%;
-  /* height: 100px; */
-  font-size: 16px;
-  color: #ccc;
-
-  display: inline-flex;
-  align-items: center;
-}
-.btns li {
-  display: inline-block;
-  margin: 0 20px;
-}
-.btns li i {
-  font-size: 28px;
-  position: relative;
-  top: 4px;
-  margin-right: 5px;
-}
-.btns li:hover {
-  cursor: pointer;
-}
-.btns li:hover {
-  color: coral;
-}
-
-.el-pagination {
-  text-align: right;
-  padding: 4px 20px;
-}
-
-.myDialogBody {
-  padding-right: 20px;
-}
-
-.avatar-uploader {
-  font-size: 0;
-}
-
-.avatar-uploader .el-upload {
-  border: 1px dashed #d9d9d9;
-  border-radius: 6px;
-  cursor: pointer;
-  position: relative;
-  overflow: hidden;
-  transition: all 0.5s;
-}
-.avatar-uploader .el-upload:hover {
-  border-color: #409eff;
-}
-.avatar-uploader-icon {
-  font-size: 28px;
-  color: #8c939d;
-  width: 178px;
-  height: 178px;
-  line-height: 178px;
-  text-align: center;
-}
-.avatar {
-  width: 178px;
-  height: 178px;
-  display: block;
-}
+<style lang="less" scoped>
+@import "./createFolder.less";
 </style>

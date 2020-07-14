@@ -5,13 +5,14 @@ import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
 import store from './store'
 import layout from './components/layout/index'
+import less from 'less'
 
 
 
 Vue.component('layout',layout);
 
 Vue.use(ElementUI)
-
+Vue.use(less)
 
 Vue.config.productionTip = false
 

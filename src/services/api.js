@@ -139,12 +139,17 @@ class SkmService {
     return result.data;
   }
 
+  async uploadUserMotto(params) {
+    const result = await http_post({ api: baseAddress + '/users/uploadUserMotto', params });
+    return result.data;
+  }
+
   async writeOff(params) {
     const result = await http_post({ api: baseAddress + '/users/writeOff', params });
     return result.data;
   }
 
-
+  
 
 
 }

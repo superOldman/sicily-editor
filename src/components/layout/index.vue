@@ -193,7 +193,7 @@ export default {
             </el-col>
             <el-col :span="16">
               <p class="motto">
-                发大发发发发的发大发发发发的发大发发发发的发大发发发发的发大发发发发的
+                {{(getUserInfo || {}).motto}}
               </p>
             </el-col>
           </el-row>

@@ -95,9 +95,13 @@ axios.interceptors.response.use(
           break;
         // 403 登陆过期
         case 403:
-          console.log(ElementUI)
+          // console.log(ElementUI)
+          // if (!window.location.href.includes('login')) {
+          //   isHoldup = false;
+          // }
           if (!isHoldup) {
             isHoldup = true;
+
             ElementUI.MessageBox.alert('登录过期，请重新登录', '提示', {
               confirmButtonText: '确定',
               callback: (action) => {

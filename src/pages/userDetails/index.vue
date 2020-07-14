@@ -68,31 +68,29 @@ export default {
       ruleForm2: {
         delete: ""
       },
-      uploadAddress: address + '/users/uploadUserPhoto',
+      uploadAddress: address + "/users/uploadUserPhoto",
+      motto: ""
     };
   },
   computed: {
-    ...mapGetters("userMessageModule", ["getUserInfo"]),
-    // ...mapActions("userMessageModule",['refushUserFun'])
+    ...mapGetters("userMessageModule", ["getUserInfo"])
   },
   created() {},
   watch: {
-    // "$store.state.userDetails.userDetails": {
-    //   handler(val) {
-    //     console.log(12121, val);
-    //     this.userMessage = val;
-    //   },
-    //   deep: true
-    // }
+    "$store.state.userMessageModule.userDetails.motto": {
+      handler(val) {
+         this.motto = val;
+      }
+    }
   },
-  mounted() {},
+  mounted() {
+    this.motto = this.getUserInfo.motto;
+  },
   methods: {
     handleAvatarSuccess(res, file) {
       console.log("上传回调");
-      console.log(arguments);
-      // this.userMessage.imageUrl = ;
-       this.$store.commit("userMessageModule/refushUserPhoto", URL.createObjectURL(file.raw));
-      // getUserInfo
+      console.log(res, file);
+      this.$store.dispatch("userMessageModule/refushUserPhotoFun", URL.createObjectURL(file.raw))
     },
     beforeAvatarUpload(file) {
       const isJPG = file.type; //=== ('image/jpeg' || 'image/png' || 'image/jpg');
@@ -118,17 +116,12 @@ export default {
     deleteUser(formName) {
       this.$refs[formName].validate(valid => {
         if (valid) {
-          console.log("删除用户");
-
           this.$confirm(`确定删除该用户？`)
             .then(() => {
-              //  console.log("确定删除用户");
-               this.$store.commit("userMessageModule/clearUser");
-               SkmService.writeOff({ username: this.ruleForm2.delete });
-             
+              this.$store.commit("userMessageModule/clearUser");
+              SkmService.writeOff({ username: this.ruleForm2.delete });
             })
             .catch(() => {});
-         
         }
       });
     },
@@ -143,6 +136,16 @@ export default {
         SkmService.islogin();
       } else {
         this.$alert(result.message, "错误", { confirmButtonText: "确定" });
+      }
+    },
+    async upDateMotto() {
+      if(this.motto !== this.getUserInfo.motto){
+        const result = await SkmService.uploadUserMotto({ motto: this.motto });
+        if (result.code === 1) {
+          this.$alert("告警", result.message);
+          return 
+        }
+        this.$store.dispatch("userMessageModule/refushUserMottoFun",this.motto)
       }
     }
   }
@@ -160,7 +163,6 @@ export default {
                 class="avatar-uploader"
                 :action="uploadAddress"
                 :with-credentials="true"
-                
                 :show-file-list="false"
                 :on-success="handleAvatarSuccess"
                 :before-upload="beforeAvatarUpload"
@@ -174,13 +176,15 @@ export default {
             </el-col>
             <el-col :span="8" class="nameAndpush">
               <div class="userName">{{(getUserInfo || {}).userName }}</div>
-              <input
+              <el-input
                 id="h-sign"
                 type="text"
                 placeholder="编辑个性签名"
                 maxlength="60"
                 class="space_input"
-              />
+                v-model="motto"
+                @blur="upDateMotto"
+              ></el-input>
               <!-- <div class="userPushPaperNum">发表文章：1</div> -->
             </el-col>
           </el-row>
@@ -287,189 +291,8 @@ export default {
   </layout>
 </template>
 
-<style  scoped >
-.detailwarp {
-  text-align: left;
-}
-.topHead {
-  height: 84px;
-  background-image: url("~@/assets/images/userTopbg.webp");
-  background-position: 50%;
-  background-size: cover;
-  transition: background-image 0.2s ease, background-size 1s ease;
-  padding-top: 116px;
-  position: relative;
-}
-#h-sign {
-  box-shadow: none;
-  color: rgb(214, 222, 228);
-  font-size: 12px;
-  font-family: "Microsoft Yahei";
-  line-height: 26px;
-  height: 26px;
-  margin-left: -5px;
-  position: relative;
-  top: -1px;
-  width: 730px;
-  background: transparent;
-  border-radius: 4px;
-  border-width: initial;
-  border-style: none;
-  border-color: initial;
-  border-image: initial;
-  padding: 0px 5px;
-}
-#h-sign:hover {
-  box-shadow: rgba(255, 255, 255, 0.5) 0px 0px 0px 1px;
-  background: rgba(255, 255, 255, 0.2);
-}
-
-#h-sign:focus {
-  box-shadow: rgba(35, 54, 86, 0.3) 0px 2px 4px inset;
-  color: rgb(109, 117, 122);
-  background: rgb(255, 255, 255);
-}
-.space_input {
-  line-height: 28px;
-  height: 28px;
-  vertical-align: top;
-  padding: 0px 10px;
-  transition: all 0.3s ease 0s;
-  border-width: 1px;
-  border-style: solid;
-  border-color: rgb(204, 208, 215);
-  border-image: initial;
-  border-radius: 0px;
-}
-
-.topFoot {
-  height: 60px;
-  line-height: 30px;
-  font-size: 14px;
-}
-.topFoot_first {
-  text-align: center;
-}
-.topFoot_title {
-  color: dimgray;
-}
-
-.topFoot_sum {
-  color: #8c939d;
-}
-.avatar-uploader {
-  font-size: 0;
-  /* width: 68px;
-  height: 68px;
-  margin-top: 10px; */
-}
-.avatar-uploader .el-upload {
-  border: 2px solid rgba(255, 255, 255, 0.5);
-  border-radius: 50%;
-  cursor: pointer;
-  position: relative;
-  overflow: hidden;
-  transition: all 0.5s;
-  width: 68px;
-  height: 68px;
-}
-.avatar-uploader .el-upload .after {
-  width: 100%;
-  height: 100%;
-  position: absolute;
-  top: 0;
-  left: 0;
-  background-color: rgba(0, 0, 0, 0.6);
-  color: #fff;
-  font-size: 14px;
-  line-height: 68px;
-  text-align: center;
-  transition: all 0.5s;
-  opacity: 0;
-}
-
-.avatar-uploader .el-upload:hover {
-  border-color: #409eff;
-}
-
-.avatar-uploader .el-upload:hover .after {
-  opacity: 1;
-}
-
-.avatar-uploader-icon {
-  font-size: 28px;
-  color: #8c939d;
-  width: 68px;
-  height: 68px;
-  line-height: 68px;
-  text-align: center;
-}
-.avatar {
-  width: 68px;
-  height: 68px;
-  display: block;
-}
-
-.top .nameAndpush {
-  margin-left: 30px;
-}
-
-.top .nameAndpush .userName {
-  line-height: 50px;
-  color: #fff;
-  height: 50px;
-  font-size: 24px;
-  font-weight: bold;
-}
-
-.top .nameAndpush .userPushPaperNum {
-  line-height: 26px;
-  color: #fff;
-  height: 26px;
-  font-size: 14px;
-  /* font-weight: bold; */
-}
-
-.contentSetting {
-  border-top: 1px solid #e5e9ef;
-
-  width: 1000px;
-  margin: 100px auto 0;
-  text-align: center;
-  font-size: 16px;
-}
-
-.settingGrid {
-  border-bottom: 1px solid #e5e9ef;
-  transition: 0.5s all;
-}
-
-.settingGridSetheight {
-  height: 60px;
-  line-height: 60px;
-}
-.settingGrid i {
-  color: #48bd86;
-  /* font-size: 24px;
-  line-height: 60px; */
-  margin-right: 15px;
-}
-
-.settingGrid .setting_mid {
-  color: #6d757a;
-  font-size: 14px;
-}
-
-.form_message {
-  padding-top: 20px;
-  padding-left: 100px;
-  width: 50%;
-}
-.form_message_text {
-  font-size: 24px;
-  margin: 20px 0;
-  text-align: left;
-}
+<style lang="less">
+@import "./userDetails.less";
 </style>
 
 
