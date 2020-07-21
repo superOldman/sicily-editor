@@ -3,7 +3,7 @@ import Router from 'vue-router'
 
 import home from '../pages/home/index.vue'
 import login from '../pages/login/index.vue'
-import editor from '../pages/editor/index.vue'
+import editor from '../pages/editor/indexZY.vue'
 import userDetails from '../pages/userDetails/index.vue'
 import articleList from '../pages/articleList/index.vue'
 
