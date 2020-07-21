@@ -53,7 +53,7 @@ export default {
           login_btn: document.querySelector(".login-btn"),
           register_link: document.querySelector(".register-link"),
           password_group: document.querySelector(".password-group"),
-          password_group_height: 0,
+          password_group_height: 69,
           lowin_register: document.querySelector(".lowin-register"),
           lowin_footer: document.querySelector(".lowin-footer"),
           box: document.getElementsByClassName("lowin-box"),
@@ -98,7 +98,7 @@ export default {
           Auth.vars.login_back_link.style.display = "block";
           setTimeout(() => {
             Auth.vars.login_back_link.style.opacity = 1;
-            Auth.vars.password_group.style.height = 0;
+            Auth.vars.password_group.style.height = 60;
             Auth.vars.password_group.style.margin = 0;
           }, 100);
           Auth.vars.login_btn.innerText = "Forgot Password";
@@ -111,9 +111,12 @@ export default {
           e.preventDefault();
         },
         loginback(e) {
+
           Auth.vars.password_group.classList.remove("lowin-animated");
           Auth.vars.password_group.classList += " lowin-animated-back";
           Auth.vars.password_group.style.display = "block";
+
+          console.log('heihgt',Auth.vars.password_group_height)
           setTimeout(() => {
             Auth.vars.login_back_link.style.opacity = 0;
             Auth.vars.password_group.style.height =
@@ -144,12 +147,12 @@ export default {
           Auth.setHeight(
             Auth.vars.box[0].offsetHeight + Auth.vars.lowin_footer.offsetHeight
           );
-          Auth.vars.password_group.style.height =
-            Auth.vars.password_group.offsetHeight + "px";
-          Auth.vars.password_group_height =
-            Auth.vars.password_group.offsetHeight;
-          Auth.vars.lowin_wrapper_height = Auth.vars.lowin_wrapper.offsetHeight;
-          Auth.vars.option = option;
+          // Auth.vars.password_group.style.height =
+          //   Auth.vars.password_group.offsetHeight + "px";
+          // Auth.vars.password_group_height =
+          //   Auth.vars.password_group.offsetHeight + 'px';
+          // Auth.vars.lowin_wrapper_height = Auth.vars.lowin_wrapper.offsetHeight;
+          // Auth.vars.option = option;
           Auth.vars.lowin_login
             .querySelector("form")
             .setAttribute("action", option.login_url);
