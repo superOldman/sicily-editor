@@ -9,7 +9,6 @@ import setTags from "../../components/setTags/setTags.vue";
 import SkmService from "../../services/api";
 import address from "../../constant/address";
 import { mapGetters } from "vuex";
-
 export default {
   data() {
     return {
@@ -23,10 +22,11 @@ export default {
       },
       options: {
         title: "",
-        author: '', //this.$store.state.getUserInfo(),
+        author: "", //this.$store.state.getUserInfo(),
         info: "",
         content: null,
         markdown: null,
+        imageUploadURL: address + "/editor/uploadImg",
         saveImageUrl: "",
         hasTags: [],
         hasFolder: ""
@@ -205,16 +205,16 @@ export default {
           </el-upload>
         </el-col>
       </el-row>
-      <el-divider>
+      <!-- <el-divider>
         <i class="el-icon-mobile-phone"></i>
-      </el-divider>
+      </el-divider>-->
       <setTags :hasInput="true" :hasTags="options.hasTags" @addTag="addTags" @removeTag="removeTag"></setTags>
-      <el-divider>
+      <!-- <el-divider>
         <i class="el-icon-mobile-phone"></i>
-      </el-divider>
+      </el-divider>-->
       <!-- <setFolder  :folderName="options.hasFolder" @addFolder="addFolder"></setFolder> -->
 
-      <el-dropdown v-if="folderListShow" split-button type="primary">
+      <el-dropdown class="setFolder" v-if="folderListShow" split-button type="primary">
         {{showFolderName}}
         <el-dropdown-menu slot="dropdown">
           <el-dropdown-item
@@ -225,18 +225,12 @@ export default {
         </el-dropdown-menu>
       </el-dropdown>
 
-      <!-- <el-button v-if="!folderListShow && folderList.length === 0" @click="createFolder">创建文件夹</el-button> -->
-
-      <el-divider>
-        <i class="el-icon-mobile-phone"></i>
-      </el-divider>
-
       <tw-markdown-view
         v-if="isShowEditor"
-        :config="{ markdown: options.markdown  }"
+        :config="{ markdown: options.markdown, imageUploadURL: options.imageUploadURL}"
         @onchange="onchange"
       ></tw-markdown-view>
-      </div>
+    </div>
   </layout>
 </template>
 
@@ -289,7 +283,9 @@ export default {
   line-height: 178px;
   text-align: center;
 }
-
+.setFolder {
+  margin-bottom: 20px;
+}
 /* 卡片样式 
 .cWrcMb {
     margin-bottom: 20px;
