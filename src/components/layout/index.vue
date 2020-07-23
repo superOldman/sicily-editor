@@ -159,7 +159,7 @@ export default {
             :index="item.name"
             :route="{name: item.router}"
           >
-            <i :class="item.icon"></i>
+            <i :class="item.icon" class="icon_color"></i>
             {{item.name}}
           </el-menu-item>
         </el-menu>
@@ -392,7 +392,9 @@ body > .el-container {
   background: url("../../assets/images/bg_city.png") center top / cover no-repeat
     fixed;
 }
-
+.icon_color{
+  color: #fff;
+}
 @-webkit-keyframes move {
   0% {
     background-position: 0 0;

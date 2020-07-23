@@ -26,8 +26,8 @@ export default {
         info: "",
         content: null,
         markdown: null,
-        imageUploadURL: address + "/editor/uploadImg",
         saveImageUrl: "",
+        paperUseImg: [],
         hasTags: [],
         hasFolder: ""
         // config: {
@@ -40,7 +40,9 @@ export default {
       createfolderShow: false,
       folderList: [],
       showFolderName: "选择文件夹",
-      uploadAddress: address + "/editor/uploadImg"
+      uploadAddress: address + "/editor/uploadImg",
+
+      flag: true
     };
   },
   components: {
@@ -53,9 +55,6 @@ export default {
   created() {
     this.getArticleById();
     this.getFolderList();
-
-    console.log(this.$store.state);
-    // return this.$store.state.getUserInfo()
   },
   mounted() {},
   methods: {
@@ -98,19 +97,48 @@ export default {
     },
     async againEditor() {
       this.options.author = this.getUserInfo.userName;
+      const imgReg = /<img.*?src="(.*?)".*?\/?>/gi;
+      const srcReg = /src=[\'\"]?([^\'\"]*)[\'\"]?/i;
+      const arr = this.options.content.match(imgReg);
+
+      arr && arr.forEach(img => {
+        const src = img.match(srcReg)[1];
+        if (src.startsWith(address)) {
+          this.options.paperUseImg.push(src);
+        }
+      });
+
       const result = await SkmService.saveEditorHtml(this.options);
 
       this.$confirm(result.message)
-        .then(confirm => {
+        .then( async confirm => {
           if (confirm) {
-            // this.$router.push({ name: 'editor' });
-            this.$router.go(0);
+            // this.$router.go(0);
+            // this.$forceUpdate();
+            this.$router.push({ name: 'editor' });
+            // 还是不行的话  或者这样 在你整个组件上面加个v-if标识 创建一个变量flag  点保存的时候先this.flag = false  然后await this.$nextTick()  然后this.flag = true
+
+            this.flag = false;
+            await this.$nextTick();
+            this.flag = true;
           }
         })
         .catch(() => {});
     },
     async newEditor() {
       this.options.author = this.getUserInfo.userName;
+
+      const imgReg = /<img.*?src="(.*?)".*?\/?>/gi;
+      const srcReg = /src=[\'\"]?([^\'\"]*)[\'\"]?/i;
+      const arr = this.options.content.match(imgReg);
+
+      arr && arr.forEach(img => {
+        const src = img.match(srcReg)[1];
+        if (src.startsWith(address)) {
+          this.options.paperUseImg.push(src);
+        }
+      });
+
       const result = await SkmService.saveHtml(this.options);
 
       this.$confirm(result.message)
@@ -159,7 +187,7 @@ export default {
 
 <template>
   <layout class="editorWarp">
-    <div class="content">
+    <div class="content" v-if="flag">
       <el-row :gutter="20">
         <el-col :span="10">
           <div class="form_message">
@@ -227,7 +255,7 @@ export default {
 
       <tw-markdown-view
         v-if="isShowEditor"
-        :config="{ markdown: options.markdown, imageUploadURL: options.imageUploadURL}"
+        :config="{ markdown: options.markdown, imageUploadURL: uploadAddress }"
         @onchange="onchange"
       ></tw-markdown-view>
     </div>

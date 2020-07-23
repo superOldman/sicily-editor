@@ -150,6 +150,15 @@ class SkmService {
   }
 
   
+  // 图片列表
+  async imageList(params) {
+    const result = await http_get({ api: baseAddress + '/picture/imageList', params: { params } });
+    return result.data;
+  }
+  async deleteImage(params) {
+    const result = await http_post({ api: baseAddress + '/picture/deleteImage', params });
+    return result.data;
+  }
 
 
 }

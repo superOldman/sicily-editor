@@ -160,12 +160,8 @@ export default {
       const result = await SkmService.resourceStats();
       this.sourceStats = result;
       const estimateCapacity = parseInt(this.estimateCapacity);
-
-      this.sourceSpace = parseInt(this.sourceStats.pictureDetail.size) + parseInt(this.sourceStats.baseDataSize) / 1024 ;
-      this.sourceStatsPercent = ( parseInt(this.sourceStats.pictureDetail.size) + parseInt(this.sourceStats.baseDataSize) / 1024 ) / estimateCapacity;
-
-      
-
+      this.sourceSpace =( result.allSize / 1024 / 1024 ).toFixed(2) + 'mb';
+      this.sourceStatsPercent = Math.max( (result.allSize / 1024 / 1024  / 1024  / estimateCapacity ).toFixed(2), 0.01 );
     },
 
     mbOrgb(size) {
@@ -194,7 +190,7 @@ export default {
     },
 
     // 提交表
-    lastYearPushPaperCount(){
+    lastYearPushPaperCount() {
       let option = {
         visualMap: {
             // show: false,
@@ -264,7 +260,7 @@ export default {
       <div class="homeTopContent" v-if="sourceStatsPercent">
         <div class="massive_css2 statsBlock">
           <h5>总容量</h5>
-          <p class="card_p">资源占有量：{{mbOrgb(sourceSpace)}}</p>
+          <p class="card_p">资源占有量：{{sourceSpace}}</p>
           <p class="card_p">预估容量：20G</p>
           <el-progress class="statsBlock_progress"  :text-inside="true" :stroke-width="18" :percentage="sourceStatsPercent" status="success"></el-progress>
         </div>

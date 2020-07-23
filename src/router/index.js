@@ -3,12 +3,12 @@ import Router from 'vue-router'
 
 import home from '../pages/home/index.vue'
 import login from '../pages/login/index.vue'
-import editor from '../pages/editor/indexZY.vue'
+// import editor from '../pages/editor/indexZY.vue'
+import editor from '../pages/editor/index.vue'
 import userDetails from '../pages/userDetails/index.vue'
 import articleList from '../pages/articleList/index.vue'
-
-
 import createFolder from '../pages/createFolder/index.vue'
+import pictureList from '../pages/pictureList/pictureList.vue'
 
 
 
@@ -57,7 +57,12 @@ export default new Router({
     {
       path: '/createFolder',
       name: 'createFolder',
-      component: createFolder, 
+      component: createFolder,
+    },
+    {
+      path: '/pictureList',
+      name: 'pictureList',
+      component: pictureList,
     },
   ]
 })

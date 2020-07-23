@@ -83,7 +83,7 @@ axios.interceptors.response.use(
     // console.log('interceptors.error', error.response && error.response)
     // console.log('interceptors.error', error.response.status && error.response.status)
 
-    if (error.response.status) {
+    if ( error && error.response && error.response.status) {
       switch (error.response.status) {
         // 401 未登录
         case 401:

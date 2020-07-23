@@ -174,7 +174,7 @@ export default {
       <div class="form_message">
         <el-form label-width="100px" label-position="left" :model="options" :rules="rules" ref="editorForm">
           <el-form-item label="标题" prop="title">
-            <el-input type="text" :placeholder="placeholder.title" v-model="options.title"></el-input>
+            <el-input type="text" label-width="100px" :placeholder="placeholder.title" v-model="options.title"></el-input>
           </el-form-item>
           <el-form-item label="详情" prop="info">
             <el-input type="textarea" :placeholder="placeholder.info" v-model="options.info"></el-input>

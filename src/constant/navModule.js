@@ -27,6 +27,12 @@ const MODULES_INFO = [
     navShow: true
   },
   {
+    name: '图片管理',
+    icon: 'el-icon-picture-outline',
+    router: 'pictureList',
+    navShow: true
+  },
+  {
     name: '用户详情',
     icon: 'el-icon-user-solid',
     router: 'userDetails',
