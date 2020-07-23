@@ -317,7 +317,7 @@ export default {
         :total="listData.length"
       ></el-pagination>
 
-          <myDialog
+    <myDialog
       v-if="dialogVisible"
       :dialogVisible="dialogVisible"
       :dialogTitle="dialogTitle"
@@ -326,6 +326,7 @@ export default {
       @closeMyDialog="closeMydialog"
       @resetForm="resetForm"
       @submitForm="submitForm"
+      class="create-folder-dialog"
     >
       <div class="myDialogBody">
         <el-form
@@ -344,10 +345,8 @@ export default {
               :on-success="handleAvatarSuccess"
               :before-upload="beforeAvatarUpload"
             >
-              <div class="imageWarp">
-                <img v-if="ruleForm.cover" :src="ruleForm.cover" class="avatar" />
-                <i v-else class="el-icon-plus avatar-uploader-icon"></i>
-              </div>
+              <el-image v-if="ruleForm.cover" :src="ruleForm.cover" class="avatar" :fit="'cover'"/>
+              <i v-else class="el-icon-plus avatar-uploader-icon"></i>
             </el-upload>
           </el-form-item>
 
