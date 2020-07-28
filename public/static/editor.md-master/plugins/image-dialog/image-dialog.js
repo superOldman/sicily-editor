@@ -274,9 +274,7 @@
               success: function(data, status, xhr) {
                 loading(false);
                 if (data.success === 1) {
-                  dialog
-                    .find('[data-url]')
-                    .val(address + data.pic.path);
+                  dialog.find('[data-url]').val(address + data.file.path);
                 }
               },
               error: function(xhr, status) {
