@@ -100,10 +100,10 @@ export default {
       const imgReg = /<img.*?src="(.*?)".*?\/?>/gi;
       const srcReg = /src=[\'\"]?([^\'\"]*)[\'\"]?/i;
       const arr = this.options.content.match(imgReg);
-
+      this.options.paperUseImg = [];
       arr && arr.forEach(img => {
         const src = img.match(srcReg)[1];
-        if (src.startsWith(address)) {
+        if (src.startsWith(address)) {  
           this.options.paperUseImg.push(src);
         }
       });
