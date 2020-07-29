@@ -5,13 +5,11 @@
  * desc: home
  */
 import echarts from "echarts";
-
 import SkmService from "../../services/api";
 // const echarts = require('echarts');
 export default {
   data() {
     return {
-
       sourceStats: {
         // pictureDetail: {
         //   count: 16,
@@ -30,7 +28,6 @@ export default {
     };
   },
   mounted() {
-
     // 显示状态栏
     this.resourceStats();
     // 访问表
@@ -50,37 +47,33 @@ export default {
       // for (let time = date; time < end; time += dayTime) {
       //   data.push([echarts.format.formatTime("yyyy-MM-dd", time), 10]);
       // }
-
       const result = await SkmService.pushPaperCount();
 
       this.pushPaperCountData = result.data;
       this.lastYearPushPaperCount();
-
     },
 
     getMyTime(time) {
       let nowTime;
       if (time) {
-          nowTime = new Date(time);
-      }else{
-          nowTime = new Date();
-      }      
-      return {
-        date_year_mounth : `${nowTime.getFullYear()}-${ addZero(nowTime.getMonth() + 1)}-${addZero(nowTime.getDate())}`,
-        date_hour_min_sec : `${addZero(nowTime.getHours())}:${addZero(nowTime.getMinutes())}:${addZero(nowTime.getSeconds())}`
+        nowTime = new Date(time);
+      } else {
+        nowTime = new Date();
       }
-
-       function addZero(num){
-         return  num >= 10 ? num : `0${num}` 
-       }
+      return {
+        date_year_mounth: `${nowTime.getFullYear()}-${ addZero(nowTime.getMonth() + 1)}-${addZero(nowTime.getDate())}`,
+        date_hour_min_sec: `${addZero(nowTime.getHours())}:${addZero(nowTime.getMinutes())}:${addZero(nowTime.getSeconds())}`
+      }
+      function addZero(num) {
+        return  num >= 10 ? num : `0${num}` 
+      }
     },
     async createDayMap() {
       //  let  data = [["2000-06-05",116],["2000-06-06",129],["2000-06-08",129]];
-       
       const result = await SkmService.visitList();
-      let  resultData = [];
+      let resultData = [];
       let setMax = [];
-      result.data.forEach( item =>{
+      result.data.forEach( item => {
         resultData.push([this.getMyTime(item.updated_at).date_year_mounth, item.visit]);
         setMax.push(item.visit)
       })
@@ -89,64 +82,65 @@ export default {
       const month = date.getMonth();
       let day = date.getDate();
       let data = [];
+
       for (let i = 0; i < 30; i++) {
           let theDate = this.getMyTime(new Date(year, month, day)).date_year_mounth;
           let _index;
-          for(let j = 0; j < resultData.length; j++){
-            if(resultData[j].includes(theDate)){
+          for (let j = 0; j < resultData.length; j++) {
+            if (resultData[j].includes(theDate)) {
               _index = j
             }
           }
           let pushData;
-          if(_index){
+          if (_index) {
             pushData = [ theDate, resultData[_index][1] ]
-          }else{
-             pushData = [ theDate, 0.1]
+          } else {
+            pushData = [ theDate, 0.1]
           }
 
           data.push(pushData)
           day--;
       }
-      
+
       data.reverse();
 
       let dateList = data.map(function (item) {
-          return item[0];
+        return item[0];
       });
       let valueList = data.map(function (item) {
           return item[1];
       });
       setMax.sort((a,b)=>b-a);
 
-      let option3= {
+      let option3 = {
         // Make gradient line here
         visualMap: [{
-            show: false,
-            type: 'continuous',
-            seriesIndex: 0,
-            min: -1,
-            max: setMax[0],
+          show: false,
+          type: 'continuous',
+          seriesIndex: 0,
+          min: -1,
+          max: setMax[0],
         }],
         // title: [{
         //     left: 'center',
         //     text: 'Gradient along the y axis'
         // }],
         tooltip: {
-            trigger: 'axis'
+          trigger: 'axis'
         },
         xAxis: [{
-            data: dateList
+          data: dateList
         }],
         yAxis: [{
-            splitLine: {show: false}
+          splitLine: {show: false}
         }],
         // grid: [{
         //     bottom: '60%'
         // }],
         series: [{
-            type: 'line',
-            showSymbol: false,
-            data: valueList
+          type: 'line',
+          showSymbol: false,
+          data: valueList
         }]
       }
       // 绘制图表
@@ -156,9 +150,9 @@ export default {
     },
 
     async resourceStats() {
-      
       const result = await SkmService.resourceStats();
       this.sourceStats = result;
+
       const estimateCapacity = parseInt(this.estimateCapacity);
       this.sourceSpace =( result.allSize / 1024 / 1024 ).toFixed(2) + 'mb';
       this.sourceStatsPercent = Math.max( (result.allSize / 1024 / 1024  / 1024  / estimateCapacity ).toFixed(2), 0.01 );
@@ -177,56 +171,56 @@ export default {
      * @param {*} colorBox 区间颜色集
      */
     generatePieces() {
-        let colorBox = ['#ebedf0', '#c6e48b', '#7bc96f', '#239a3b', '#196127'];
-        // gte >             lte <
-        let pieces = [
-            { lt: 1, label: 0, color: colorBox[0] },
-            { lte: 1, label: 1, color: colorBox[1] },
-            { gte: 2, lte: 3, color: colorBox[2] },
-            { gte: 4, lte: 5, color: colorBox[3] },
-            { gte: 5, color: colorBox[4] },
-        ]
-        return pieces;
+      let colorBox = ['#ebedf0', '#c6e48b', '#7bc96f', '#239a3b', '#196127'];
+      // gte >             lte <
+      let pieces = [
+        { lt: 1, label: 0, color: colorBox[0] },
+        { lte: 1, label: 1, color: colorBox[1] },
+        { gte: 2, lte: 3, color: colorBox[2] },
+        { gte: 4, lte: 5, color: colorBox[3] },
+        { gte: 5, color: colorBox[4] },
+      ]
+      return pieces;
     },
 
     // 提交表
     lastYearPushPaperCount() {
       let option = {
         visualMap: {
-            // show: false,
-            min: 0,
-            max: 5,
-            calculable: true,
-            orient: 'horizontal',
-            bottom: 'bottom',
-            right: '50px',
-            type: 'piecewise', // 类型为分段型
-            pieces: this.generatePieces() // 自定义颜色规则
+          // show: false,
+          min: 0,
+          max: 5,
+          calculable: true,
+          orient: 'horizontal',
+          bottom: 'bottom',
+          right: '50px',
+          type: 'piecewise', // 类型为分段型
+          pieces: this.generatePieces() // 自定义颜色规则
         },
         tooltip: {},
         calendar: {
-            // top: 120,
-            // left: 30,
-            // right: 30,
-            range: (new Date()).getFullYear(),
-            // splitLine: {
-            // show: false
-            // lineStyle: {
-            //     color: 'red'
-            // }
-            // },
-            itemStyle: {
-                normal: {
-                    color: '#ebedf0',
-                    borderWidth: 2,
-                    borderColor: '#fff'
-                },
-            }
+          // top: 120,
+          // left: 30,
+          // right: 30,
+          range: (new Date()).getFullYear(),
+          // splitLine: {
+          // show: false
+          // lineStyle: {
+          //     color: 'red'
+          // }
+          // },
+          itemStyle: {
+            normal: {
+              color: '#ebedf0',
+              borderWidth: 2,
+              borderColor: '#fff'
+            },
+          }
         },
         series: {
-            type: "heatmap",
-            coordinateSystem: "calendar",
-            data: this.pushPaperCountData
+          type: "heatmap",
+          coordinateSystem: "calendar",
+          data: this.pushPaperCountData
         }
       };
 
@@ -244,8 +238,8 @@ export default {
         //     return data;
         // };
         // 绘制图表
-        let myChart = echarts.init(document.getElementById('dayMap2'));
-        myChart.setOption(option)
+      let myChart = echarts.init(document.getElementById('dayMap2'));
+      myChart.setOption(option)
     }
 
   }
@@ -253,82 +247,87 @@ export default {
 </script>
 
 <template>
-  <layout class="homeWarp">
-    <div class="homeTop">
-      <h4>容量监测</h4>
+  <layout>
+    <div class="homeWarp">
+      <div class="homeTop">
+        <h4 class="homeMainTitle">容量监测</h4>
 
-      <div class="homeTopContent" v-if="sourceStatsPercent">
-        <div class="massive_css2 statsBlock">
-          <h5>总容量</h5>
-          <p class="card_p">资源占有量：{{sourceSpace}}</p>
-          <p class="card_p">预估容量：20G</p>
-          <el-progress class="statsBlock_progress"  :text-inside="true" :stroke-width="18" :percentage="sourceStatsPercent" status="success"></el-progress>
-        </div>
-        <div class="massive_css2 statsBlock">
-          <h5>图片资源</h5>
-          <p class="card_p">图片：{{sourceStats.pictureDetail.count}} 个</p>
-          <p class="card_p">图片占有容量：{{sourceStats.pictureDetail.size}}</p>
-          
-        </div>
-        <div class="massive_css2 statsBlock">
-          <h5>文章资源</h5>
-          <p class="card_p">文章：{{sourceStats.paperDetail.count}} 篇</p>
-          <p class="card_p">文章占有量：{{sourceStats.paperDetail.size}}</p>
+        <div class="homeTopContent" v-if="sourceStatsPercent">
+          <div class="massive_css2 statsBlock">
+            <h5>总容量</h5>
+            <p class="card_p">资源占有量：{{sourceSpace}}</p>
+            <p class="card_p">预估容量：20G</p>
+            <el-progress class="statsBlock_progress"  :text-inside="true" :stroke-width="18" :percentage="sourceStatsPercent" status="success"></el-progress>
+          </div>
+          <div class="massive_css2 statsBlock">
+            <h5>图片资源</h5>
+            <p class="card_p">图片：{{sourceStats.pictureDetail.count}} 个</p>
+            <p class="card_p">图片占有容量：{{sourceStats.pictureDetail.size}}</p>
+            
+          </div>
+          <div class="massive_css2 statsBlock">
+            <h5>文章资源</h5>
+            <p class="card_p">文章：{{sourceStats.paperDetail.count}} 篇</p>
+            <p class="card_p">文章占有量：{{sourceStats.paperDetail.size}}</p>
+          </div>
         </div>
       </div>
-
-
-    </div>
-    <div class="mid">
-      <h4>博客访问量：</h4>
-      <div id="dayMap" style="width: 1200px;height:400px; position:relative"></div>
-    </div>
-    <div class="bot">
-      <h4>文章提交统计：</h4>
-      <div id="dayMap2" style="width: 1200px;height:250px; position:relative"></div>
+      <div class="mid">
+        <h4 class="homeMainTitle">博客访问量：</h4>
+        <div id="dayMap" style="width: 1200px;height:400px; position:relative"></div>
+      </div>
+      <div class="bot">
+        <h4 class="homeMainTitle">文章提交统计：</h4>
+        <div id="dayMap2" style="width: 1200px;height:250px; position:relative"></div>
+      </div>
     </div>
   </layout>
 </template>
 
-<style   >
-.homeWarp{
+<style  lang="less">
+@main-color: #4ac4bc;
+@white-color: #fff;
+.homeWarp {
   color: #000;
-}
-.homeTop{
-  text-align: left;
-}
-.homeTopContent{
-  display: flex;
+  .homeMainTitle {
+    font-size: 20px;
+    line-height: 60px;
+    font-weight: bold;
+    color: @main-color;
+  }
+  .homeTop{
+    text-align: left;
+  }
+  .homeTopContent{
+    display: flex;
 
-}
-.statsBlock{
-  width: 300px;
-  height: 100px;
-  text-align: left;
-  padding: 10px;
-  margin: 10px;
-}
-.statsBlock_progress{
+  }
+  .statsBlock{
+    width: 300px;
+    height: 100px;
+    text-align: left;
+    padding: 10px;
+    margin: 10px;
+  }
+  .statsBlock_progress{
 
-  width: 80%;
-  color: #000;
-}
-.mid,.bot{
-  text-align: left;
-}
-h4 {
-  font-size: 24px;
-  line-height: 60px;
-}
-h5 {
-  font-size: 20px;
-  line-height: 34px;
-}
-.card_p {
-  line-height: 24px;
-}
+    width: 80%;
+    color: #000;
+  }
+  .mid,.bot{
+    text-align: left;
+  }
 
-.homeWarp .el-progress-bar__innerText{
-  color: #000;
+  h5 {
+    font-size: 20px;
+    line-height: 34px;
+  }
+  .card_p {
+    line-height: 24px;
+  }
+
+  .homeWarp .el-progress-bar__innerText{
+    color: #000;
+  }
 }
 </style>
