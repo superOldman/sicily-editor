@@ -167,11 +167,8 @@ export default {
                 :on-success="handleAvatarSuccess"
                 :before-upload="beforeAvatarUpload"
               >
-                <div class="el-upload">
-                  <img :src="(getUserInfo || {}).photo" class="avatar" />
-                  <i class="el-icon-plus avatar-uploader-icon"></i>
-                  <div class="after">上传头像</div>
-                </div>
+                <img :src="(getUserInfo || {}).photo" class="avatar" />
+                <div class="after">上传头像</div>
               </el-upload>
             </el-col>
             <el-col :span="8" class="nameAndpush">

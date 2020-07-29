@@ -1,6 +1,6 @@
 import {  http_get, http_post } from './index';
-const baseAddress = process.env.NODE_ENV === 'production' ? 'http://47.96.2.170:3000' : 'http://localhost:3000';
-// const baseAddress =  'http://47.96.2.170:3000';
+// const baseAddress = process.env.NODE_ENV === 'production' ? 'http://47.96.2.170:3000' : 'http://localhost:3000';
+const baseAddress =  'http://47.96.2.170:3000';
 
 // 环境的切换 例子
 // if (process.env.NODE_ENV == 'development') {    
