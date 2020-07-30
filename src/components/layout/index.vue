@@ -165,8 +165,8 @@ export default {
         </el-menu>
       </el-aside>
 
-      <el-main>
-        <div class="main_top">
+      <el-main :class="{'left-style': $route.name !== 'home'}">
+        <div class="main_top" v-if="$route.name !== 'home'">
           <div class="main_top_content">
             <el-row>
               <el-col :span="4">
@@ -183,8 +183,8 @@ export default {
             </el-row>
           </div>
         </div>
-        <div class="main_top_bottom"></div>
-        <div class="main_top_base">
+        <div class="main_top_bottom" v-if="$route.name !== 'home'"></div>
+        <div class="main_top_base" v-if="$route.name !== 'home'">
           <div></div>
           <el-row>
             <el-col :span="4">
@@ -198,7 +198,7 @@ export default {
             </el-col>
           </el-row>
         </div>
-        <div class="slot">
+        <div :class="{slot: $route.name !== 'home'}">
           <slot />
         </div>
       </el-main>
@@ -323,7 +323,7 @@ export default {
   padding: 0px;
 }
 
-.el-main:before {
+.left-style:before {
   content: "";
   position: absolute;
   top: 0;

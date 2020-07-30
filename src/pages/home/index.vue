@@ -25,19 +25,30 @@ export default {
       sourceStatsPercent: 0,
       estimateCapacity: '20G',
       pushPaperCountData:[],
+      myLineChart: null, 
+      myCalendarChart: null,
     };
   },
-  mounted() {
+  async mounted() {
     // 显示状态栏
     this.resourceStats();
     // 访问表
     this.createDayMap();
 
     this.getVirtulData();
-
+    await this.$nextTick();
+    this.resizeEcharts();
   },
   methods: {
-  
+    /** 重回图标 */
+    resizeEcharts() {
+      setTimeout(() => {
+        window.onresize = () => {
+          this.myLineChart.resize();
+          this.myCalendarChart.resize();
+        }
+      }, 200)
+    }, 
     async getVirtulData() {
       // year = year || "2020";
       // let date = +echarts.number.parseDate(year + "-01-01");
@@ -111,8 +122,16 @@ export default {
           return item[1];
       });
       setMax.sort((a,b)=>b-a);
-
+      const mainColor = '#06beb6';
       let option3 = {
+        title: {
+          text: '博客访问量',
+          textStyle: {
+            color: mainColor,
+            lineHeight: '50',
+          },
+          left: 'center',
+        },
         // Make gradient line here
         visualMap: [{
           show: false,
@@ -126,13 +145,28 @@ export default {
         //     text: 'Gradient along the y axis'
         // }],
         tooltip: {
-          trigger: 'axis'
+          trigger: 'axis',
+          axisPointer: {
+            lineStyle: {
+              color: mainColor
+            },
+          }
         },
         xAxis: [{
-          data: dateList
+          data: dateList,
+          axisLine: {
+            lineStyle: {
+              color: mainColor,
+            }
+          }
         }],
         yAxis: [{
-          splitLine: {show: false}
+          splitLine: {show: false},
+          axisLine: {
+            lineStyle: {
+              color: mainColor,
+            }
+          }
         }],
         // grid: [{
         //     bottom: '60%'
@@ -140,12 +174,30 @@ export default {
         series: [{
           type: 'line',
           showSymbol: false,
-          data: valueList
+          data: valueList,
+          lineStyle: {
+            color: mainColor
+          },
+          areaStyle: {
+            color: {
+              type: 'linear',
+              x: 0,
+              y: 0,
+              x2: 0,
+              y2: 1,
+              colorStops: [{
+                  offset: 0, color: mainColor // 0% 处的颜色
+              }, {
+                  offset: 1, color: 'rgba(0, 0, 0, 0)' // 100% 处的颜色
+              }],
+              global: false // 缺省为 false
+            }
+          }
         }]
       }
       // 绘制图表
-      let myChart = echarts.init(document.getElementById('dayMap'));
-      myChart.setOption(option3)
+      this.myLineChart = echarts.init(document.getElementById('dayMap'));
+      this.myLineChart.setOption(option3)
 
     },
 
@@ -185,17 +237,29 @@ export default {
 
     // 提交表
     lastYearPushPaperCount() {
+      const mainColor= '#06beb6';
       let option = {
+        title: {
+          text: '文章提交统计',
+          textStyle: {
+            color: mainColor,
+            lineHeight: '20',
+          },
+          left: 'center',
+        },
         visualMap: {
           // show: false,
           min: 0,
           max: 5,
           calculable: true,
           orient: 'horizontal',
-          bottom: 'bottom',
-          right: '50px',
+          bottom: '20',
+          right: '50',
           type: 'piecewise', // 类型为分段型
-          pieces: this.generatePieces() // 自定义颜色规则
+          pieces: this.generatePieces(), // 自定义颜色规则
+          textStyle: {
+            color: mainColor
+          }
         },
         tooltip: {},
         calendar: {
@@ -209,12 +273,29 @@ export default {
           //     color: 'red'
           // }
           // },
+          cellSize: ['auto', 20],
+          splitLine: {
+            lineStyle: {
+              color: mainColor,
+              width: 2
+            },
+          },
           itemStyle: {
             normal: {
-              color: '#ebedf0',
-              borderWidth: 2,
-              borderColor: '#fff'
+              color: 'rgba(72, 177, 191, 0.6)',
+              borderWidth: 1,
+              borderColor: '#fff',
+              // shadowColor: '#fff',
             },
+          },
+          monthLabel: {
+            color: mainColor
+          },
+          dayLabel: {
+            color: mainColor
+          },
+          yearLabel: {
+            color: mainColor
           }
         },
         series: {
@@ -238,8 +319,9 @@ export default {
         //     return data;
         // };
         // 绘制图表
-      let myChart = echarts.init(document.getElementById('dayMap2'));
-      myChart.setOption(option)
+      this.myCalendarChart = echarts.init(document.getElementById('dayMap2'));
+      this.myCalendarChart.setOption(option)
+
     }
 
   }
@@ -250,84 +332,83 @@ export default {
   <layout>
     <div class="homeWarp">
       <div class="homeTop">
-        <h4 class="homeMainTitle">容量监测</h4>
+        <!-- <h4 class="homeMainTitle">容量监测</h4> -->
 
-        <div class="homeTopContent" v-if="sourceStatsPercent">
-          <div class="massive_css2 statsBlock">
-            <h5>总容量</h5>
-            <p class="card_p">资源占有量：{{sourceSpace}}</p>
-            <p class="card_p">预估容量：20G</p>
-            <el-progress class="statsBlock_progress"  :text-inside="true" :stroke-width="18" :percentage="sourceStatsPercent" status="success"></el-progress>
-          </div>
-          <div class="massive_css2 statsBlock">
-            <h5>图片资源</h5>
-            <p class="card_p">图片：{{sourceStats.pictureDetail.count}} 个</p>
-            <p class="card_p">图片占有容量：{{sourceStats.pictureDetail.size}}</p>
+        <el-row class="homeTopContent" :gutter="20" type="flex" v-if="sourceStatsPercent">
+          <el-col :span="8" class="statsBlock">
+            <div class="cardTitle" style="color: #FDC830">总容量</div>
+            <p class="cardInfo">资源占有量：{{sourceSpace}}</p>
+            <p class="cardInfo">预估容量：20G</p>
+            <el-progress class="statsBlock_progress" :text-inside="true" :stroke-width="18" :percentage="sourceStatsPercent" status="success" color="#FDC830"/>
+          </el-col>
+          <el-col :span="8" class="statsBlock">
+            <div class="cardTitle" style="color: #fd746c">图片资源</div>
+            <p class="cardInfo">图片：{{sourceStats.pictureDetail.count}} 个</p>
+            <p class="cardInfo">图片占有容量：{{sourceStats.pictureDetail.size}}</p>
             
-          </div>
-          <div class="massive_css2 statsBlock">
-            <h5>文章资源</h5>
-            <p class="card_p">文章：{{sourceStats.paperDetail.count}} 篇</p>
-            <p class="card_p">文章占有量：{{sourceStats.paperDetail.size}}</p>
-          </div>
-        </div>
+          </el-col>
+          <el-col :span="8" class="statsBlock">
+            <div class="cardTitle" style="color: #ACB6E5">文章资源</div>
+            <p class="cardInfo">文章：{{sourceStats.paperDetail.count}} 篇</p>
+            <p class="cardInfo">文章占有量：{{sourceStats.paperDetail.size}}</p>
+          </el-col>
+        </el-row>
       </div>
-      <div class="mid">
-        <h4 class="homeMainTitle">博客访问量：</h4>
-        <div id="dayMap" style="width: 1200px;height:400px; position:relative"></div>
+      <div class="homeMid borderBox">
+        <div id="dayMap"></div>
       </div>
-      <div class="bot">
-        <h4 class="homeMainTitle">文章提交统计：</h4>
-        <div id="dayMap2" style="width: 1200px;height:250px; position:relative"></div>
+      <div class="homeBot borderBox">
+        <div id="dayMap2"></div>
       </div>
     </div>
   </layout>
 </template>
 
 <style  lang="less">
-@main-color: #4ac4bc;
+@main-color: #06beb6;
 @white-color: #fff;
+
 .homeWarp {
-  color: #000;
-  .homeMainTitle {
-    font-size: 20px;
-    line-height: 60px;
-    font-weight: bold;
-    color: @main-color;
-  }
-  .homeTop{
+  .statsBlock {
+    color: @white-color;
     text-align: left;
-  }
-  .homeTopContent{
-    display: flex;
-
-  }
-  .statsBlock{
-    width: 300px;
-    height: 100px;
-    text-align: left;
-    padding: 10px;
+    padding: 20px;
     margin: 10px;
+    border: 1px solid rgb(109, 213, 250);
+    box-shadow: @main-color 0px 0px 10px inset;
+    background: rgba(72, 177, 191, 0.2);
+    .cardTitle {
+      color: #134E5E;
+      text-align: center;
+      line-height: 30px;
+      font-weight: bold;
+    }
+    .cardInfo {
+      font-size: 14px;
+      line-height: 30px;
+      // color: #bdc3c7;
+    }
   }
-  .statsBlock_progress{
+  .borderBox {
+    border: 1px solid rgb(109, 213, 250);
+    box-shadow: @main-color 0px 0px 10px inset;
+    background: rgba(72, 177, 191, 0.2);
+    margin-bottom: 20px;
+  }
+  .homeMid {
+    #dayMap {
+      width: 100%;
+      height: 400px
+    }
+  }
+  .homeBot {
+    #dayMap2 {
+      width: 96%;
+      height: 250px;
+      padding-top: 20px;
+    }
+  }
 
-    width: 80%;
-    color: #000;
-  }
-  .mid,.bot{
-    text-align: left;
-  }
 
-  h5 {
-    font-size: 20px;
-    line-height: 34px;
-  }
-  .card_p {
-    line-height: 24px;
-  }
-
-  .homeWarp .el-progress-bar__innerText{
-    color: #000;
-  }
 }
 </style>
