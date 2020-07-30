@@ -101,21 +101,22 @@ export default {
       const srcReg = /src=[\'\"]?([^\'\"]*)[\'\"]?/i;
       const arr = this.options.content.match(imgReg);
       this.options.paperUseImg = [];
-      arr && arr.forEach(img => {
-        const src = img.match(srcReg)[1];
-        if (src.startsWith(address)) {  
-          this.options.paperUseImg.push(src);
-        }
-      });
+      arr &&
+        arr.forEach(img => {
+          const src = img.match(srcReg)[1];
+          if (src.startsWith(address)) {
+            this.options.paperUseImg.push(src);
+          }
+        });
 
       const result = await SkmService.saveEditorHtml(this.options);
 
       this.$confirm(result.message)
-        .then( async confirm => {
+        .then(async confirm => {
           if (confirm) {
             // this.$router.go(0);
             // this.$forceUpdate();
-            this.$router.push({ name: 'editor' });
+            this.$router.push({ name: "editor" });
             // 还是不行的话  或者这样 在你整个组件上面加个v-if标识 创建一个变量flag  点保存的时候先this.flag = false  然后await this.$nextTick()  然后this.flag = true
 
             this.flag = false;
@@ -132,12 +133,13 @@ export default {
       const srcReg = /src=[\'\"]?([^\'\"]*)[\'\"]?/i;
       const arr = this.options.content.match(imgReg);
 
-      arr && arr.forEach(img => {
-        const src = img.match(srcReg)[1];
-        if (src.startsWith(address)) {
-          this.options.paperUseImg.push(src);
-        }
-      });
+      arr &&
+        arr.forEach(img => {
+          const src = img.match(srcReg)[1];
+          if (src.startsWith(address)) {
+            this.options.paperUseImg.push(src);
+          }
+        });
 
       const result = await SkmService.saveHtml(this.options);
 
@@ -200,7 +202,21 @@ export default {
                 <el-input type="textarea" :placeholder="placeholder.info" v-model="options.info"></el-input>
               </el-form-item>
               <el-form-item label="作者">
-                <el-input type="text" v-model="(getUserInfo || {}).userName"></el-input>
+                <!-- <el-input type="text" v-model="(getUserInfo || {}).userName"></el-input> -->
+                <el-input type="text" v-model="options.author"></el-input>
+              </el-form-item>
+ 
+              <setTags :hasInput="true" :hasTags="options.hasTags" @addTag="addTags" @removeTag="removeTag"></setTags>
+
+              <el-form-item label="选择文件夹">
+                <el-select v-model="options.hasFolder" placeholder="请选择" class="common-width">
+                  <el-option
+                    v-for="(item, index) in folderList"
+                    :key="index"
+                    :label="item"
+                    :value="item"
+                  />
+                </el-select>
               </el-form-item>
             </el-form>
           </div>
@@ -233,26 +249,6 @@ export default {
           </el-upload>
         </el-col>
       </el-row>
-      <!-- <el-divider>
-        <i class="el-icon-mobile-phone"></i>
-      </el-divider>-->
-      <setTags :hasInput="true" :hasTags="options.hasTags" @addTag="addTags" @removeTag="removeTag"></setTags>
-      <!-- <el-divider>
-        <i class="el-icon-mobile-phone"></i>
-      </el-divider>-->
-      <!-- <setFolder  :folderName="options.hasFolder" @addFolder="addFolder"></setFolder> -->
-
-      <el-dropdown class="setFolder" v-if="folderListShow" split-button type="primary">
-        {{showFolderName}}
-        <el-dropdown-menu slot="dropdown">
-          <el-dropdown-item
-            v-for="(item,index) in folderList"
-            :key="index"
-            @click.native="addFolder(item)"
-          >{{item}}</el-dropdown-item>
-        </el-dropdown-menu>
-      </el-dropdown>
-
       <tw-markdown-view
         v-if="isShowEditor"
         :config="{ markdown: options.markdown, imageUploadURL: uploadAddress }"
@@ -271,15 +267,16 @@ export default {
   width: 100%;
 }
 .form_message_text {
-  font-size: 26px;
+  font-size: 32px;
+  font-weight: bold;
   margin: 20px 0;
 }
 .form_upLoadImg {
   padding-top: 20px;
 }
 .upLoadImgTitle {
-  margin: 20px 0;
-  font-size: 26px;
+  margin: 80px 0 12px 0;
+  font-size: 14px;
 }
 .avatar-uploader {
   font-size: 0;

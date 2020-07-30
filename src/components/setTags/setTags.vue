@@ -1,7 +1,7 @@
 <template>
   <div class="setTagsWarp">
     <div v-if="hasInput">
-      <h4>添加标签</h4>
+      <span>添加标签</span>
       <el-input v-model="input" class="input" placeholder="请输入内容">
         <i class="el-icon-paperclip el-input__icon" slot="suffix"></i>
       </el-input>
@@ -25,13 +25,14 @@
 
 <style scoped>
 .setTagsWarp {
-  padding: 20px 0;
+  margin-bottom: 20px;
   text-align: left;
 }
-.setTagsWarp h4 {
-  font-size: 26px;
+.setTagsWarp span {
+  font-size: 14px;
+  display: inline-block;
+  width: 100px;
   line-height: 30px;
-  margin: 20px 0;
 }
 .setTagsWarp .input {
   width: 200px;

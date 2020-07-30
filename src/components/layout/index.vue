@@ -389,8 +389,8 @@ body > .el-container {
 }
 .warp {
   height: 100%;
-  background: url("../../assets/images/bg_city.png") center top / cover no-repeat
-    fixed;
+  /* background: url("../../assets/images/bg_city.png") center top / cover no-repeat fixed; */
+  background: url("../../assets/images/bg3.jpg") center top / cover no-repeat fixed;
 }
 .icon_color{
   color: #fff;
