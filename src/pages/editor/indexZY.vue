@@ -22,7 +22,7 @@ export default {
       },
       options: {
         title: '',
-        author: '', //this.$store.state.getUserInfo(),
+        author: '', // this.$store.state.getUserInfo(),
         info: '',
         content: null,
         markdown: null,

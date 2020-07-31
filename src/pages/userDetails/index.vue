@@ -93,7 +93,7 @@ export default {
       this.$store.dispatch('userMessageModule/refushUserPhotoFun', URL.createObjectURL(file.raw));
     },
     beforeAvatarUpload(file) {
-      const isJPG = file.type; //=== ('image/jpeg' || 'image/png' || 'image/jpg');
+      const isJPG = file.type; // === ('image/jpeg' || 'image/png' || 'image/jpg');
       const isLt2M = file.size / 1024 / 1024 < 2;
 
       if (!isJPG) {
