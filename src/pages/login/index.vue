@@ -26,7 +26,7 @@ export default {
     this.addKeyBoardListener();
   },
   computed: {
-    ...mapGetters('userMessageModule', ['getUserInfo'])
+    ...mapGetters('userMessageModule', [ 'getUserInfo' ])
   },
   destroyed() {
     this.removeKeyBoardListener();

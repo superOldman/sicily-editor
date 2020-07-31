@@ -15,7 +15,7 @@ export default {
     };
   },
   computed: {
-    ...mapGetters('userMessageModule',['getUserInfo'])
+    ...mapGetters('userMessageModule',[ 'getUserInfo' ])
   },
   mounted() {
 

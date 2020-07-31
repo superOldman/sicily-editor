@@ -29,7 +29,7 @@ const defaultConfig = {
   // dialogMaskOpacity: 0.4,       // 设置透明遮罩层的透明度，全局通用，默认值为0.1
   // dialogMaskBgColor: "#000",    // 设置透明遮罩层的背景颜色，全局通用，默认为#fff
   imageUpload: true,             // 是否本地上传
-  imageFormats: ['jpg', 'jpeg', 'gif', 'png', 'bmp', 'webp'],
+  imageFormats: [ 'jpg', 'jpeg', 'gif', 'png', 'bmp', 'webp' ],
   // imageUploadURL: "http://127.0.0.1:3000/editor/uploadImg",
 
   // imageUploadURL: "./php/upload.php",

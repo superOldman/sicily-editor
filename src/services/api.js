@@ -24,7 +24,7 @@ class SkmService {
     return result.data;
   }
   async islogin() {
-    const result = await http_get({ api: baseAddress + '/islogin'});
+    const result = await http_get({ api: baseAddress + '/islogin' });
     return result.data;
   }
 

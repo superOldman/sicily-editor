@@ -29,7 +29,7 @@ export default {
     config: { markdown: '没数据时的字段' }
 
   },
-  created(){
+  created() {
     // console.log(this.editorId)
 
   },

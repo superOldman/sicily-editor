@@ -6,20 +6,20 @@ export default {
       input: ''
     };
   },
-  props: ['dialogVisible','dialogTitle','dialogBtn','hasResetForm'],
+  props: [ 'dialogVisible','dialogTitle','dialogBtn','hasResetForm' ],
   //   props: {
   //       dialogTitle: String,
   //       dialogBtn: String,
   //       hasResetForm: Boolean,
   //   },
   methods: {
-    closeMyDialog(){
+    closeMyDialog() {
       this.$emit('closeMyDialog');
     },
-    resetForm(){
+    resetForm() {
       this.$emit('resetForm');
     },
-    submitForm(){
+    submitForm() {
       this.$emit('submitForm');
     },
   },

@@ -124,9 +124,9 @@ export default {
       input: ''
     };
   },
-  props: ['folderName'],
+  props: [ 'folderName' ],
   methods: {
-    addFolder(){
+    addFolder() {
       this.$emit('addFolder', this.input);
     },
     handleCommand(command) {

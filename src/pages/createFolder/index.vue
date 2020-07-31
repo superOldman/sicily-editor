@@ -49,7 +49,7 @@ export default {
           { required: true, message: '请输入文件夹名称', trigger: 'blur' },
           { min: 2, max: 20, message: '长度在 2 到 20 个字符', trigger: 'blur' }
         ],
-        info: [{ required: true, message: '请填文件夹简介', trigger: 'blur' }]
+        info: [ { required: true, message: '请填文件夹简介', trigger: 'blur' } ]
       },
 
       uploadAddress: address + '/editor/uploadImg',

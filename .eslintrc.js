@@ -31,12 +31,20 @@ module.exports = {
      */
   rules: {
     'semi': 1,
-    'quotes': [1, 'single'],// 引号类型
+    'quotes': [ 1, 'single' ],// 引号类型
     'no-unused-vars': 1,// 检查未使用变量
     'no-undef': 0,// 检查未定义就使用变量
     'no-useless-escape': 0,// 转义符
-    'indent': [2, 2],// 缩进风格
+    'indent': [ 2, 2 ],// 缩进风格
     'no-trailing-spaces': 1,// 一行结束后面不要有空格
     'spaced-comment': 1,// 注释风格要不要有空格什么的
+    'space-unary-ops': [ 1, { 'words': false, 'nonwords': false } ],
+
+    'array-bracket-spacing': [ 'error', 'always' ],
+    'object-curly-spacing': [ 'error', 'always' ],
+    'space-before-blocks': 2,
+
+
+
   }
 };

@@ -85,7 +85,7 @@ export default {
       let resultData = [];
       let setMax = [];
       result.data.forEach( item => {
-        resultData.push([this.getMyTime(item.updated_at).date_year_mounth, item.visit]);
+        resultData.push([ this.getMyTime(item.updated_at).date_year_mounth, item.visit ]);
         setMax.push(item.visit);
       });
       const date = new Date();
@@ -106,7 +106,7 @@ export default {
         if (_index) {
           pushData = [ theDate, resultData[_index][1] ];
         } else {
-          pushData = [ theDate, 0.1];
+          pushData = [ theDate, 0.1 ];
         }
 
         data.push(pushData);
@@ -133,13 +133,13 @@ export default {
           left: 'center',
         },
         // Make gradient line here
-        visualMap: [{
+        visualMap: [ {
           show: false,
           type: 'continuous',
           seriesIndex: 0,
           min: -1,
           max: setMax[0],
-        }],
+        } ],
         // title: [{
         //     left: 'center',
         //     text: 'Gradient along the y axis'
@@ -152,26 +152,26 @@ export default {
             },
           }
         },
-        xAxis: [{
+        xAxis: [ {
           data: dateList,
           axisLine: {
             lineStyle: {
               color: mainColor,
             }
           }
-        }],
-        yAxis: [{
-          splitLine: {show: false},
+        } ],
+        yAxis: [ {
+          splitLine: { show: false },
           axisLine: {
             lineStyle: {
               color: mainColor,
             }
           }
-        }],
+        } ],
         // grid: [{
         //     bottom: '60%'
         // }],
-        series: [{
+        series: [ {
           type: 'line',
           showSymbol: false,
           data: valueList,
@@ -185,15 +185,15 @@ export default {
               y: 0,
               x2: 0,
               y2: 1,
-              colorStops: [{
+              colorStops: [ {
                 offset: 0, color: mainColor // 0% 处的颜色
               }, {
                 offset: 1, color: 'rgba(0, 0, 0, 0)' // 100% 处的颜色
-              }],
+              } ],
               global: false // 缺省为 false
             }
           }
-        }]
+        } ]
       };
       // 绘制图表
       this.myLineChart = echarts.init(document.getElementById('dayMap'));
@@ -223,7 +223,7 @@ export default {
      * @param {*} colorBox 区间颜色集
      */
     generatePieces() {
-      let colorBox = ['#ebedf0', '#c6e48b', '#7bc96f', '#239a3b', '#196127'];
+      let colorBox = [ '#ebedf0', '#c6e48b', '#7bc96f', '#239a3b', '#196127' ];
       // gte >             lte <
       let pieces = [
         { lt: 1, label: 0, color: colorBox[0] },
@@ -273,7 +273,7 @@ export default {
           //     color: 'red'
           // }
           // },
-          cellSize: ['auto', 20],
+          cellSize: [ 'auto', 20 ],
           splitLine: {
             lineStyle: {
               color: mainColor,

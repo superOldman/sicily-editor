@@ -50,7 +50,7 @@ export default {
     setTags
   },
   computed: {
-    ...mapGetters('userMessageModule', ['getUserInfo'])
+    ...mapGetters('userMessageModule', [ 'getUserInfo' ])
   },
   created() {
     this.getArticleById();
@@ -61,7 +61,7 @@ export default {
     async getArticleById() {
       if (window.location.href.indexOf('?') !== -1) {
         // this.$route.query.id
-        let articleId = window.location.href.split('?id=')[1];
+        let articleId =window.location.href.split('?id=')[1];
         const result = await SkmService.searchById({ id: articleId });
         if (result.code === 0) {
           this.options = result.list;

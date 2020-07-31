@@ -33,7 +33,7 @@ export default {
     userContent
   },
   computed: {
-    ...mapGetters('userMessageModule',['getUserInfo']),
+    ...mapGetters('userMessageModule',[ 'getUserInfo' ]),
     // ...mapState({
     //    userDetails: state => state.userDetails,
     // })

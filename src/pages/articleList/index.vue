@@ -33,7 +33,7 @@ export default {
   },
   mounted() {},
   computed: {
-    ...mapGetters('pageStatsModule',['getLoading'])
+    ...mapGetters('pageStatsModule',[ 'getLoading' ])
   },
   watch: {
     '$store.state.loadingStatus.loading': {
@@ -91,13 +91,13 @@ export default {
       let title = !val.stick? '置顶':'取消置顶';
       this.$confirm(`确定${title}？`).then( async () => {
 
-        let { _id, stick} = val;
+        let { _id, stick } = val;
         const data = await SkmService.setTop({ _id, stick: !stick });
-        if(data.code === 0 ){
+        if(data.code === 0 ) {
 
           val.stick = !val.stick;
         }else{
-          this.$alert(data.message, '提示', { confirmButtonText: '确定'});
+          this.$alert(data.message, '提示', { confirmButtonText: '确定' });
         }
       }).catch(() => {});
 
@@ -116,7 +116,7 @@ export default {
       console.log(index, row);
       this.$confirm('确认删除？').then( async () => {
         const data = await SkmService.destroyById({ _id: row._id });
-        if(data.code === 0 ){
+        if(data.code === 0 ) {
           this.getList();
         }
       }).catch(() => {});
