@@ -24,7 +24,7 @@ export default {
       sourceSpace: 0,
       sourceStatsPercent: 0,
       estimateCapacity: '20G',
-      pushPaperCountData:[],
+      pushPaperCountData: [],
       myLineChart: null,
       myCalendarChart: null
     };

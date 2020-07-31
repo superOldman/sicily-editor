@@ -39,15 +39,11 @@ module.exports = {
     'no-trailing-spaces': 1, // 一行结束后面不要有空格
     'spaced-comment': 1, // 注释风格要不要有空格什么的
     'space-unary-ops': [1, { 'words': true, 'nonwords': false }],
-
     'array-bracket-spacing': [1, 'never'], // 数组前后不加空格
     'object-curly-spacing': [1, 'always'],  // 对象前后加空格
     'space-before-blocks': 1, // 代码块前后空格
-
     'comma-dangle': [1, 'never'], // always-multiline：多行模式必须带逗号，单行模式不能带逗号
-
-    'comma-spacing': [1, { 'before': false, 'after': true }]// 控制逗号前后的空格
-
-
+    'comma-spacing': [1, { 'before': false, 'after': true }], // 控制逗号前后的空格
+    'key-spacing': [1, { 'beforeColon': false, 'afterColon': true }]// 对象字面量中冒号的前后空格
   }
 };

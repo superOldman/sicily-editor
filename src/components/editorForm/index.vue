@@ -27,7 +27,7 @@ export default {
     onSubmit() {
       console.log('submit!');
       // const self = this;
-      this.$router.push({ path:'/editor', query:{ id: this.formData._id } });
+      this.$router.push({ path: '/editor', query: { id: this.formData._id } });
     }
   }
 };

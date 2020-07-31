@@ -108,7 +108,7 @@ export default {
       console.log(index, row);
       // this.dialogVisible = true;
       this.formData = row;
-      this.$router.push({ path:'/editor', query:{ id: this.formData._id } });
+      this.$router.push({ path: '/editor', query: { id: this.formData._id } });
     },
     // 删除
     handleDelete(index, row) {
