@@ -16,7 +16,7 @@ export default {
           auther: '',
           date1: '',
           date2: '',
-          _id: '',
+          _id: ''
         };
       }
     }

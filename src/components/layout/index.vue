@@ -21,7 +21,7 @@ export default {
       date_year_mounth: '',
       date_hour_min_sec: '',
       userMessage: {},
-      timerId: null,
+      timerId: null
       // userMessage: {
       //   title: "",
       //   userName: "",
@@ -33,7 +33,7 @@ export default {
     userContent
   },
   computed: {
-    ...mapGetters('userMessageModule',[ 'getUserInfo' ]),
+    ...mapGetters('userMessageModule', ['getUserInfo'])
     // ...mapState({
     //    userDetails: state => state.userDetails,
     // })
@@ -81,7 +81,7 @@ export default {
       this.getMyTime();
       this.timerId = setInterval(()=>{
         this.getMyTime();
-      },1000);
+      }, 1000);
     },
     selectHandle(item) {
       this.pageMessage = item.name;

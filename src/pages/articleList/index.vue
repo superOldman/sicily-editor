@@ -24,7 +24,7 @@ export default {
         date1: '',
         date2: ''
       },
-      dialogVisible: false,
+      dialogVisible: false
     };
   },
   // components: { editorForm },
@@ -33,14 +33,14 @@ export default {
   },
   mounted() {},
   computed: {
-    ...mapGetters('pageStatsModule',[ 'getLoading' ])
+    ...mapGetters('pageStatsModule', ['getLoading'])
   },
   watch: {
     '$store.state.loadingStatus.loading': {
       handler(val) {
         console.log(12121, val);
       }
-    },
+    }
     // formData: {
     //   deep: true,
     //   handler(val, old) {
@@ -52,7 +52,7 @@ export default {
   methods: {
     getList( params = {
       page: this.currentPage,
-      pageSize: this.pageSize,
+      pageSize: this.pageSize
     }) {
 
 
@@ -70,7 +70,7 @@ export default {
       console.log(`每页 ${val} 条`);
       this.getList({
         page: this.currentPage = val,
-        pageSize: this.pageSize,
+        pageSize: this.pageSize
       });
 
     },
@@ -81,7 +81,7 @@ export default {
 
       this.getList({
         page: this.currentPage = val,
-        pageSize: this.pageSize,
+        pageSize: this.pageSize
       });
     },
 

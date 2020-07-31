@@ -20,7 +20,7 @@ export default {
       timer: null,
       doc: {},
       jsLoadOver: false,
-      editorId: 'markdown-editor',
+      editorId: 'markdown-editor'
     };
   },
   props: {
@@ -81,7 +81,7 @@ export default {
         text: window.$(html).text()
       };
 
-      this.$emit('onchange',savehtml);
+      this.$emit('onchange', savehtml);
     },
     init() {
       const vm = this;

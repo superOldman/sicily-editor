@@ -43,16 +43,16 @@ export default {
       currentTag: '',
       rules: {
         title: { required: true, message: '请输入文章标题' },
-        info: { required: true, message: '请输入文章简介' },
-      },
+        info: { required: true, message: '请输入文章简介' }
+      }
     };
   },
   components: {
-    twMarkdownView,
+    twMarkdownView
     // setTags
   },
   computed: {
-    ...mapGetters('userMessageModule', [ 'getUserInfo' ])
+    ...mapGetters('userMessageModule', ['getUserInfo'])
   },
   created() {
     this.getArticleById();

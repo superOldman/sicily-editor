@@ -26,7 +26,7 @@ export default {
     this.addKeyBoardListener();
   },
   computed: {
-    ...mapGetters('userMessageModule', [ 'getUserInfo' ])
+    ...mapGetters('userMessageModule', ['getUserInfo'])
   },
   destroyed() {
     this.removeKeyBoardListener();
@@ -116,7 +116,7 @@ export default {
           Auth.vars.password_group.classList += ' lowin-animated-back';
           Auth.vars.password_group.style.display = 'block';
 
-          console.log('heihgt',Auth.vars.password_group_height);
+          console.log('heihgt', Auth.vars.password_group_height);
           setTimeout(() => {
             Auth.vars.login_back_link.style.opacity = 0;
             Auth.vars.password_group.style.height =

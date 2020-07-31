@@ -69,8 +69,8 @@ export default {
         this.$emit('addTag', this.input);
         this.input = '';
       } else {
-        this.$alert('请先输入文字', '错误',{
-          lockScroll: false,
+        this.$alert('请先输入文字', '错误', {
+          lockScroll: false
         });
       }
     },

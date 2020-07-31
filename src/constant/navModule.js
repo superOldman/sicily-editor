@@ -37,6 +37,6 @@ const MODULES_INFO = [
     icon: 'el-icon-user-solid',
     router: 'userDetails',
     navShow: false
-  },
+  }
 ];
 export default MODULES_INFO;

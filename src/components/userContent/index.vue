@@ -15,7 +15,7 @@ export default {
     };
   },
   computed: {
-    ...mapGetters('userMessageModule',[ 'getUserInfo' ])
+    ...mapGetters('userMessageModule', ['getUserInfo'])
   },
   mounted() {
 
@@ -25,7 +25,7 @@ export default {
       this.$router.push({ name: 'userDetails' });
     },
     logout() {
-      this.$store.commit('userMessageModule/refushUser',null);
+      this.$store.commit('userMessageModule/refushUser', null);
       SkmServes.logout();
     }
   }

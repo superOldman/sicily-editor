@@ -8,6 +8,6 @@ module.exports = {
   devServer: {
     host: '0.0.0.0',
     port: 5503,
-    open: false,
+    open: false
   }
 };

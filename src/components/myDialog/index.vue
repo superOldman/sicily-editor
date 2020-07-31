@@ -6,7 +6,7 @@ export default {
       input: ''
     };
   },
-  props: [ 'dialogVisible','dialogTitle','dialogBtn','hasResetForm' ],
+  props: ['dialogVisible', 'dialogTitle', 'dialogBtn', 'hasResetForm'],
   //   props: {
   //       dialogTitle: String,
   //       dialogBtn: String,
@@ -21,8 +21,8 @@ export default {
     },
     submitForm() {
       this.$emit('submitForm');
-    },
-  },
+    }
+  }
 
 };
 

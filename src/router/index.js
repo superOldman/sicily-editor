@@ -27,42 +27,42 @@ export default new Router({
       path: '/',
       redirect: () => {
         return 'login';
-      },
+      }
     },
     {
       path: '/login',
       name: 'login',
-      component: login,
+      component: login
     },
     {
       path: '/home',
       name: 'home',
-      component: home,
+      component: home
     },
     {
       path: '/editor',
       name: 'editor',
-      component: editor,
+      component: editor
     },
     {
       path: '/userDetails',
       name: 'userDetails',
-      component: userDetails,
+      component: userDetails
     },
     {
       path: '/articleList',
       name: 'articleList',
-      component: articleList,
+      component: articleList
     },
     {
       path: '/createFolder',
       name: 'createFolder',
-      component: createFolder,
+      component: createFolder
     },
     {
       path: '/pictureList',
       name: 'pictureList',
-      component: pictureList,
-    },
+      component: pictureList
+    }
   ]
 });

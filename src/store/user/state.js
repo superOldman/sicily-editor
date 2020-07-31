@@ -1,5 +1,5 @@
 
 
 export default {
-  userDetails: null,
+  userDetails: null
 };

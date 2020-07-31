@@ -59,10 +59,10 @@ export default {
         checkNewPass: ''
       },
       rules: {
-        oldPass: [ { validator: baseCheck, trigger: 'blur' } ],
-        newPass: [ { validator: validatePass, trigger: 'blur' } ],
-        checkNewPass: [ { validator: validatePass2, trigger: 'blur' } ],
-        delete: [ { validator: checkUserName, trigger: 'blur' } ]
+        oldPass: [{ validator: baseCheck, trigger: 'blur' }],
+        newPass: [{ validator: validatePass, trigger: 'blur' }],
+        checkNewPass: [{ validator: validatePass2, trigger: 'blur' }],
+        delete: [{ validator: checkUserName, trigger: 'blur' }]
       },
 
       ruleForm2: {
@@ -73,7 +73,7 @@ export default {
     };
   },
   computed: {
-    ...mapGetters('userMessageModule', [ 'getUserInfo' ])
+    ...mapGetters('userMessageModule', ['getUserInfo'])
   },
   created() {},
   watch: {
@@ -145,7 +145,7 @@ export default {
           this.$alert('告警', result.message);
           return;
         }
-        this.$store.dispatch('userMessageModule/refushUserMottoFun',this.motto);
+        this.$store.dispatch('userMessageModule/refushUserMottoFun', this.motto);
       }
     }
   }

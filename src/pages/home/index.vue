@@ -26,7 +26,7 @@ export default {
       estimateCapacity: '20G',
       pushPaperCountData:[],
       myLineChart: null,
-      myCalendarChart: null,
+      myCalendarChart: null
     };
   },
   async mounted() {
@@ -85,7 +85,7 @@ export default {
       let resultData = [];
       let setMax = [];
       result.data.forEach( item => {
-        resultData.push([ this.getMyTime(item.updated_at).date_year_mounth, item.visit ]);
+        resultData.push([this.getMyTime(item.updated_at).date_year_mounth, item.visit]);
         setMax.push(item.visit);
       });
       const date = new Date();
@@ -104,9 +104,9 @@ export default {
         }
         let pushData;
         if (_index) {
-          pushData = [ theDate, resultData[_index][1] ];
+          pushData = [theDate, resultData[_index][1]];
         } else {
-          pushData = [ theDate, 0.1 ];
+          pushData = [theDate, 0.1];
         }
 
         data.push(pushData);
@@ -121,25 +121,25 @@ export default {
       let valueList = data.map(function (item) {
         return item[1];
       });
-      setMax.sort((a,b)=>b-a);
+      setMax.sort((a, b)=>b-a);
       const mainColor = '#06beb6';
       let option3 = {
         title: {
           text: '博客访问量',
           textStyle: {
             color: mainColor,
-            lineHeight: '50',
+            lineHeight: '50'
           },
-          left: 'center',
+          left: 'center'
         },
         // Make gradient line here
-        visualMap: [ {
+        visualMap: [{
           show: false,
           type: 'continuous',
           seriesIndex: 0,
           min: -1,
-          max: setMax[0],
-        } ],
+          max: setMax[0]
+        }],
         // title: [{
         //     left: 'center',
         //     text: 'Gradient along the y axis'
@@ -149,29 +149,29 @@ export default {
           axisPointer: {
             lineStyle: {
               color: mainColor
-            },
+            }
           }
         },
-        xAxis: [ {
+        xAxis: [{
           data: dateList,
           axisLine: {
             lineStyle: {
-              color: mainColor,
+              color: mainColor
             }
           }
-        } ],
-        yAxis: [ {
+        }],
+        yAxis: [{
           splitLine: { show: false },
           axisLine: {
             lineStyle: {
-              color: mainColor,
+              color: mainColor
             }
           }
-        } ],
+        }],
         // grid: [{
         //     bottom: '60%'
         // }],
-        series: [ {
+        series: [{
           type: 'line',
           showSymbol: false,
           data: valueList,
@@ -185,15 +185,15 @@ export default {
               y: 0,
               x2: 0,
               y2: 1,
-              colorStops: [ {
+              colorStops: [{
                 offset: 0, color: mainColor // 0% 处的颜色
               }, {
                 offset: 1, color: 'rgba(0, 0, 0, 0)' // 100% 处的颜色
-              } ],
+              }],
               global: false // 缺省为 false
             }
           }
-        } ]
+        }]
       };
       // 绘制图表
       this.myLineChart = echarts.init(document.getElementById('dayMap'));
@@ -223,14 +223,14 @@ export default {
      * @param {*} colorBox 区间颜色集
      */
     generatePieces() {
-      let colorBox = [ '#ebedf0', '#c6e48b', '#7bc96f', '#239a3b', '#196127' ];
+      let colorBox = ['#ebedf0', '#c6e48b', '#7bc96f', '#239a3b', '#196127'];
       // gte >             lte <
       let pieces = [
         { lt: 1, label: 0, color: colorBox[0] },
         { lte: 1, label: 1, color: colorBox[1] },
         { gte: 2, lte: 3, color: colorBox[2] },
         { gte: 4, lte: 5, color: colorBox[3] },
-        { gte: 5, color: colorBox[4] },
+        { gte: 5, color: colorBox[4] }
       ];
       return pieces;
     },
@@ -243,9 +243,9 @@ export default {
           text: '文章提交统计',
           textStyle: {
             color: mainColor,
-            lineHeight: '20',
+            lineHeight: '20'
           },
-          left: 'center',
+          left: 'center'
         },
         visualMap: {
           // show: false,
@@ -273,20 +273,20 @@ export default {
           //     color: 'red'
           // }
           // },
-          cellSize: [ 'auto', 20 ],
+          cellSize: ['auto', 20],
           splitLine: {
             lineStyle: {
               color: mainColor,
               width: 2
-            },
+            }
           },
           itemStyle: {
             normal: {
               color: 'rgba(72, 177, 191, 0.6)',
               borderWidth: 1,
-              borderColor: '#fff',
+              borderColor: '#fff'
               // shadowColor: '#fff',
-            },
+            }
           },
           monthLabel: {
             color: mainColor

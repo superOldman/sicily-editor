@@ -9,7 +9,7 @@ import less from 'less';
 
 
 
-Vue.component('layout',layout);
+Vue.component('layout', layout);
 
 Vue.use(ElementUI);
 Vue.use(less);
@@ -28,7 +28,7 @@ router.beforeEach((to, from, next) => {
 const v = new Vue({
   router,
   store,
-  render: h => h(App),
+  render: h => h(App)
 }).$mount('#app');
 
 export default v;

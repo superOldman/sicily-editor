@@ -50,7 +50,7 @@ export default {
     setTags
   },
   computed: {
-    ...mapGetters('userMessageModule', [ 'getUserInfo' ])
+    ...mapGetters('userMessageModule', ['getUserInfo'])
   },
   created() {
     this.getArticleById();

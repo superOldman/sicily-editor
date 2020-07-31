@@ -31,19 +31,22 @@ module.exports = {
      */
   rules: {
     'semi': 1,
-    'quotes': [ 1, 'single' ],// 引号类型
-    'no-unused-vars': 1,// 检查未使用变量
-    'no-undef': 0,// 检查未定义就使用变量
-    'no-useless-escape': 0,// 转义符
-    'indent': [ 2, 2 ],// 缩进风格
-    'no-trailing-spaces': 1,// 一行结束后面不要有空格
-    'spaced-comment': 1,// 注释风格要不要有空格什么的
-    'space-unary-ops': [ 1, { 'words': false, 'nonwords': false } ],
+    'quotes': [1, 'single'], // 引号类型
+    'no-unused-vars': 1, // 检查未使用变量
+    'no-undef': 0, // 检查未定义就使用变量
+    'no-useless-escape': 0, // 转义符
+    'indent': [1, 2], // 缩进风格
+    'no-trailing-spaces': 1, // 一行结束后面不要有空格
+    'spaced-comment': 1, // 注释风格要不要有空格什么的
+    'space-unary-ops': [1, { 'words': true, 'nonwords': false }],
 
-    'array-bracket-spacing': [ 'error', 'always' ],
-    'object-curly-spacing': [ 'error', 'always' ],
-    'space-before-blocks': 2,
+    'array-bracket-spacing': [1, 'never'], // 数组前后不加空格
+    'object-curly-spacing': [1, 'always'],  // 对象前后加空格
+    'space-before-blocks': 1, // 代码块前后空格
 
+    'comma-dangle': [1, 'never'], // always-multiline：多行模式必须带逗号，单行模式不能带逗号
+
+    'comma-spacing': [1, { 'before': false, 'after': true }]// 控制逗号前后的空格
 
 
   }
