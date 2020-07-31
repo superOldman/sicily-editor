@@ -33,7 +33,7 @@
         </li>
       </ul>
     </div>
-   
+
   </div>
 </template>
 
@@ -100,7 +100,7 @@
   float: left;
   height: 50px;
   line-height: 50px;
-  
+
 }
 .folder ul li:nth-child(1){
   width: 80%;

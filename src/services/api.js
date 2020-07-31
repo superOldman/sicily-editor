@@ -3,12 +3,12 @@ import {  http_get, http_post } from './index';
 const baseAddress =  'http://47.96.2.170:3000';
 
 // 环境的切换 例子
-// if (process.env.NODE_ENV == 'development') {    
-//   axios.defaults.baseURL = 'https://www.baidu.com';} 
-// else if (process.env.NODE_ENV == 'debug') {    
+// if (process.env.NODE_ENV == 'development') {
+//   axios.defaults.baseURL = 'https://www.baidu.com';}
+// else if (process.env.NODE_ENV == 'debug') {
 //   axios.defaults.baseURL = 'https://www.ceshi.com';
-// } 
-// else if (process.env.NODE_ENV == 'production') {    
+// }
+// else if (process.env.NODE_ENV == 'production') {
 //   axios.defaults.baseURL = 'https://www.production.com';
 // }
 
@@ -34,7 +34,7 @@ class SkmService {
     const result = await http_post({ api: baseAddress + '/editor/saveHtml', params });
     return result.data;
   }
-  
+
 
   async saveEditorHtml(params) {
     const result = await http_post({ api: baseAddress + '/editor/saveEditorHtml', params });
@@ -65,7 +65,7 @@ class SkmService {
 
 
 
-  // 文件夹接口 
+  // 文件夹接口
   async getFolderList(params) {
     const result = await http_get({ api: baseAddress + '/folder/getFolderList', params: { params } });
     return result.data;
@@ -77,7 +77,7 @@ class SkmService {
     const result = await http_post({ api: baseAddress + '/folder/deleteFolder', params });
     return result.data;
   }
-  
+
   async saveFolder(params) {
     const result = await http_post({ api: baseAddress + '/folder/saveFolder', params });
     return result.data;
@@ -87,7 +87,7 @@ class SkmService {
     const result = await http_post({ api: baseAddress + '/folder/saveEditorFolder', params });
     return result.data;
   }
-  
+
   async pushPaper(params) {
     const result = await http_post({ api: baseAddress + '/folder/pushPaper', params });
     return result.data;
@@ -97,9 +97,9 @@ class SkmService {
     const result = await http_post({ api: baseAddress + '/search/getTitleList', params });
     return result.data;
   }
-  
 
-  
+
+
   async searchById(params) {
     const result = await http_get({ api: baseAddress + '/searchById', params: { params } });
     return result.data;
@@ -126,7 +126,7 @@ class SkmService {
     return result.data;
   }
 
-  
+
   async pushPaperCount(params) {
     const result = await http_get({ api: baseAddress + '/statsHome/lastYearPushPaperCount', params: { params } });
     return result.data;
@@ -149,7 +149,7 @@ class SkmService {
     return result.data;
   }
 
-  
+
   // 图片列表
   async imageList(params) {
     const result = await http_get({ api: baseAddress + '/picture/imageList', params: { params } });

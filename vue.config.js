@@ -6,8 +6,8 @@ module.exports = {
   publicPath: process.env.NODE_ENV === 'production' ? 'http://sicilymarmot.top/sicilyEditor/' : './',
   // server 配置
   devServer: {
-      host: '0.0.0.0',
-      port: 5503,
-      open: false,
+    host: '0.0.0.0',
+    port: 5503,
+    open: false,
   }
 };

@@ -14,7 +14,7 @@ import { mapGetters } from 'vuex';
 export default {
   name: 'layout',
   data: function() {
-    return {    
+    return {
       MODULES_INFO,
       pageMessageIcon: MODULES_INFO[0].icon,
       pageMessage: MODULES_INFO[0].name,
@@ -51,7 +51,7 @@ export default {
   mounted() {
     // console.log(MODULES_INFO)
     this.isLogin();
-    
+
     this.bg_animate();
   },
   beforeDestroy() {
@@ -92,7 +92,7 @@ export default {
       if (!this.getUserInfo) {
         SkmService.islogin().then(data => {
           this.$store.commit('userMessageModule/refushUser', data.userMessage);
-     
+
         });
       }
     },

@@ -79,7 +79,7 @@ export default {
   watch: {
     '$store.state.userMessageModule.userDetails.motto': {
       handler(val) {
-         this.motto = val;
+        this.motto = val;
       }
     }
   },
@@ -143,7 +143,7 @@ export default {
         const result = await SkmService.uploadUserMotto({ motto: this.motto });
         if (result.code === 1) {
           this.$alert('告警', result.message);
-          return; 
+          return;
         }
         this.$store.dispatch('userMessageModule/refushUserMottoFun',this.motto);
       }

@@ -27,7 +27,7 @@ export default {
     // initData: "",
     // initDataDelay: 0 // 延迟初始化数据时间，单位毫秒
     config: { markdown: '没数据时的字段' }
-     
+
   },
   created(){
     // console.log(this.editorId)
@@ -80,7 +80,7 @@ export default {
         html,
         text: window.$(html).text()
       };
-     
+
       this.$emit('onchange',savehtml);
     },
     init() {

@@ -229,7 +229,7 @@ export default {
     }
     .theMargin {
       margin-left: 20px;
-    } 
+    }
   }
 }
 

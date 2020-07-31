@@ -50,22 +50,22 @@ export default {
 
   },
   methods: {
-    getList( params = { 
-        page: this.currentPage,
-        pageSize: this.pageSize,
-      }) {
-      
+    getList( params = {
+      page: this.currentPage,
+      pageSize: this.pageSize,
+    }) {
+
 
       SkmService.get_list(params).then((result) => {
-       result.data.list.forEach((item)=>{
-         item.updated_at = myGetTime(item.updated_at);
-       });
+        result.data.list.forEach((item)=>{
+          item.updated_at = myGetTime(item.updated_at);
+        });
 
         this.listData = result.data.list;
         this.paperSum = result.data.sum;
       });
     },
- 
+
     handleSizeChange(val) {
       console.log(`每页 ${val} 条`);
       this.getList({
@@ -87,21 +87,18 @@ export default {
 
 
     topChange(val) {
-      // console.log('滑块改变了')
-      // console.log(val)
-      // console.log(val.stick)
-      var a = 10;
+
       let title = !val.stick? '置顶':'取消置顶';
       this.$confirm(`确定${title}？`).then( async () => {
-      
+
         let { _id, stick} = val;
         const data = await SkmService.setTop({ _id, stick: !stick });
         if(data.code === 0 ){
-          
+
           val.stick = !val.stick;
         }else{
           this.$alert(data.message, '提示', { confirmButtonText: '确定'});
-        }  
+        }
       }).catch(() => {});
 
     },
@@ -121,7 +118,7 @@ export default {
         const data = await SkmService.destroyById({ _id: row._id });
         if(data.code === 0 ){
           this.getList();
-        }  
+        }
       }).catch(() => {});
 
     },
@@ -181,7 +178,7 @@ export default {
  </el-switch>
             </div>
 
-           
+
           </template>
         </el-table-column>
         <el-table-column label="操作" width="180">
@@ -251,7 +248,7 @@ export default {
 #changeTop .el-switch.is-disabled .el-switch__core,
 .el-switch.is-disabled .el-switch__label{
       cursor: pointer;
-} 
+}
 
 .articleListWarp .el-pagination{
   padding: 20px;

@@ -113,12 +113,12 @@ export default {
               <el-col :span="4"> <i class="el-icon-delete img_del" @click="deleteImage(item._id)"></i></el-col>
             </el-row>
             <!-- <div class="operate">
-             
+
               <div class="layui-unselect layui-form-checkbox" lay-skin="primary">
                   <span></span>
               </div>
              <div>
-             
+
              </div> -->
             <!-- </div> -->
           </li>

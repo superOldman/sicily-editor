@@ -7,11 +7,11 @@ export default {
     };
   },
   props: ['dialogVisible','dialogTitle','dialogBtn','hasResetForm'],
-//   props: {
-//       dialogTitle: String,
-//       dialogBtn: String,
-//       hasResetForm: Boolean,
-//   },
+  //   props: {
+  //       dialogTitle: String,
+  //       dialogBtn: String,
+  //       hasResetForm: Boolean,
+  //   },
   methods: {
     closeMyDialog(){
       this.$emit('closeMyDialog');
@@ -35,7 +35,7 @@ export default {
         <el-button @click="closeMyDialog">取 消</el-button>
         <el-button v-if="hasResetForm" @click="resetForm">重置</el-button>
         <el-button type="primary" @click="submitForm">{{dialogBtn}}</el-button>
-      </span> 
+      </span>
     </el-dialog>
 </template>
 

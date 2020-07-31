@@ -205,7 +205,7 @@ export default {
                 <!-- <el-input type="text" v-model="(getUserInfo || {}).userName"></el-input> -->
                 <el-input type="text" v-model="options.author"></el-input>
               </el-form-item>
- 
+
               <setTags :hasInput="true" :hasTags="options.hasTags" @addTag="addTags" @removeTag="removeTag"></setTags>
 
               <el-form-item label="选择文件夹">
@@ -311,7 +311,7 @@ export default {
 .setFolder {
   margin-bottom: 20px;
 }
-/* 卡片样式 
+/* 卡片样式
 .cWrcMb {
     margin-bottom: 20px;
     height: 200px;

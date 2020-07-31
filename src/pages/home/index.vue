@@ -25,7 +25,7 @@ export default {
       sourceStatsPercent: 0,
       estimateCapacity: '20G',
       pushPaperCountData:[],
-      myLineChart: null, 
+      myLineChart: null,
       myCalendarChart: null,
     };
   },
@@ -48,7 +48,7 @@ export default {
           this.myCalendarChart.resize();
         };
       }, 200);
-    }, 
+    },
     async getVirtulData() {
       // year = year || "2020";
       // let date = +echarts.number.parseDate(year + "-01-01");
@@ -76,7 +76,7 @@ export default {
         date_hour_min_sec: `${addZero(nowTime.getHours())}:${addZero(nowTime.getMinutes())}:${addZero(nowTime.getSeconds())}`
       };
       function addZero(num) {
-        return  num >= 10 ? num : `0${num}`; 
+        return  num >= 10 ? num : `0${num}`;
       }
     },
     async createDayMap() {
@@ -95,22 +95,22 @@ export default {
       let data = [];
 
       for (let i = 0; i < 30; i++) {
-          let theDate = this.getMyTime(new Date(year, month, day)).date_year_mounth;
-          let _index;
-          for (let j = 0; j < resultData.length; j++) {
-            if (resultData[j].includes(theDate)) {
-              _index = j;
-            }
+        let theDate = this.getMyTime(new Date(year, month, day)).date_year_mounth;
+        let _index;
+        for (let j = 0; j < resultData.length; j++) {
+          if (resultData[j].includes(theDate)) {
+            _index = j;
           }
-          let pushData;
-          if (_index) {
-            pushData = [ theDate, resultData[_index][1] ];
-          } else {
-            pushData = [ theDate, 0.1];
-          }
+        }
+        let pushData;
+        if (_index) {
+          pushData = [ theDate, resultData[_index][1] ];
+        } else {
+          pushData = [ theDate, 0.1];
+        }
 
-          data.push(pushData);
-          day--;
+        data.push(pushData);
+        day--;
       }
 
       data.reverse();
@@ -119,7 +119,7 @@ export default {
         return item[0];
       });
       let valueList = data.map(function (item) {
-          return item[1];
+        return item[1];
       });
       setMax.sort((a,b)=>b-a);
       const mainColor = '#06beb6';
@@ -186,9 +186,9 @@ export default {
               x2: 0,
               y2: 1,
               colorStops: [{
-                  offset: 0, color: mainColor // 0% 处的颜色
+                offset: 0, color: mainColor // 0% 处的颜色
               }, {
-                  offset: 1, color: 'rgba(0, 0, 0, 0)' // 100% 处的颜色
+                offset: 1, color: 'rgba(0, 0, 0, 0)' // 100% 处的颜色
               }],
               global: false // 缺省为 false
             }
@@ -212,9 +212,9 @@ export default {
 
     mbOrgb(size) {
       if ((size / 1024 ) > 1) {
-          return (size / 1024).toFixed(2) + 'gb';
+        return (size / 1024).toFixed(2) + 'gb';
       } else {
-          return size.toFixed(2)  + 'mb';
+        return size.toFixed(2)  + 'mb';
       }
     },
     /**
@@ -306,19 +306,19 @@ export default {
       };
 
 
-        // function getVirtulData(year) {
-        //     year = year || "2020";
-        //     let date = +echarts.number.parseDate(year + "-01-01");
-        //     let end = +echarts.number.parseDate(+year + 1 + "-01-01");
-        //     let dayTime = 3600 * 24 * 1000;
-        //     let data = [];
-        //     // for (let time = date; time < end; time += dayTime) {
-        //     //     data.push([echarts.format.formatTime("yyyy-MM-dd", time), Math.floor(Math.random() * 10)]);
-        //     // }
-        //     data = [["2020-06-01", 2], ["2020-06-02", 19], ["2020-06-03", 1], ["2020-06-04", 0]]
-        //     return data;
-        // };
-        // 绘制图表
+      // function getVirtulData(year) {
+      //     year = year || "2020";
+      //     let date = +echarts.number.parseDate(year + "-01-01");
+      //     let end = +echarts.number.parseDate(+year + 1 + "-01-01");
+      //     let dayTime = 3600 * 24 * 1000;
+      //     let data = [];
+      //     // for (let time = date; time < end; time += dayTime) {
+      //     //     data.push([echarts.format.formatTime("yyyy-MM-dd", time), Math.floor(Math.random() * 10)]);
+      //     // }
+      //     data = [["2020-06-01", 2], ["2020-06-02", 19], ["2020-06-03", 1], ["2020-06-04", 0]]
+      //     return data;
+      // };
+      // 绘制图表
       this.myCalendarChart = echarts.init(document.getElementById('dayMap2'));
       this.myCalendarChart.setOption(option);
 
@@ -345,7 +345,7 @@ export default {
             <div class="cardTitle" style="color: #fd746c">图片资源</div>
             <p class="cardInfo">图片：{{sourceStats.pictureDetail.count}} 个</p>
             <p class="cardInfo">图片占有容量：{{sourceStats.pictureDetail.size}}</p>
-            
+
           </el-col>
           <el-col :span="8" class="statsBlock">
             <div class="cardTitle" style="color: #ACB6E5">文章资源</div>

@@ -1,7 +1,7 @@
 // import SkmServise
 
 export default {
-    getLoading(state) {
-        return state.loading;
-    }
+  getLoading(state) {
+    return state.loading;
+  }
 };

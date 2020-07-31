@@ -34,7 +34,7 @@ console.log(store);
 //   state: {
 //     loadingStatus,
 //     userDetails
-//   }, 
+//   },
 //   // state: userDetails,
 //   getters: {
 //     getToCounts: function (state) {
