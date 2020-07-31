@@ -1,11 +1,11 @@
 <script>
-import layout from "../../components/layout/index.vue";
-import myDialog from "../../components/myDialog/index.vue";
-import SkmService from "../../services/api";
-import address from "../../constant/address";
-import { myGetTime } from "../../utils/utils";
+import layout from '../../components/layout/index.vue';
+import myDialog from '../../components/myDialog/index.vue';
+import SkmService from '../../services/api';
+import address from '../../constant/address';
+import { myGetTime } from '../../utils/utils';
 export default {
-  name: "createFolder",
+  name: 'createFolder',
   data() {
     return {
       listData: [
@@ -22,14 +22,14 @@ export default {
 
       /** dialog */
 
-      dialogTitle: "新建文件夹",
-      dialogBtn: "立即创建",
+      dialogTitle: '新建文件夹',
+      dialogBtn: '立即创建',
       hasResetForm: true,
 
       /** dialog */
 
-      dialogPPTitle: "添加文章",
-      dialogPPBtn: "保存",
+      dialogPPTitle: '添加文章',
+      dialogPPBtn: '保存',
       hasResetFormPP: false,
       dialogPPVisible: false,
 
@@ -38,34 +38,34 @@ export default {
       dialogVisible: false,
       isCreate: true,
       ruleForm: {
-        folderName: "",
-        cover: "",
-        info: "",
-        _id: ""
+        folderName: '',
+        cover: '',
+        info: '',
+        _id: ''
         // folderHasPaper:[]
       },
       rules: {
         folderName: [
-          { required: true, message: "请输入文件夹名称", trigger: "blur" },
-          { min: 2, max: 20, message: "长度在 2 到 20 个字符", trigger: "blur" }
+          { required: true, message: '请输入文件夹名称', trigger: 'blur' },
+          { min: 2, max: 20, message: '长度在 2 到 20 个字符', trigger: 'blur' }
         ],
-        info: [{ required: true, message: "请填文件夹简介", trigger: "blur" }]
+        info: [{ required: true, message: '请填文件夹简介', trigger: 'blur' }]
       },
 
-      uploadAddress: address + "/editor/uploadImg",
+      uploadAddress: address + '/editor/uploadImg',
 
       /** 文分类文章列表 */
-      pushPaperFormFolderId: "",
+      pushPaperFormFolderId: '',
       paperList: [
         {
-          _id: "12313",
-          title: "标题",
-          info: "简介简介"
+          _id: '12313',
+          title: '标题',
+          info: '简介简介'
         },
         {
-          _id: "12313",
-          title: "标题",
-          info: "简介简介"
+          _id: '12313',
+          title: '标题',
+          info: '简介简介'
         }
       ],
       paperList_currentPage: 1,
@@ -97,8 +97,8 @@ export default {
         _id: row._id
       };
       this.isCreate = false;
-      this.dialogTitle = "编辑";
-      this.dialogBtn = "立即保存";
+      this.dialogTitle = '编辑';
+      this.dialogBtn = '立即保存';
       this.dialogVisible = true;
     },
 
@@ -112,27 +112,27 @@ export default {
           this.paperList = data.data;
           this.dialogPPVisible = true;
         } else {
-          this.$message({ type: "info", message: "暂时没有未分配的文章!" });
+          this.$message({ type: 'info', message: '暂时没有未分配的文章!' });
         }
       });
     },
 
     handleDelete(index, row) {
-      this.$confirm("此操作将永久删除该文件夹, 是否继续?", "提示", {
-        confirmButtonText: "确定",
-        cancelButtonText: "取消",
-        type: "warning"
+      this.$confirm('此操作将永久删除该文件夹, 是否继续?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
       })
         .then(() => {
           SkmService.deleteFolder({ _id: row._id }).then(data => {
             if (data.code === 0) {
-              this.$message({ type: "success", message: "删除成功!" });
+              this.$message({ type: 'success', message: '删除成功!' });
               this.listData.splice(index, 1); // 请求接口删除  why 前端操作
             }
           });
         })
         .catch(() => {
-          this.$message({ type: "info", message: "已取消删除" });
+          this.$message({ type: 'info', message: '已取消删除' });
         });
     },
 
@@ -141,18 +141,18 @@ export default {
     showDialog() {
       this.dialogVisible = true;
       this.ruleForm = {
-        folderName: "",
-        cover: "",
-        info: "",
-        _id: ""
+        folderName: '',
+        cover: '',
+        info: '',
+        _id: ''
       };
       this.isCreate = true;
-      this.dialogTitle = "新建文件夹";
-      this.dialogBtn = "立即创建";
+      this.dialogTitle = '新建文件夹';
+      this.dialogBtn = '立即创建';
 
     },
     submitForm() {
-      console.log("this.$refs");
+      console.log('this.$refs');
       console.log(this.$refs);
       console.log(this.$refs.newFolderform);
 
@@ -161,7 +161,7 @@ export default {
         if (valid) {
           this.changeList();
         } else {
-          console.log("error submit!!");
+          console.log('error submit!!');
           return false;
         }
       });
@@ -169,10 +169,10 @@ export default {
     resetForm(formName) {
       console.log(formName);
       // this.$refs[formName].resetFields();
-      this.ruleForm.folderName = "";
-      this.ruleForm.cover = "";
-      this.ruleForm.info = "";
-      this.ruleForm._id = "";
+      this.ruleForm.folderName = '';
+      this.ruleForm.cover = '';
+      this.ruleForm.info = '';
+      this.ruleForm._id = '';
     },
 
     async changeList() {
@@ -182,36 +182,36 @@ export default {
         let insertObj = {};
 
         for (let item in this.ruleForm) {
-          if (item !== "_id") {
+          if (item !== '_id') {
             insertObj[item] = this.ruleForm[item];
           }
         }
 
         const result = await SkmService.saveFolder(insertObj);
         this.listData.push(result.data);
-        this.$message({ type: "success", message: "创建成功!" });
+        this.$message({ type: 'success', message: '创建成功!' });
       } else {
         await SkmService.saveEditorFolder(this.ruleForm);
         // this.listData[this.ruleForm.index] = result.data;
         await this.getFolderList();
-        this.$message({ type: "success", message: "修改成功!" });
+        this.$message({ type: 'success', message: '修改成功!' });
       }
     },
 
     /** 上传图片 */
 
     handleAvatarSuccess(res) {
-      this.ruleForm.cover = address + "/" + res.file.path;
+      this.ruleForm.cover = address + '/' + res.file.path;
     },
     beforeAvatarUpload(file) {
       const isJPG = file.type; // === ("image/jpeg" || "image/png" || "image/jpg");
       const isLt2M = file.size / 1024 / 1024 < 2;
 
       if (!isJPG) {
-        this.$message.error("上传头像图片只能是 jpeg/jpg/png 格式!");
+        this.$message.error('上传头像图片只能是 jpeg/jpg/png 格式!');
       }
       if (!isLt2M) {
-        this.$message.error("上传头像图片大小不能超过 2MB!");
+        this.$message.error('上传头像图片大小不能超过 2MB!');
       }
       return isJPG && isLt2M;
     },
@@ -227,12 +227,12 @@ export default {
 
     handleSelectionChange(val) {
       this.multipleSelection = val;
-      console.log("xuanze:");
+      console.log('xuanze:');
       console.log(this.multipleSelection);
     },
     submitFormPP() {
       if (this.multipleSelection.length === 0) {
-        this.$message({ type: "info", message: "还没选择添加的文章!" });
+        this.$message({ type: 'info', message: '还没选择添加的文章!' });
       } else {
         let folderHasPaper = [];
         this.multipleSelection.forEach(item => {
@@ -247,7 +247,7 @@ export default {
         }).then(data => {
           if (data.code === 0) {
             this.dialogPPVisible = false;
-            this.$message({ type: "success", message: "添加完毕!" });
+            this.$message({ type: 'success', message: '添加完毕!' });
             this.getFolderList();
           }
         });

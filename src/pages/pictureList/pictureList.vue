@@ -1,7 +1,7 @@
 <script type='text/ecmascript-6'>
-import SkmService from "../../services/api";
+import SkmService from '../../services/api';
 // import { mapGetters } from "vuex";
-import { myGetTime } from "../../utils/utils";
+import { myGetTime } from '../../utils/utils';
 
 export default {
   data() {
@@ -62,7 +62,7 @@ export default {
 
     // 删除
     deleteImage(_id) {
-      this.$confirm("确认删除？")
+      this.$confirm('确认删除？')
         .then(async () => {
           const data = await SkmService.deleteImage({ _id });
           if (data.code === 0) {
@@ -72,7 +72,7 @@ export default {
         .catch(() => {});
     },
     handleClose(done) {
-      this.$confirm("确认关闭？")
+      this.$confirm('确认关闭？')
         .then(() => {
           done();
         })

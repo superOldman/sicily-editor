@@ -5,9 +5,9 @@
  * desc: 文章列表
  */
 // import editorForm from "../../components/editorForm/index.vue";
-import SkmService from "../../services/api";
-import { mapGetters } from "vuex";
-import { myGetTime } from "../../utils/utils";
+import SkmService from '../../services/api';
+import { mapGetters } from 'vuex';
+import { myGetTime } from '../../utils/utils';
 
 export default {
   data() {
@@ -18,11 +18,11 @@ export default {
       paperSum: 0,
 
       formData: {
-        title: "sdfafa",
-        info: "sdfadfa",
-        auther: " vvvvvvv",
-        date1: "",
-        date2: ""
+        title: 'sdfafa',
+        info: 'sdfadfa',
+        auther: ' vvvvvvv',
+        date1: '',
+        date2: ''
       },
       dialogVisible: false,
     };
@@ -58,8 +58,8 @@ export default {
 
       SkmService.get_list(params).then((result) => {
        result.data.list.forEach((item)=>{
-         item.updated_at = myGetTime(item.updated_at)
-       })
+         item.updated_at = myGetTime(item.updated_at);
+       });
 
         this.listData = result.data.list;
         this.paperSum = result.data.sum;
@@ -71,26 +71,26 @@ export default {
       this.getList({
         page: this.currentPage = val,
         pageSize: this.pageSize,
-      })
+      });
 
     },
     handleCurrentChange(val) {
       console.log(`当前页: ${val}`);
 
-      console.log('handleCurrentChange')
+      console.log('handleCurrentChange');
 
       this.getList({
         page: this.currentPage = val,
         pageSize: this.pageSize,
-      })
+      });
     },
 
 
     topChange(val) {
-      console.log('滑块改变了')
-      console.log(val)
-      console.log(val.stick)
-
+      // console.log('滑块改变了')
+      // console.log(val)
+      // console.log(val.stick)
+      var a = 10;
       let title = !val.stick? '置顶':'取消置顶';
       this.$confirm(`确定${title}？`).then( async () => {
       
@@ -107,20 +107,20 @@ export default {
     },
     // 编辑
     handleEdit(index, row) {
-      console.log("编辑", "searchById");
+      console.log('编辑', 'searchById');
       console.log(index, row);
       // this.dialogVisible = true;
       this.formData = row;
-      this.$router.push({ path:'/editor', query:{ id: this.formData._id } })
+      this.$router.push({ path:'/editor', query:{ id: this.formData._id } });
     },
     // 删除
     handleDelete(index, row) {
-      console.log("删除", "destroyById");
+      console.log('删除', 'destroyById');
       console.log(index, row);
       this.$confirm('确认删除？').then( async () => {
         const data = await SkmService.destroyById({ _id: row._id });
         if(data.code === 0 ){
-          this.getList()
+          this.getList();
         }  
       }).catch(() => {});
 

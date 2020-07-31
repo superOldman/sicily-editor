@@ -121,13 +121,13 @@ export default {
   data() {
     return {
       restaurants: [],
-      input: ""
+      input: ''
     };
   },
   props: ['folderName'],
   methods: {
     addFolder(){
-      this.$emit('addFolder', this.input)
+      this.$emit('addFolder', this.input);
     },
     handleCommand(command) {
       this.$message('click on item ' + command);

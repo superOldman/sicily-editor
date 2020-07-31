@@ -10,4 +10,4 @@ module.exports = {
       port: 5503,
       open: false,
   }
-}
+};

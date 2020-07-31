@@ -1,12 +1,12 @@
-import Vue from 'vue'
-import Vuex from 'vuex'
+import Vue from 'vue';
+import Vuex from 'vuex';
 // import userDetails from './modules/userDetails';
 // import loadingStatus from './modules/loadingStatus';
 
 import load from './load/index';
 import user from './user/index';
 
-Vue.use(Vuex)
+Vue.use(Vuex);
 
 
 const store = new Vuex.Store({
@@ -21,10 +21,10 @@ const store = new Vuex.Store({
       ...load
     }
   }
-})
+});
 
 
-console.log(store)
+console.log(store);
 
 
 

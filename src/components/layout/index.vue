@@ -7,19 +7,19 @@
 
 // import { Component, Emit, Prop, Vue, Watch } from 'vue-property-decorator';
 // import { Getter, Action } from 'vuex-class';
-import MODULES_INFO from "../../constant/navModule.js";
-import SkmService from "../../services/api";
-import userContent from "../userContent/index.vue";
-import { mapGetters } from "vuex";
+import MODULES_INFO from '../../constant/navModule.js';
+import SkmService from '../../services/api';
+import userContent from '../userContent/index.vue';
+import { mapGetters } from 'vuex';
 export default {
-  name: "layout",
+  name: 'layout',
   data: function() {
     return {    
       MODULES_INFO,
       pageMessageIcon: MODULES_INFO[0].icon,
       pageMessage: MODULES_INFO[0].name,
-      date_year_mounth: "",
-      date_hour_min_sec: "",
+      date_year_mounth: '',
+      date_hour_min_sec: '',
       userMessage: {},
       timerId: null,
       // userMessage: {
@@ -63,7 +63,7 @@ export default {
       if (time) {
         nowTime = new Date(time);
         return `${nowTime.getFullYear()}-${addZero(nowTime.getMonth() + 1)}-${addZero(nowTime.getDate())}
-        ${addZero(nowTime.getHours())}:${addZero(nowTime.getMinutes())}:${addZero(nowTime.getSeconds())}`
+        ${addZero(nowTime.getHours())}:${addZero(nowTime.getMinutes())}:${addZero(nowTime.getSeconds())}`;
       } else {
         nowTime = new Date();
         this.date_year_mounth = `${nowTime.getFullYear()}-${addZero(
@@ -81,7 +81,7 @@ export default {
       this.getMyTime();
       this.timerId = setInterval(()=>{
         this.getMyTime();
-      },1000)
+      },1000);
     },
     selectHandle(item) {
       this.pageMessage = item.name;
@@ -91,7 +91,7 @@ export default {
       // this.userMessage = this.$store.state.userDetails.userDetails;
       if (!this.getUserInfo) {
         SkmService.islogin().then(data => {
-          this.$store.commit("userMessageModule/refushUser", data.userMessage);
+          this.$store.commit('userMessageModule/refushUser', data.userMessage);
      
         });
       }
@@ -99,18 +99,18 @@ export default {
 
     /** 字体背景动画 */
     bg_animate() {
-      const canvas = document.createElement("canvas");
-      this.ctx = canvas.getContext("2d");
-      this.ctx.font = "oblique bolder 24px fantasy";
+      const canvas = document.createElement('canvas');
+      this.ctx = canvas.getContext('2d');
+      this.ctx.font = 'oblique bolder 24px fantasy';
       const textWidth =
-        Math.ceil(this.ctx.measureText("sicilymarmot").width) + 10;
+        Math.ceil(this.ctx.measureText('sicilymarmot').width) + 10;
       canvas.width = textWidth;
-      this.ctx.font = "oblique bolder 24px fantasy";
-      this.ctx.fillText("sicilymarmot", 0, 50);
-      this.dom = document.getElementById("logo");
-      this.dom.style.width = textWidth + "px";
+      this.ctx.font = 'oblique bolder 24px fantasy';
+      this.ctx.fillText('sicilymarmot', 0, 50);
+      this.dom = document.getElementById('logo');
+      this.dom.style.width = textWidth + 'px';
       this.dom.style.webkitMask =
-        "url(" + canvas.toDataURL("image/png", 0.92) + ")";
+        'url(' + canvas.toDataURL('image/png', 0.92) + ')';
     }
   }
 };

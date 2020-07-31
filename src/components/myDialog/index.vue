@@ -3,7 +3,7 @@ export default {
   data() {
     return {
       restaurants: [],
-      input: ""
+      input: ''
     };
   },
   props: ['dialogVisible','dialogTitle','dialogBtn','hasResetForm'],
@@ -24,7 +24,7 @@ export default {
     },
   },
 
-}
+};
 
 </script>
 

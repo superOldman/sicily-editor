@@ -4,10 +4,10 @@
  * date: 2020/03/17
  * desc: 文章编辑
  */
-import twMarkdownView from "../../components/markdownEditor/markdownEditor.vue";
-import SkmService from "../../services/api";
-import address from "../../constant/address";
-import { mapGetters } from "vuex";
+import twMarkdownView from '../../components/markdownEditor/markdownEditor.vue';
+import SkmService from '../../services/api';
+import address from '../../constant/address';
+import { mapGetters } from 'vuex';
 
 export default {
   data() {
@@ -15,20 +15,20 @@ export default {
       markdownView: null,
       isNewEditor: false,
       isShowEditor: false,
-      imageUrl: "",
+      imageUrl: '',
       placeholder: {
-        title: "标题",
-        info: "简介..."
+        title: '标题',
+        info: '简介...'
       },
       options: {
-        title: "",
+        title: '',
         author: '', //this.$store.state.getUserInfo(),
-        info: "",
+        info: '',
         content: null,
         markdown: null,
-        saveImageUrl: "",
+        saveImageUrl: '',
         hasTags: [],
-        hasFolder: ""
+        hasFolder: ''
         // config: {
         //   editorId: "markdown-editor",
         //   config: { markdown: "qweqeqweqw" }
@@ -38,8 +38,8 @@ export default {
       folderListShow: false,
       createfolderShow: false,
       folderList: [],
-      showFolderName: "选择文件夹",
-      uploadAddress: address + "/editor/uploadImg",
+      showFolderName: '选择文件夹',
+      uploadAddress: address + '/editor/uploadImg',
       currentTag: '',
       rules: {
         title: { required: true, message: '请输入文章标题' },
@@ -52,7 +52,7 @@ export default {
     // setTags
   },
   computed: {
-    ...mapGetters("userMessageModule", ["getUserInfo"])
+    ...mapGetters('userMessageModule', ['getUserInfo'])
   },
   created() {
     this.getArticleById();
@@ -64,9 +64,9 @@ export default {
   mounted() {},
   methods: {
     async getArticleById() {
-      if (window.location.href.indexOf("?") !== -1) {
+      if (window.location.href.indexOf('?') !== -1) {
         // this.$route.query.id
-        let articleId = window.location.href.split("?id=")[1];
+        let articleId = window.location.href.split('?id=')[1];
         const result = await SkmService.searchById({ id: articleId });
         if (result.code === 0) {
           this.options = result.list;
@@ -104,7 +104,7 @@ export default {
         } else {
           this.$message.warning('请填写必填字段');
         }
-      })
+      });
     },
     async againEditor() {
       this.options.author = this.getUserInfo.userName;
@@ -140,10 +140,10 @@ export default {
       const isLt2M = file.size / 1024 / 1024 < 2;
 
       if (!isJPG) {
-        this.$message.error("上传头像图片只能是 jpeg/jpg/png 格式!");
+        this.$message.error('上传头像图片只能是 jpeg/jpg/png 格式!');
       }
       if (!isLt2M) {
-        this.$message.error("上传头像图片大小不能超过 2MB!");
+        this.$message.error('上传头像图片大小不能超过 2MB!');
       }
       return isJPG && isLt2M;
     },
@@ -159,7 +159,7 @@ export default {
     },
     // 新建文件夹
     createFolder() {
-      this.$router.push({ name: "createFolder", query: { id: 12312313 } });
+      this.$router.push({ name: 'createFolder', query: { id: 12312313 } });
     },
     selectName(name) {
       this.showFolderName = name;

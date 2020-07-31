@@ -6,9 +6,9 @@
  */
 
 // @ts-ignore
-import scriptjs from "scriptjs";
+import scriptjs from 'scriptjs';
 
-import { defaultConfig } from "./defaultConfig";
+import { defaultConfig } from './defaultConfig';
 // @Component({
 //   name: 'markdownEditor',
 //   components: {},
@@ -20,7 +20,7 @@ export default {
       timer: null,
       doc: {},
       jsLoadOver: false,
-      editorId: "markdown-editor",
+      editorId: 'markdown-editor',
     };
   },
   props: {
@@ -34,8 +34,8 @@ export default {
 
   },
   mounted() {
-    console.log('加载 编辑页面')
-    console.log(this.config)
+    console.log('加载 编辑页面');
+    console.log(this.config);
     this.init();
   },
   methods: {
@@ -81,16 +81,16 @@ export default {
         text: window.$(html).text()
       };
      
-      this.$emit('onchange',savehtml)
+      this.$emit('onchange',savehtml);
     },
     init() {
       const vm = this;
       const config = vm.getConfig();
       (async () => {
         await vm.fetchScript(
-          "https://cdn.bootcss.com/jquery/1.11.3/jquery.min.js"
+          'https://cdn.bootcss.com/jquery/1.11.3/jquery.min.js'
         );
-        await vm.fetchScript("./static/editor.md-master/editormd.js");
+        await vm.fetchScript('./static/editor.md-master/editormd.js');
         vm.$nextTick(() => {
           // @ts-ignore
           vm.editor = window.editormd(vm.editorId, config);

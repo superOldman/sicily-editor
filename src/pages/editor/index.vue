@@ -4,32 +4,32 @@
  * date: 2020/03/17
  * desc: 文章编辑
  */
-import twMarkdownView from "../../components/markdownEditor/markdownEditor.vue";
-import setTags from "../../components/setTags/setTags.vue";
-import SkmService from "../../services/api";
-import address from "../../constant/address";
-import { mapGetters } from "vuex";
+import twMarkdownView from '../../components/markdownEditor/markdownEditor.vue';
+import setTags from '../../components/setTags/setTags.vue';
+import SkmService from '../../services/api';
+import address from '../../constant/address';
+import { mapGetters } from 'vuex';
 export default {
   data() {
     return {
       markdownView: null,
       isNewEditor: false,
       isShowEditor: false,
-      imageUrl: "",
+      imageUrl: '',
       placeholder: {
-        title: "标题",
-        info: "简介..."
+        title: '标题',
+        info: '简介...'
       },
       options: {
-        title: "",
-        author: "", //this.$store.state.getUserInfo(),
-        info: "",
+        title: '',
+        author: '', //this.$store.state.getUserInfo(),
+        info: '',
         content: null,
         markdown: null,
-        saveImageUrl: "",
+        saveImageUrl: '',
         paperUseImg: [],
         hasTags: [],
-        hasFolder: ""
+        hasFolder: ''
         // config: {
         //   editorId: "markdown-editor",
         //   config: { markdown: "qweqeqweqw" }
@@ -39,8 +39,8 @@ export default {
       folderListShow: false,
       createfolderShow: false,
       folderList: [],
-      showFolderName: "选择文件夹",
-      uploadAddress: address + "/editor/uploadImg",
+      showFolderName: '选择文件夹',
+      uploadAddress: address + '/editor/uploadImg',
 
       flag: true
     };
@@ -50,7 +50,7 @@ export default {
     setTags
   },
   computed: {
-    ...mapGetters("userMessageModule", ["getUserInfo"])
+    ...mapGetters('userMessageModule', ['getUserInfo'])
   },
   created() {
     this.getArticleById();
@@ -59,9 +59,9 @@ export default {
   mounted() {},
   methods: {
     async getArticleById() {
-      if (window.location.href.indexOf("?") !== -1) {
+      if (window.location.href.indexOf('?') !== -1) {
         // this.$route.query.id
-        let articleId = window.location.href.split("?id=")[1];
+        let articleId = window.location.href.split('?id=')[1];
         const result = await SkmService.searchById({ id: articleId });
         if (result.code === 0) {
           this.options = result.list;
@@ -116,7 +116,7 @@ export default {
           if (confirm) {
             // this.$router.go(0);
             // this.$forceUpdate();
-            this.$router.push({ name: "editor" });
+            this.$router.push({ name: 'editor' });
             // 还是不行的话  或者这样 在你整个组件上面加个v-if标识 创建一个变量flag  点保存的时候先this.flag = false  然后await this.$nextTick()  然后this.flag = true
 
             this.flag = false;
@@ -160,10 +160,10 @@ export default {
       const isLt2M = file.size / 1024 / 1024 < 2;
 
       if (!isJPG) {
-        this.$message.error("上传头像图片只能是 jpeg/jpg/png 格式!");
+        this.$message.error('上传头像图片只能是 jpeg/jpg/png 格式!');
       }
       if (!isLt2M) {
-        this.$message.error("上传头像图片大小不能超过 2MB!");
+        this.$message.error('上传头像图片大小不能超过 2MB!');
       }
       return isJPG && isLt2M;
     },
@@ -178,7 +178,7 @@ export default {
     },
     // 新建文件夹
     createFolder() {
-      this.$router.push({ name: "createFolder", query: { id: 12312313 } });
+      this.$router.push({ name: 'createFolder', query: { id: 12312313 } });
     },
     selectName(name) {
       this.showFolderName = name;

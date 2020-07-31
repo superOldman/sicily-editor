@@ -48,7 +48,7 @@ export default {
   data() {
     return {
       restaurants: [],
-      input: ""
+      input: ''
     };
   },
   props: {
@@ -66,8 +66,8 @@ export default {
   methods: {
     addTag() {
       if (this.input) {
-        this.$emit("addTag", this.input);
-        this.input = "";
+        this.$emit('addTag', this.input);
+        this.input = '';
       } else {
         this.$alert('请先输入文字', '错误',{
           lockScroll: false,
@@ -75,7 +75,7 @@ export default {
       }
     },
     handleClose(index) {
-      this.$emit("removeTag", index);
+      this.$emit('removeTag', index);
     }
   },
   mounted() {}

@@ -39,4 +39,4 @@ const MODULES_INFO = [
     navShow: false
   },
 ];
-export default MODULES_INFO
+export default MODULES_INFO;

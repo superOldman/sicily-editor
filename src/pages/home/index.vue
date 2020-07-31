@@ -4,8 +4,8 @@
  * date: 2020/03/17
  * desc: home
  */
-import echarts from "echarts";
-import SkmService from "../../services/api";
+import echarts from 'echarts';
+import SkmService from '../../services/api';
 // const echarts = require('echarts');
 export default {
   data() {
@@ -46,8 +46,8 @@ export default {
         window.onresize = () => {
           this.myLineChart.resize();
           this.myCalendarChart.resize();
-        }
-      }, 200)
+        };
+      }, 200);
     }, 
     async getVirtulData() {
       // year = year || "2020";
@@ -74,9 +74,9 @@ export default {
       return {
         date_year_mounth: `${nowTime.getFullYear()}-${ addZero(nowTime.getMonth() + 1)}-${addZero(nowTime.getDate())}`,
         date_hour_min_sec: `${addZero(nowTime.getHours())}:${addZero(nowTime.getMinutes())}:${addZero(nowTime.getSeconds())}`
-      }
+      };
       function addZero(num) {
-        return  num >= 10 ? num : `0${num}` 
+        return  num >= 10 ? num : `0${num}`; 
       }
     },
     async createDayMap() {
@@ -86,8 +86,8 @@ export default {
       let setMax = [];
       result.data.forEach( item => {
         resultData.push([this.getMyTime(item.updated_at).date_year_mounth, item.visit]);
-        setMax.push(item.visit)
-      })
+        setMax.push(item.visit);
+      });
       const date = new Date();
       const year = date.getFullYear();
       const month = date.getMonth();
@@ -99,17 +99,17 @@ export default {
           let _index;
           for (let j = 0; j < resultData.length; j++) {
             if (resultData[j].includes(theDate)) {
-              _index = j
+              _index = j;
             }
           }
           let pushData;
           if (_index) {
-            pushData = [ theDate, resultData[_index][1] ]
+            pushData = [ theDate, resultData[_index][1] ];
           } else {
-            pushData = [ theDate, 0.1]
+            pushData = [ theDate, 0.1];
           }
 
-          data.push(pushData)
+          data.push(pushData);
           day--;
       }
 
@@ -194,10 +194,10 @@ export default {
             }
           }
         }]
-      }
+      };
       // 绘制图表
       this.myLineChart = echarts.init(document.getElementById('dayMap'));
-      this.myLineChart.setOption(option3)
+      this.myLineChart.setOption(option3);
 
     },
 
@@ -212,9 +212,9 @@ export default {
 
     mbOrgb(size) {
       if ((size / 1024 ) > 1) {
-          return (size / 1024).toFixed(2) + 'gb'
+          return (size / 1024).toFixed(2) + 'gb';
       } else {
-          return size.toFixed(2)  + 'mb'
+          return size.toFixed(2)  + 'mb';
       }
     },
     /**
@@ -231,7 +231,7 @@ export default {
         { gte: 2, lte: 3, color: colorBox[2] },
         { gte: 4, lte: 5, color: colorBox[3] },
         { gte: 5, color: colorBox[4] },
-      ]
+      ];
       return pieces;
     },
 
@@ -299,8 +299,8 @@ export default {
           }
         },
         series: {
-          type: "heatmap",
-          coordinateSystem: "calendar",
+          type: 'heatmap',
+          coordinateSystem: 'calendar',
           data: this.pushPaperCountData
         }
       };
@@ -320,7 +320,7 @@ export default {
         // };
         // 绘制图表
       this.myCalendarChart = echarts.init(document.getElementById('dayMap2'));
-      this.myCalendarChart.setOption(option)
+      this.myCalendarChart.setOption(option);
 
     }
 

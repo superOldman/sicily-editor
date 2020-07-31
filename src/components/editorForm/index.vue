@@ -11,11 +11,11 @@ export default {
       type: Object,
       default() {
         return {
-          title: "",
-          info: "",
-          auther: "",
-          date1: "",
-          date2: "",
+          title: '',
+          info: '',
+          auther: '',
+          date1: '',
+          date2: '',
           _id: '',
         };
       }
@@ -25,9 +25,9 @@ export default {
   },
   methods: {
     onSubmit() {
-      console.log("submit!");
+      console.log('submit!');
       // const self = this;
-      this.$router.push({ path:'/editor', query:{ id: this.formData._id } })
+      this.$router.push({ path:'/editor', query:{ id: this.formData._id } });
     }
   }
 };

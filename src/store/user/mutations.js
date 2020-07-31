@@ -12,7 +12,7 @@ export default {
 		state.userDetails.motto = newValue;
 	},
 	clearUser(state) {
-			state.userDetails = null
+			state.userDetails = null;
 	},
 
-}
+};

@@ -4,7 +4,7 @@
  * date: 2020/03/20
  * desc: 用户信息组件
  */
-import SkmServes from "../../services/api";
+import SkmServes from '../../services/api';
 import { mapGetters } from 'vuex';
 export default {
   data() {
@@ -22,7 +22,7 @@ export default {
   },
   methods: {
     pageToDetails() {
-      this.$router.push({ name: "userDetails" });
+      this.$router.push({ name: 'userDetails' });
     },
     logout() {
       this.$store.commit('userMessageModule/refushUser',null);

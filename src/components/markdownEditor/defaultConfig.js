@@ -1,5 +1,5 @@
 const defaultConfig = {
-  width: "100%",
+  width: '100%',
   height: 1000,
   path: './static/editor.md-master/lib/',
   autoFocus: false,
@@ -14,7 +14,7 @@ const defaultConfig = {
   saveHTMLToTextarea: true,       // 保存 HTML 到 Textarea
   searchReplace: true,
   watch: true,                                // 实时预览
-  htmlDecode: "style,script,iframe|on*",      // 开启 HTML 标签解析，为了安全性，默认不开启
+  htmlDecode: 'style,script,iframe|on*',      // 开启 HTML 标签解析，为了安全性，默认不开启
   toolbar: true,                  //工具栏
   previewCodeHighlight: true,     // 预览 HTML 的代码块高亮，默认开启
   emoji: true,
@@ -29,7 +29,7 @@ const defaultConfig = {
   // dialogMaskOpacity: 0.4,       // 设置透明遮罩层的透明度，全局通用，默认值为0.1
   // dialogMaskBgColor: "#000",    // 设置透明遮罩层的背景颜色，全局通用，默认为#fff
   imageUpload: true,             //是否本地上传
-  imageFormats: ["jpg", "jpeg", "gif", "png", "bmp", "webp"],
+  imageFormats: ['jpg', 'jpeg', 'gif', 'png', 'bmp', 'webp'],
   // imageUploadURL: "http://127.0.0.1:3000/editor/uploadImg",
 
   // imageUploadURL: "./php/upload.php",

@@ -47,15 +47,15 @@ axios.interceptors.request.use(
 
     if (config.url.endsWith('list')) {
 
-      store.commit('pageStatsModule/changeLoadingStatus')
+      store.commit('pageStatsModule/changeLoadingStatus');
     }
 
-    return config
+    return config;
   },
   error => {
-    return Promise.error(error)
+    return Promise.error(error);
   }
-)
+);
 
 axios.interceptors.response.use(
   response => {
@@ -66,7 +66,7 @@ axios.interceptors.response.use(
     if (response.status === 200) {
       // loading 状态
       if (response.config.url.endsWith('list')) {
-        store.commit('pageStatsModule/changeLoadingStatus')
+        store.commit('pageStatsModule/changeLoadingStatus');
       }
       // 403 状态
       if (response.config.url.endsWith('islogin')) {
@@ -87,11 +87,11 @@ axios.interceptors.response.use(
       switch (error.response.status) {
         // 401 未登录
         case 401:
-          console.log('401', '拦截了')
-          console.log('401', '拦截了', router)
-          router.push({ name: 'login' })
+          console.log('401', '拦截了');
+          console.log('401', '拦截了', router);
+          router.push({ name: 'login' });
 
-          console.log('401', '拦截了', '导向login')
+          console.log('401', '拦截了', '导向login');
           break;
         // 403 登陆过期
         case 403:
@@ -105,7 +105,7 @@ axios.interceptors.response.use(
             ElementUI.MessageBox.alert('登录过期，请重新登录', '提示', {
               confirmButtonText: '确定',
               callback: (action) => {
-                console.log('确定之后', action)
+                console.log('确定之后', action);
                 // 清除token
                 // ...todo
                 
@@ -115,7 +115,7 @@ axios.interceptors.response.use(
                   query: {
                     redirect: router.currentRoute.fullPath
                   }
-                })
+                });
               }
             });
           }
@@ -133,7 +133,7 @@ axios.interceptors.response.use(
 
     }
   }
-)
+);
 
 // 响应拦截器
 // axios.interceptors.response.use(    
@@ -221,15 +221,15 @@ export function http_post(config) {
         .then((res) => {
           resolve(res);
         }).catch((err) => {
-          reject(err)
-        })
+          reject(err);
+        });
     });
   } else {
     return new Promise((resolve, reject) => {
       axios.post(config.api, _data).then((res) => {
         resolve(res);
       }).catch((err) => {
-        reject(err)
+        reject(err);
       });
     });
   }
@@ -244,12 +244,12 @@ export function http_get(config) {
   return new Promise((resolve, reject) => {
     axios.get(config.api, _data)
       .then((res) => {
-        resolve(res)
+        resolve(res);
       })
       .catch((err) => {
-        reject(err)
-      })
-  })
+        reject(err);
+      });
+  });
   // console.log(config)
   // return new Promise((resolve) => {
   //   axios.get(config.api, _data)
