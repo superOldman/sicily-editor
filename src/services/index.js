@@ -108,7 +108,7 @@ axios.interceptors.response.use(
               console.log('确定之后', action);
               // 清除token
               // ...todo
-
+              store.commit('userMessageModule/clearUser');
               // 跳转
               router.replace({
                 path: '/login',
