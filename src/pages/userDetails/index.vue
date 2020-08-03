@@ -133,7 +133,7 @@ export default {
       const result = await SkmService.userUpdate(params);
       if (result.code === 0) {
         this.$store.commit('userMessageModule/clearUser');
-        SkmService.islogin();
+        this.$router.push({ name: 'login' });
       } else {
         this.$alert(result.message, '错误', { confirmButtonText: '确定' });
       }
