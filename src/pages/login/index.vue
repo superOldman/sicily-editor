@@ -32,11 +32,17 @@ export default {
     this.removeKeyBoardListener();
   },
   methods: {
-    init() {
-      if (this.getUserInfo) {
-        this.$router.push({ name: 'home' });
+    async init() {
+      if (!this.getUserInfo) {
+        const result = await SkmService.islogin();
+        if (result.code === 0) {
+          this.$router.push({ name: 'home' });
+          this.$store.commit('userMessageModule/refushUser', result.userMessage);
+        }else{
+          this.initDom();
+        }
       } else {
-        this.initDom();
+        this.$router.push({ name: 'home' });
       }
     },
     initDom() {
