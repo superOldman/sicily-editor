@@ -190,10 +190,11 @@ export default {
 <template>
   <layout class="editorWarp">
     <div class="content" v-if="flag">
+                  <p class="content_title">编辑</p>
+
       <el-row :gutter="20">
         <el-col :span="10">
           <div class="form_message">
-            <p class="form_message_text">编辑</p>
             <el-form label-width="100px" label-position="left" class="title">
               <el-form-item label="标题">
                 <el-input type="text" :placeholder="placeholder.title" v-model="options.title"></el-input>
@@ -201,10 +202,10 @@ export default {
               <el-form-item label="详情">
                 <el-input type="textarea" :placeholder="placeholder.info" v-model="options.info"></el-input>
               </el-form-item>
-              <el-form-item label="作者">
+              <!-- <el-form-item label="作者"> -->
                 <!-- <el-input type="text" v-model="(getUserInfo || {}).userName"></el-input> -->
-                <el-input type="text" v-model="options.author"></el-input>
-              </el-form-item>
+                <!-- <el-input type="text" v-model="options.author"></el-input> -->
+              <!-- </el-form-item> -->
 
               <setTags :hasInput="true" :hasTags="options.hasTags" @addTag="addTags" @removeTag="removeTag"></setTags>
 
@@ -222,8 +223,8 @@ export default {
           </div>
         </el-col>
         <el-col :span="8">
-          <div class="form_upLoadImg"></div>
-          <div class="upLoadImgTitle">上传图片</div>
+          <!-- <div class="form_upLoadImg">1111</div> -->
+          <!-- <div class="upLoadImgTitle">上传图片</div> -->
           <el-upload
             class="avatar-uploader"
             drag
@@ -262,14 +263,14 @@ export default {
 .editorWarp .content {
   text-align: left;
 }
-.form_message {
-  padding-top: 20px;
-  width: 100%;
-}
-.form_message_text {
+.content_title {
   font-size: 32px;
   font-weight: bold;
   margin: 20px 0;
+}
+.form_message {
+  padding-top: 20px;
+  width: 100%;
 }
 .form_upLoadImg {
   padding-top: 20px;
