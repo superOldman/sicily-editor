@@ -60,8 +60,7 @@ export default {
   methods: {
     async getArticleById() {
       if (window.location.href.indexOf('?') !== -1) {
-        // this.$route.query.id
-        let articleId =window.location.href.split('?id=')[1];
+        let articleId = this.$route.query.id;
         const result = await SkmService.searchById({ id: articleId });
         if (result.code === 0) {
           this.options = result.list;
@@ -96,7 +95,6 @@ export default {
       }
     },
     async againEditor() {
-      this.options.author = this.getUserInfo.userName;
       const imgReg = /<img.*?src="(.*?)".*?\/?>/gi;
       const srcReg = /src=[\'\"]?([^\'\"]*)[\'\"]?/i;
       const arr = this.options.content.match(imgReg);
@@ -190,8 +188,7 @@ export default {
 <template>
   <layout class="editorWarp">
     <div class="content" v-if="flag">
-                  <p class="content_title">编辑</p>
-
+      <p class="content_title">编辑</p>
       <el-row :gutter="20">
         <el-col :span="10">
           <div class="form_message">
