@@ -122,13 +122,14 @@ export default {
         return item[1];
       });
       setMax.sort((a, b)=>b-a);
-      const mainColor = '#06beb6';
+      const mainColor = '#fff';
       let option3 = {
         title: {
           text: '博客访问量',
           textStyle: {
             color: mainColor,
-            lineHeight: '50'
+            lineHeight: '50',
+            fontWeight: 'normal'
           },
           left: 'center'
         },
@@ -176,7 +177,8 @@ export default {
           showSymbol: false,
           data: valueList,
           lineStyle: {
-            color: mainColor
+            color: '#457fca',
+            width: 1,
           },
           areaStyle: {
             color: {
@@ -186,9 +188,9 @@ export default {
               x2: 0,
               y2: 1,
               colorStops: [{
-                offset: 0, color: mainColor // 0% 处的颜色
-              }, {
-                offset: 1, color: 'rgba(0, 0, 0, 0)' // 100% 处的颜色
+                offset: 0, color: '#2980b9' // 100% 处的颜色
+                }, {
+                offset: 1, color: '#5691c8' // 0% 处的颜色
               }],
               global: false // 缺省为 false
             }
@@ -233,7 +235,8 @@ export default {
      * @param {*} colorBox 区间颜色集
      */
     generatePieces() {
-      let colorBox = ['#ebedf0', '#c6e48b', '#7bc96f', '#239a3b', '#196127'];
+      let colorBox = ['#fff', '#65C7F7', '#3498db', '#004e92', '#1e3c72'];
+      // let colorBox = ['#ebedf0', '#c6e48b', '#7bc96f', '#239a3b', '#196127'];
       // gte >             lte <
       let pieces = [
         { lt: 1, label: 0, color: colorBox[0] },
@@ -247,13 +250,14 @@ export default {
 
     // 提交表
     lastYearPushPaperCount() {
-      const mainColor= '#06beb6';
+      const mainColor= '#fff';
       let option = {
         title: {
           text: '文章提交统计',
           textStyle: {
             color: mainColor,
-            lineHeight: '20'
+            lineHeight: '20',
+            fontWeight: 'normal'
           },
           left: 'center'
         },
@@ -286,7 +290,7 @@ export default {
           cellSize: ['auto', 20],
           splitLine: {
             lineStyle: {
-              color: mainColor,
+              color: '#2980b9',
               width: 2
             }
           },
@@ -294,7 +298,7 @@ export default {
             normal: {
               color: 'rgba(72, 177, 191, 0.6)',
               borderWidth: 1,
-              borderColor: '#fff'
+              borderColor: '#DCDFE6'
               // shadowColor: '#fff',
             }
           },
@@ -345,19 +349,19 @@ export default {
 
       <el-row class="homeTopContent" :gutter="20" type="flex" v-if="sourceStatsPercent">
         <el-col :span="8" class="statsBlock">
-          <div class="cardTitle" style="color: #FDC830">总容量</div>
+          <div class="cardTitle">总容量</div>
           <p class="cardInfo">资源占有量：{{sourceSpace}}</p>
           <p class="cardInfo">预估容量：20G</p>
           <el-progress class="statsBlock_progress" :text-inside="true" :stroke-width="18" :percentage="sourceStatsPercent" status="success" color="#FDC830"/>
         </el-col>
         <el-col :span="8" class="statsBlock">
-          <div class="cardTitle" style="color: #fd746c">图片资源</div>
+          <div class="cardTitle">图片资源</div>
           <p class="cardInfo">图片：{{sourceStats.pictureDetail.count}} 个</p>
           <p class="cardInfo">图片占有容量：{{sourceStats.pictureDetail.size}}</p>
 
         </el-col>
         <el-col :span="8" class="statsBlock">
-          <div class="cardTitle" style="color: #ACB6E5">文章资源</div>
+          <div class="cardTitle">文章资源</div>
           <p class="cardInfo">文章：{{sourceStats.paperDetail.count}} 篇</p>
           <p class="cardInfo">文章占有量：{{sourceStats.paperDetail.size}}</p>
         </el-col>
@@ -373,7 +377,7 @@ export default {
 </template>
 
 <style  lang="less">
-@main-color: #06beb6;
+@main-color: #2c3e50;
 @white-color: #fff;
 
 .homeWarp {
@@ -382,11 +386,11 @@ export default {
     text-align: left;
     padding: 20px;
     margin: 10px;
-    border: 1px solid rgb(109, 213, 250);
+    border: 1px solid rgb(0, 78, 146);
     box-shadow: @main-color 0px 0px 10px inset;
-    background: rgba(72, 177, 191, 0.2);
+    background: rgba(0, 78, 146, 0.4);
     .cardTitle {
-      color: #134E5E;
+      color: #fff;
       text-align: center;
       line-height: 30px;
       font-weight: bold;
@@ -398,9 +402,9 @@ export default {
     }
   }
   .borderBox {
-    border: 1px solid rgb(109, 213, 250);
+    border: 1px solid rgb(0, 78, 146);
     box-shadow: @main-color 0px 0px 10px inset;
-    background: rgba(72, 177, 191, 0.2);
+    background: rgba(0, 78, 146, 0.4);
     margin-bottom: 20px;
   }
   .homeMid {

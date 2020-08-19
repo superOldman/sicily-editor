@@ -311,7 +311,8 @@ export default {
 }
 
 .el-menu {
-  margin: 0 10px;
+  margin-top: 30px;
+  margin-left: 10px;
   background-color: rgba(0, 0, 0, 0.1);
   border: none;
   border-radius: 7px;
@@ -344,15 +345,13 @@ export default {
   text-align: center;
   height: 100%;
   position: relative;
-  margin-right: 20px;
-  padding: 0px;
 }
 
 .left-style:before {
   content: "";
   position: absolute;
-  top: 0;
-  left: 0;
+  top: 20px;
+  left: 20px;
   border-width: 0 42px 42px 0;
   border-style: solid;
   border-color: #fff rgba(55, 55, 55, 0.3);
