@@ -320,7 +320,7 @@ export default {
 .el-menu-item {
   color: #fff;
 }
-.el-menu-item:hover {
+.el-menu-item:hover, .is-active {
   background-color: rgba(0, 0, 0, 0.2);
   border-left: 2px solid #fff;
   margin-left: -2px;
