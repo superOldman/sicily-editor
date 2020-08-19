@@ -220,9 +220,11 @@ export default {
 
     closeMydialog() {
       this.dialogVisible = false;
+      this.multipleSelection = [];
     },
     closeMydialogPP() {
       this.dialogPPVisible = false;
+      this.multipleSelection = [];
     },
 
     handleSelectionChange(val) {
@@ -248,6 +250,7 @@ export default {
           if (data.code === 0) {
             this.dialogPPVisible = false;
             this.$message({ type: 'success', message: '添加完毕!' });
+            this.multipleSelection = [];
             this.getFolderList();
           }
         });
@@ -394,7 +397,7 @@ export default {
           <i class="el-icon-mobile-phone"></i>
         </el-divider>
         <div>
-          <el-tag v-for="item in multipleSelection" :key="item.title" closable>{{item.title}}</el-tag>
+          <el-tag v-for="item in multipleSelection" :key="item.title" >{{item.title}}</el-tag>
         </div>
       </div>
     </myDialog>
