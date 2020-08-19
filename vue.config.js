@@ -7,7 +7,7 @@ module.exports = {
   // server 配置
   devServer: {
     host: '0.0.0.0',
-    port: 5503,
+    port: 4000,
     open: false
   }
 };

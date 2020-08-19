@@ -393,7 +393,7 @@ export default {
       color: #fff;
       text-align: center;
       line-height: 30px;
-      font-weight: bold;
+      font-size: 18px;
     }
     .cardInfo {
       font-size: 14px;
