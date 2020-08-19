@@ -339,39 +339,37 @@ export default {
 </script>
 
 <template>
-  <layout>
-    <div class="homeWarp">
-      <div class="homeTop">
-        <!-- <h4 class="homeMainTitle">容量监测</h4> -->
+  <div class="homeWarp">
+    <div class="homeTop">
+      <!-- <h4 class="homeMainTitle">容量监测</h4> -->
 
-        <el-row class="homeTopContent" :gutter="20" type="flex" v-if="sourceStatsPercent">
-          <el-col :span="8" class="statsBlock">
-            <div class="cardTitle" style="color: #FDC830">总容量</div>
-            <p class="cardInfo">资源占有量：{{sourceSpace}}</p>
-            <p class="cardInfo">预估容量：20G</p>
-            <el-progress class="statsBlock_progress" :text-inside="true" :stroke-width="18" :percentage="sourceStatsPercent" status="success" color="#FDC830"/>
-          </el-col>
-          <el-col :span="8" class="statsBlock">
-            <div class="cardTitle" style="color: #fd746c">图片资源</div>
-            <p class="cardInfo">图片：{{sourceStats.pictureDetail.count}} 个</p>
-            <p class="cardInfo">图片占有容量：{{sourceStats.pictureDetail.size}}</p>
+      <el-row class="homeTopContent" :gutter="20" type="flex" v-if="sourceStatsPercent">
+        <el-col :span="8" class="statsBlock">
+          <div class="cardTitle" style="color: #FDC830">总容量</div>
+          <p class="cardInfo">资源占有量：{{sourceSpace}}</p>
+          <p class="cardInfo">预估容量：20G</p>
+          <el-progress class="statsBlock_progress" :text-inside="true" :stroke-width="18" :percentage="sourceStatsPercent" status="success" color="#FDC830"/>
+        </el-col>
+        <el-col :span="8" class="statsBlock">
+          <div class="cardTitle" style="color: #fd746c">图片资源</div>
+          <p class="cardInfo">图片：{{sourceStats.pictureDetail.count}} 个</p>
+          <p class="cardInfo">图片占有容量：{{sourceStats.pictureDetail.size}}</p>
 
-          </el-col>
-          <el-col :span="8" class="statsBlock">
-            <div class="cardTitle" style="color: #ACB6E5">文章资源</div>
-            <p class="cardInfo">文章：{{sourceStats.paperDetail.count}} 篇</p>
-            <p class="cardInfo">文章占有量：{{sourceStats.paperDetail.size}}</p>
-          </el-col>
-        </el-row>
-      </div>
-      <div class="homeMid borderBox">
-        <div id="dayMap"></div>
-      </div>
-      <div class="homeBot borderBox">
-        <div id="dayMap2"></div>
-      </div>
+        </el-col>
+        <el-col :span="8" class="statsBlock">
+          <div class="cardTitle" style="color: #ACB6E5">文章资源</div>
+          <p class="cardInfo">文章：{{sourceStats.paperDetail.count}} 篇</p>
+          <p class="cardInfo">文章占有量：{{sourceStats.paperDetail.size}}</p>
+        </el-col>
+      </el-row>
     </div>
-  </layout>
+    <div class="homeMid borderBox">
+      <div id="dayMap"></div>
+    </div>
+    <div class="homeBot borderBox">
+      <div id="dayMap2"></div>
+    </div>
+  </div>
 </template>
 
 <style  lang="less">

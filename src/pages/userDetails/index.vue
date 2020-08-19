@@ -179,149 +179,147 @@ export default {
 </script>
 
 <template>
-  <layout>
-    <div class="detailwarp">
-      <div class="top massive_css2">
-        <div class="topHead">
-          <el-row v-if="getUserInfo">
-            <el-col :span="1" :offset="1">
-              <el-upload
-                class="avatar-uploader"
-                :action="uploadAddress"
-                :with-credentials="true"
-                :show-file-list="false"
-                :on-success="handleAvatarSuccess"
-                :before-upload="beforeAvatarUpload"
-              >
-                <img :src="(getUserInfo || {}).photo" class="avatar" />
-                <div class="after">上传头像</div>
-              </el-upload>
-            </el-col>
-            <el-col :span="8" class="nameAndpush">
-              <div class="userName">{{(getUserInfo || {}).userName }}</div>
-              <div
-                ref="level"
-                id="level"
-                :style="getUserInfo ? `background: ${setColor(getUserInfo.level.lv)}` : ''"
-              >
-                Lv.
-                <span class="levelNum">{{getUserInfo.level.lv}}</span>
-              </div>
-              <el-input
-                id="h-sign"
-                type="text"
-                placeholder="编辑个性签名"
-                maxlength="60"
-                class="space_input"
-                v-model="motto"
-                @blur="upDateMotto"
-              ></el-input>
-              <!-- <div class="userPushPaperNum">发表文章：1</div> -->
-            </el-col>
-          </el-row>
-        </div>
-
-        <div class="topFoot">
-          <el-row>
-            <el-col :offset="1" :span="2" class="topFoot_first">
-              <div class="topFoot_title">发表文章</div>
-              <div class="topFoot_sum">1篇</div>
-            </el-col>
-            <el-col :span="10">
-              <div class="topFoot_title">涉猎分类</div>
-              <div class="topFoot_sum">安抚，说法</div>
-            </el-col>
-          </el-row>
-        </div>
+  <div class="detailwarp">
+    <div class="top massive_css2">
+      <div class="topHead">
+        <el-row v-if="getUserInfo">
+          <el-col :span="1" :offset="1">
+            <el-upload
+              class="avatar-uploader"
+              :action="uploadAddress"
+              :with-credentials="true"
+              :show-file-list="false"
+              :on-success="handleAvatarSuccess"
+              :before-upload="beforeAvatarUpload"
+            >
+              <img :src="(getUserInfo || {}).photo" class="avatar" />
+              <div class="after">上传头像</div>
+            </el-upload>
+          </el-col>
+          <el-col :span="8" class="nameAndpush">
+            <div class="userName">{{(getUserInfo || {}).userName }}</div>
+            <div
+              ref="level"
+              id="level"
+              :style="getUserInfo ? `background: ${setColor(getUserInfo.level.lv)}` : ''"
+            >
+              Lv.
+              <span class="levelNum">{{getUserInfo.level.lv}}</span>
+            </div>
+            <el-input
+              id="h-sign"
+              type="text"
+              placeholder="编辑个性签名"
+              maxlength="60"
+              class="space_input"
+              v-model="motto"
+              @blur="upDateMotto"
+            ></el-input>
+            <!-- <div class="userPushPaperNum">发表文章：1</div> -->
+          </el-col>
+        </el-row>
       </div>
-      <div></div>
 
-      <div class="contentSetting">
-        <div class="settingGrid">
-          <el-row class="settingGridSetheight">
-            <el-col :span="6">
-              <i class="el-icon-success"></i>邮箱
-            </el-col>
-            <el-col :span="12" class="setting_mid">15221955725@163.com</el-col>
-            <el-col :span="6">
-              <el-button @click="showEMForm = !showEMForm">修改</el-button>
-            </el-col>
-          </el-row>
-        </div>
-        <div class="settingGrid">
-          <el-row class="settingGridSetheight">
-            <el-col :span="6">
-              <i class="el-icon-success"></i>密码
-            </el-col>
-            <el-col :span="12" class="setting_mid">设置了</el-col>
-            <el-col :span="6">
-              <el-button @click="showUPForm = !showUPForm">修改</el-button>
-            </el-col>
-          </el-row>
-          <el-collapse-transition>
-            <div v-show="showUPForm" class="form_message">
-              <p class="form_message_text">重置密码</p>
-              <el-form
-                :model="ruleForm"
-                status-icon
-                :rules="rules"
-                ref="ruleForm"
-                label-width="100px"
-                label-position="left"
-              >
-                <el-form-item label="旧密码" prop="oldPass">
-                  <el-input type="password" v-model="ruleForm.oldPass" autocomplete="off"></el-input>
-                </el-form-item>
-                <el-form-item label="新密码" prop="newPass">
-                  <el-input type="password" v-model="ruleForm.newPass" autocomplete="off"></el-input>
-                </el-form-item>
-                <el-form-item label="确认新密码" prop="checkNewPass">
-                  <el-input type="password" v-model="ruleForm.checkNewPass" autocomplete="off"></el-input>
-                </el-form-item>
-
-                <el-form-item>
-                  <el-button type="primary" @click="submitForm('ruleForm')">提交</el-button>
-                  <el-button @click="resetForm('ruleForm')">重置</el-button>
-                </el-form-item>
-              </el-form>
-            </div>
-          </el-collapse-transition>
-        </div>
-        <div class="settingGrid">
-          <el-row class="settingGridSetheight">
-            <el-col :span="6">
-              <i class="el-icon-warning"></i>注销
-            </el-col>
-            <el-col :offset="12" :span="6">
-              <el-button @click="showDELETEForm = !showDELETEForm">注销</el-button>
-            </el-col>
-          </el-row>
-          <el-collapse-transition>
-            <div v-show="showDELETEForm" class="form_message">
-              <p class="form_message_text">注销</p>
-              <el-form
-                :model="ruleForm2"
-                status-icon
-                :rules="rules"
-                ref="ruleForm2"
-                label-width="100px"
-                label-position="top"
-              >
-                <el-form-item label="输入用户名确定注销" prop="delete">
-                  <el-input type="text" v-model="ruleForm2.delete" autocomplete="off"></el-input>
-                </el-form-item>
-
-                <el-form-item>
-                  <el-button type="primary" @click="deleteUser('ruleForm2')">提交</el-button>
-                  <el-button @click="resetForm('ruleForm2')">重置</el-button>
-                </el-form-item>
-              </el-form>
-            </div>
-          </el-collapse-transition>
-        </div>
+      <div class="topFoot">
+        <el-row>
+          <el-col :offset="1" :span="2" class="topFoot_first">
+            <div class="topFoot_title">发表文章</div>
+            <div class="topFoot_sum">1篇</div>
+          </el-col>
+          <el-col :span="10">
+            <div class="topFoot_title">涉猎分类</div>
+            <div class="topFoot_sum">安抚，说法</div>
+          </el-col>
+        </el-row>
       </div>
     </div>
-  </layout>
+    <div></div>
+
+    <div class="contentSetting">
+      <div class="settingGrid">
+        <el-row class="settingGridSetheight">
+          <el-col :span="6">
+            <i class="el-icon-success"></i>邮箱
+          </el-col>
+          <el-col :span="12" class="setting_mid">15221955725@163.com</el-col>
+          <el-col :span="6">
+            <el-button @click="showEMForm = !showEMForm">修改</el-button>
+          </el-col>
+        </el-row>
+      </div>
+      <div class="settingGrid">
+        <el-row class="settingGridSetheight">
+          <el-col :span="6">
+            <i class="el-icon-success"></i>密码
+          </el-col>
+          <el-col :span="12" class="setting_mid">设置了</el-col>
+          <el-col :span="6">
+            <el-button @click="showUPForm = !showUPForm">修改</el-button>
+          </el-col>
+        </el-row>
+        <el-collapse-transition>
+          <div v-show="showUPForm" class="form_message">
+            <p class="form_message_text">重置密码</p>
+            <el-form
+              :model="ruleForm"
+              status-icon
+              :rules="rules"
+              ref="ruleForm"
+              label-width="100px"
+              label-position="left"
+            >
+              <el-form-item label="旧密码" prop="oldPass">
+                <el-input type="password" v-model="ruleForm.oldPass" autocomplete="off"></el-input>
+              </el-form-item>
+              <el-form-item label="新密码" prop="newPass">
+                <el-input type="password" v-model="ruleForm.newPass" autocomplete="off"></el-input>
+              </el-form-item>
+              <el-form-item label="确认新密码" prop="checkNewPass">
+                <el-input type="password" v-model="ruleForm.checkNewPass" autocomplete="off"></el-input>
+              </el-form-item>
+
+              <el-form-item>
+                <el-button type="primary" @click="submitForm('ruleForm')">提交</el-button>
+                <el-button @click="resetForm('ruleForm')">重置</el-button>
+              </el-form-item>
+            </el-form>
+          </div>
+        </el-collapse-transition>
+      </div>
+      <div class="settingGrid">
+        <el-row class="settingGridSetheight">
+          <el-col :span="6">
+            <i class="el-icon-warning"></i>注销
+          </el-col>
+          <el-col :offset="12" :span="6">
+            <el-button @click="showDELETEForm = !showDELETEForm">注销</el-button>
+          </el-col>
+        </el-row>
+        <el-collapse-transition>
+          <div v-show="showDELETEForm" class="form_message">
+            <p class="form_message_text">注销</p>
+            <el-form
+              :model="ruleForm2"
+              status-icon
+              :rules="rules"
+              ref="ruleForm2"
+              label-width="100px"
+              label-position="top"
+            >
+              <el-form-item label="输入用户名确定注销" prop="delete">
+                <el-input type="text" v-model="ruleForm2.delete" autocomplete="off"></el-input>
+              </el-form-item>
+
+              <el-form-item>
+                <el-button type="primary" @click="deleteUser('ruleForm2')">提交</el-button>
+                <el-button @click="resetForm('ruleForm2')">重置</el-button>
+              </el-form-item>
+            </el-form>
+          </div>
+        </el-collapse-transition>
+      </div>
+    </div>
+  </div>
 </template>
 
 <style lang="less">

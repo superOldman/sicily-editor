@@ -1,5 +1,4 @@
 <script>
-import layout from '../../components/layout/index.vue';
 import myDialog from '../../components/myDialog/index.vue';
 import SkmService from '../../services/api';
 import address from '../../constant/address';
@@ -73,7 +72,7 @@ export default {
     };
   },
   components: {
-    layout,
+
     myDialog
   },
   methods: {
@@ -264,7 +263,7 @@ export default {
 };
 </script>
 <template>
-  <layout>
+
     <div class="massive_css createFolderWarp">
       <el-row class="listTop">
         <el-col :span="6">
@@ -403,7 +402,7 @@ export default {
     </myDialog>
 
     </div>
-  </layout>
+
 </template>
 
 

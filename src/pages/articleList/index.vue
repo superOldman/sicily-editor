@@ -48,17 +48,16 @@ export default {
 
     //   }
     // }
-
   },
   methods: {
-    getList( params = {
-      page: this.currentPage,
-      pageSize: this.pageSize
-    }) {
-
-
-      SkmService.get_list(params).then((result) => {
-        result.data.list.forEach((item)=>{
+    getList(
+      params = {
+        page: this.currentPage,
+        pageSize: this.pageSize
+      }
+    ) {
+      SkmService.get_list(params).then(result => {
+        result.data.list.forEach(item => {
           item.updated_at = myGetTime(item.updated_at);
         });
 
@@ -70,10 +69,9 @@ export default {
     handleSizeChange(val) {
       console.log(`每页 ${val} 条`);
       this.getList({
-        page: this.currentPage = val,
+        page: (this.currentPage = val),
         pageSize: this.pageSize
       });
-
     },
     handleCurrentChange(val) {
       console.log(`当前页: ${val}`);
@@ -81,27 +79,24 @@ export default {
       console.log('handleCurrentChange');
 
       this.getList({
-        page: this.currentPage = val,
+        page: (this.currentPage = val),
         pageSize: this.pageSize
       });
     },
 
-
     topChange(val) {
-
-      let title = !val.stick? '置顶':'取消置顶';
-      this.$confirm(`确定${title}？`).then( async () => {
-
-        let { _id, stick } = val;
-        const data = await SkmService.setTop({ _id, stick: !stick });
-        if(data.code === 0 ) {
-
-          val.stick = !val.stick;
-        }else{
-          this.$alert(data.message, '提示', { confirmButtonText: '确定' });
-        }
-      }).catch(() => {});
-
+      let title = !val.stick ? '置顶' : '取消置顶';
+      this.$confirm(`确定${title}？`)
+        .then(async () => {
+          let { _id, stick } = val;
+          const data = await SkmService.setTop({ _id, stick: !stick });
+          if (data.code === 0) {
+            val.stick = !val.stick;
+          } else {
+            this.$alert(data.message, '提示', { confirmButtonText: '确定' });
+          }
+        })
+        .catch(() => {});
     },
     // 编辑
     handleEdit(index, row) {
@@ -115,17 +110,18 @@ export default {
     handleDelete(index, row) {
       console.log('删除', 'destroyById');
       console.log(index, row);
-      this.$confirm('确认删除？').then( async () => {
-        const data = await SkmService.destroyById({ _id: row._id });
-        if(data.code === 0 ) {
-          this.getList();
-        }
-      }).catch(() => {});
-
+      this.$confirm('确认删除？')
+        .then(async () => {
+          const data = await SkmService.destroyById({ _id: row._id });
+          if (data.code === 0) {
+            this.getList();
+          }
+        })
+        .catch(() => {});
     },
     handleClose(done) {
       this.$confirm('确认关闭？')
-        .then( () => {
+        .then(() => {
           done();
         })
         .catch(() => {});
@@ -135,18 +131,18 @@ export default {
 </script>
 
 <template>
-  <layout class="articleListWarp">
+  <div class="articleListWarp">
     <!-- list
     <div>
       <editorForm :formData="formData"></editorForm>
-    </div> -->
+    </div>-->
     <!-- <el-dialog title="提示" :visible.sync="dialogVisible" width="30%" :before-close="handleClose">
       <editorForm :formData="formData"></editorForm>
       <span slot="footer" class="dialog-footer">
         <el-button @click="dialogVisible = false">取 消</el-button>
         <el-button type="primary" @click="dialogVisible = false">确 定</el-button>
       </span>
-    </el-dialog> -->
+    </el-dialog>-->
     <div class="massive_css massive_style">
       <el-row class="listTop">
         <el-col :span="6">
@@ -163,29 +159,49 @@ export default {
               <i class="el-icon-folder-add"></i>
             </li>
           </ul>
-        </el-col> -->
+        </el-col>-->
       </el-row>
       <el-table v-loading="getLoading" :data="listData" stripe style="width: 98%; margin: 0 auto;">
         <el-table-column type="index" width="50"></el-table-column>
-        <el-table-column draggable="true" prop="updated_at" label="日期" width="200" :resizable="true"></el-table-column>
+        <el-table-column
+          draggable="true"
+          prop="updated_at"
+          label="日期"
+          width="200"
+          :resizable="true"
+        ></el-table-column>
         <el-table-column prop="title" label="标题" width="200"></el-table-column>
         <el-table-column prop="author" label="编辑人" width="160"></el-table-column>
         <el-table-column prop="info" label="详情"></el-table-column>
         <el-table-column prop="hasFolder" label="所属文件夹" width="150"></el-table-column>
         <el-table-column label="置顶" width="80">
-          <template slot-scope="scope" >
+          <template slot-scope="scope">
             <div id="changeTop">
-            <el-switch class="changeTop" style="cursor: pointer;" v-model="scope.row.stick" disabled @click.native="topChange(scope.row)" active-color="#13ce66" inactive-color="#ff4949">
- </el-switch>
+              <el-switch
+                class="changeTop"
+                style="cursor: pointer;"
+                v-model="scope.row.stick"
+                disabled
+                @click.native="topChange(scope.row)"
+                active-color="#13ce66"
+                inactive-color="#ff4949"
+              ></el-switch>
             </div>
-
-
           </template>
         </el-table-column>
         <el-table-column label="操作" width="180">
           <template slot-scope="scope" v-if="getUserInfo">
-            <el-button size="mini" :disabled="getUserInfo.userName !== scope.row.author" @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
-            <el-button size="mini" :disabled="getUserInfo.userName !== scope.row.author" type="danger" @click="handleDelete(scope.$index, scope.row)">删除</el-button>
+            <el-button
+              size="mini"
+              :disabled="getUserInfo.userName !== scope.row.author"
+              @click="handleEdit(scope.$index, scope.row)"
+            >编辑</el-button>
+            <el-button
+              size="mini"
+              :disabled="getUserInfo.userName !== scope.row.author"
+              type="danger"
+              @click="handleDelete(scope.$index, scope.row)"
+            >删除</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -199,15 +215,14 @@ export default {
         :total="paperSum"
       ></el-pagination>
     </div>
-
-  </layout>
+  </div>
 </template>
 
 <style   >
-.articleListWarp{
-  min-height: 1080px
+.articleListWarp {
+  min-height: 1080px;
 }
-.articleListWarp .massive_style{
+.articleListWarp .massive_style {
   width: 98%;
   margin: 30px auto 0;
   position: relative;
@@ -247,11 +262,11 @@ export default {
 }
 
 #changeTop .el-switch.is-disabled .el-switch__core,
-.el-switch.is-disabled .el-switch__label{
-      cursor: pointer;
+.el-switch.is-disabled .el-switch__label {
+  cursor: pointer;
 }
 
-.articleListWarp .el-pagination{
+.articleListWarp .el-pagination {
   padding: 20px;
 }
 </style>

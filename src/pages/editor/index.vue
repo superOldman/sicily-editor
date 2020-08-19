@@ -186,7 +186,7 @@ export default {
 </script>
 
 <template>
-  <layout class="editorWarp">
+  <div class="editorWarp">
     <div class="content" v-if="flag">
       <p class="content_title">编辑</p>
       <el-row :gutter="20">
@@ -253,7 +253,7 @@ export default {
         @onchange="onchange"
       ></tw-markdown-view>
     </div>
-  </layout>
+  </div>
 </template>
 
 <style  scoped >

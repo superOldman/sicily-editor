@@ -1,6 +1,7 @@
 import Vue from 'vue';
 import Router from 'vue-router';
 
+import warp from '../pages/warp.vue';
 import home from '../pages/home/index.vue';
 import login from '../pages/login/index.vue';
 // import editor from '../pages/editor/indexZY.vue'
@@ -35,34 +36,43 @@ export default new Router({
       component: login
     },
     {
-      path: '/home',
-      name: 'home',
-      component: home
-    },
-    {
-      path: '/editor',
-      name: 'editor',
-      component: editor
-    },
-    {
-      path: '/userDetails',
-      name: 'userDetails',
-      component: userDetails
-    },
-    {
-      path: '/articleList',
-      name: 'articleList',
-      component: articleList
-    },
-    {
-      path: '/createFolder',
-      name: 'createFolder',
-      component: createFolder
-    },
-    {
-      path: '/pictureList',
-      name: 'pictureList',
-      component: pictureList
+      path: '/',
+      name: 'warp',
+      component: warp,
+      children: [
+        {
+          path: '/home',
+          name: 'home',
+          component: home
+        },
+        {
+          path: '/editor',
+          name: 'editor',
+          component: editor
+        },
+        {
+          path: '/userDetails',
+          name: 'userDetails',
+          component: userDetails
+        },
+        {
+          path: '/articleList',
+          name: 'articleList',
+          component: articleList
+        },
+        {
+          path: '/createFolder',
+          name: 'createFolder',
+          component: createFolder
+        },
+        {
+          path: '/pictureList',
+          name: 'pictureList',
+          component: pictureList
+        }
+      ]
+
     }
+
   ]
 });

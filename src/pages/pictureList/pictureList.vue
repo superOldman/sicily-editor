@@ -83,7 +83,7 @@ export default {
 </script>
 
 <template>
-  <layout class="listWarp">
+  <div class="listWarp">
     <div class="massive_css massive_style">
       <el-row class="listTop">
         <el-col :span="6">
@@ -135,7 +135,7 @@ export default {
         :total="paperSum"
       ></el-pagination>-->
     </div>
-  </layout>
+  </div>
 </template>
 
 <style lang="less">
