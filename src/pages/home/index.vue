@@ -202,19 +202,29 @@ export default {
     },
 
     async resourceStats() {
-      const result = await SkmService.resourceStats();
-      this.sourceStats = result;
-
+      const { data } = await SkmService.resourceStats();
+      this.sourceStats = data;
       const estimateCapacity = parseInt(this.estimateCapacity);
-      this.sourceSpace =( result.allSize / 1024 / 1024 ).toFixed(2) + 'mb';
-      this.sourceStatsPercent = Math.max( (result.allSize / 1024 / 1024  / 1024  / estimateCapacity ).toFixed(2), 0.01 );
+      // 算比例
+      const allSize = data.pictureDetail.size + data.paperDetail.size + data.baseDataSize;
+      this.sourceSpace =( allSize / 1024 / 1024 ).toFixed(2) + 'mb';
+      this.sourceStatsPercent = Math.max( (allSize / 1024 / 1024  / 1024  / estimateCapacity ).toFixed(2), 0.01 );
+      // 换算
+      this.sourceStats.pictureDetail.size = this.getUnit(this.sourceStats.pictureDetail.size);
+      this.sourceStats.paperDetail.size = this.getUnit(this.sourceStats.paperDetail.size);
     },
 
-    mbOrgb(size) {
-      if ((size / 1024 ) > 1) {
-        return (size / 1024).toFixed(2) + 'gb';
-      } else {
-        return size.toFixed(2)  + 'mb';
+    getUnit(size) {
+      if((size / 1024 / 1024 / 1024 ) > 1) {
+        return (size / 1024 / 1024 / 1024 ).toFixed(2) + 'gb';
+      }
+      else if ((size / 1024 / 1024  ) > 1) {
+        return (size / 1024 / 1024  ).toFixed(2) + 'mb';
+      }
+      else if((size / 1024 ) > 1) {
+        return (size/1024).toFixed(2)  + 'kb';
+      }else{
+        return size;
       }
     },
     /**
