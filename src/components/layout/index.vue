@@ -1,12 +1,4 @@
 <script>
-/* COMPONENT DOCUMENT
- * author: zhaoyang
- * date: 2019/09/30
- * desc: 布局
- */
-
-// import { Component, Emit, Prop, Vue, Watch } from 'vue-property-decorator';
-// import { Getter, Action } from 'vuex-class';
 import MODULES_INFO from '../../constant/navModule.js';
 import SkmService from '../../services/api';
 import userContent from '../userContent/index.vue';
@@ -21,12 +13,20 @@ export default {
       date_year_mounth: '',
       date_hour_min_sec: '',
       userMessage: {},
-      timerId: null
-      // userMessage: {
-      //   title: "",
-      //   userName: "",
-      //   imgUrl: ""
-      // }
+      timerId: null,
+      percentage: 0,
+      colors: {
+        1: '#bfbfbf',
+        2: '#95ddb2',
+        3: '#92d1e5',
+        4: '#ffb37c',
+        5: '#ff6c00',
+        6: '#ff0000',
+        7: '#e52fec',
+        8: '#841cf9',
+        9: '#0e0e0e',
+        0: ''
+      }
     };
   },
   components: {
@@ -34,19 +34,16 @@ export default {
   },
   computed: {
     ...mapGetters('userMessageModule', ['getUserInfo'])
-    // ...mapState({
-    //    userDetails: state => state.userDetails,
-    // })
   },
 
-  // watch: {
-  //   // 如果 `question` 发生改变，这个函数就会运行
-  //   userMessage: function (newQuestion, oldQuestion) {
-  //     if(newQuestion !== oldQuestion){
-  //       this.userMessage = newQuestion
-  //     }
-  //   }
-  // },
+  watch: {
+    getUserInfo: {
+      handler(val) {
+        console.log('监听', val);
+        this.percentage = val.level.textSize / 10000 * 100;
+      }
+    }
+  },
   created() {this.renderTime();},
   mounted() {
     // console.log(MODULES_INFO)
@@ -111,6 +108,10 @@ export default {
       this.dom.style.width = textWidth + 'px';
       this.dom.style.webkitMask =
         'url(' + canvas.toDataURL('image/png', 0.92) + ')';
+    },
+    format() { return; },
+    customColorMethod() {
+      return this.colors[this.getUserInfo.level.lv];
     }
   }
 };
@@ -133,8 +134,12 @@ export default {
               <i class="el-icon-time"></i>
               {{date_hour_min_sec}}
             </div>
-            <div>
-              Lv.1
+            <div class="levelbar" v-if="getUserInfo">
+              <div class="levelText">
+                <li>Lv.{{getUserInfo.level.lv}}</li>
+                <li>{{getUserInfo.level.textSize}}/1w</li>
+              </div>
+              <el-progress :percentage="percentage" :format="format" :color="customColorMethod"></el-progress>
             </div>
           </div>
         </el-col>
@@ -243,7 +248,7 @@ export default {
   width: 50%;
   height: 36px;
   /* display: inline-block; */
-  /* display: flex; */
+  display: flex;
 
   background: none 0px 0px repeat scroll rgba(0, 0, 0, 0.2);
   border-width: 1px;
@@ -258,7 +263,7 @@ export default {
 
 .date-top {
   box-shadow: rgba(255, 255, 255, 0.1) 1px 0px 0px;
-  float: left;
+  /* float: left; */
   margin-left: 30px;
   padding-right: 15px;
   border-right: 1px solid rgba(0, 0, 0, 0.4);
@@ -266,12 +271,32 @@ export default {
 
 .digital {
   box-shadow: rgba(255, 255, 255, 0.1) 1px 0px 0px;
-  float: left;
+  /* float: left; */
   margin-left: 25px;
   /* margin-right: -25px; */
   padding-right: 15px;
   border-right: 1px solid rgba(0, 0, 0, 0.4);
 }
+
+
+.levelbar{
+  width: 200px;
+}
+.levelText{
+  height: 20px;
+  line-height: 28px;
+  text-align: left;
+  display: flex;
+  justify-content: space-between;
+  padding: 0 24px;
+}
+
+.levelText li:nth-child(2){
+  font-size: 12px;
+  line-height: 34px;
+  color: beige;
+}
+
 .digital li,
 .date-top li {
   float: left;
