@@ -69,7 +69,19 @@ export default {
         delete: ''
       },
       uploadAddress: address + '/users/uploadUserPhoto',
-      motto: ''
+      motto: '',
+      colors: {
+        1: '#bfbfbf',
+        2: '#95ddb2',
+        3: '#92d1e5',
+        4: '#ffb37c',
+        5: '#ff6c00',
+        6: '#ff0000',
+        7: '#e52fec',
+        8: '#841cf9',
+        9: '#0e0e0e',
+        0: ''
+      }
     };
   },
   computed: {
@@ -80,11 +92,20 @@ export default {
     '$store.state.userMessageModule.userDetails.motto': {
       handler(val) {
         this.motto = val;
+        console.log('监听 motto', val);
       }
+    },
+    ruleForm: {
+      handler(val) {
+        console.log('监听 ruleForm', val);
+      },
+      deep: true
     }
   },
   mounted() {
-    this.motto = this.getUserInfo.motto;
+    if(this.getUserInfo) {
+      this.motto = this.getUserInfo.motto;
+    }
   },
   methods: {
     handleAvatarSuccess(res, file) {
@@ -147,7 +168,12 @@ export default {
         }
         this.$store.dispatch('userMessageModule/refushUserMottoFun', this.motto);
       }
+    },
+    setColor(num) {
+      let index = num.toString().substring(num.length - 1, 1);
+      return this.colors[index];
     }
+
   }
 };
 </script>
@@ -157,7 +183,7 @@ export default {
     <div class="detailwarp">
       <div class="top massive_css2">
         <div class="topHead">
-          <el-row>
+          <el-row v-if="getUserInfo">
             <el-col :span="1" :offset="1">
               <el-upload
                 class="avatar-uploader"
@@ -173,6 +199,14 @@ export default {
             </el-col>
             <el-col :span="8" class="nameAndpush">
               <div class="userName">{{(getUserInfo || {}).userName }}</div>
+              <div
+                ref="level"
+                id="level"
+                :style="getUserInfo ? `background: ${setColor(getUserInfo.level.lv)}` : ''"
+              >
+                Lv.
+                <span class="levelNum">{{getUserInfo.level.lv}}</span>
+              </div>
               <el-input
                 id="h-sign"
                 type="text"
@@ -256,8 +290,10 @@ export default {
         <div class="settingGrid">
           <el-row class="settingGridSetheight">
             <el-col :span="6">
-              <i class="el-icon-warning"></i>
-              <el-button @click="showDELETEForm = !showDELETEForm">注销用户</el-button>
+              <i class="el-icon-warning"></i>注销
+            </el-col>
+            <el-col :offset="12" :span="6">
+              <el-button @click="showDELETEForm = !showDELETEForm">注销</el-button>
             </el-col>
           </el-row>
           <el-collapse-transition>
