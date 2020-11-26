@@ -124,7 +124,7 @@ export default {
       })
         .then(() => {
           SkmService.deleteFolder({ _id: row._id }).then(data => {
-            if (data.code === 0) {
+            if (data.code === 200) {
               this.$message({ type: 'success', message: '删除成功!' });
               this.listData.splice(index, 1); // 请求接口删除  why 前端操作
             }
@@ -246,7 +246,7 @@ export default {
           _id: this.pushPaperFormFolderId,
           folderHasPaper
         }).then(data => {
-          if (data.code === 0) {
+          if (data.code === 200) {
             this.dialogPPVisible = false;
             this.$message({ type: 'success', message: '添加完毕!' });
             this.multipleSelection = [];

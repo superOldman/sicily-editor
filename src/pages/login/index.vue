@@ -4,7 +4,6 @@
  * date: 2020/03/17
  * desc: login
  */
-
 import SkmService from '../../services/api';
 import { mapGetters } from 'vuex';
 export default {
@@ -35,10 +34,10 @@ export default {
     async init() {
       if (!this.getUserInfo) {
         const result = await SkmService.islogin();
-        if (result.code === 0) {
+        if (result && result.code === 200) {
           this.$router.push({ name: 'home' });
           this.$store.commit('userMessageModule/refushUser', result.userMessage);
-        }else{
+        } else {
           this.initDom();
         }
       } else {
@@ -74,7 +73,7 @@ export default {
           Auth.vars.lowin_register.className += ' lowin-animated-flip';
           Auth.setHeight(
             Auth.vars.lowin_register.offsetHeight +
-              Auth.vars.lowin_footer.offsetHeight
+            Auth.vars.lowin_footer.offsetHeight
           );
           e.preventDefault();
         },
@@ -95,7 +94,7 @@ export default {
           }, 1000);
           Auth.setHeight(
             Auth.vars.lowin_login.offsetHeight +
-              Auth.vars.lowin_footer.offsetHeight
+            Auth.vars.lowin_footer.offsetHeight
           );
           e.preventDefault();
         },
@@ -191,26 +190,23 @@ export default {
     },
     login() {
       SkmService.signin(this.userData).then(data => {
-        if (data.code === 0) {
+        if (data.code === 200) {
           console.log('登陆成功！');
+
           let pageName = 'home';
           let url = window.location.href;
           if (url.indexOf('?') !== -1) {
             pageName = url.split('?redirect=%2F')[1];
-            // console.log(pageName)
-            // console.log(encodeURI(pageName))
-            // console.log(decodeURI(pageName))
-            // console.log(encodeURIComponent(pageName))
           }
           this.$router.push({ name: pageName });
         } else {
-          this.$alert(data.message, '错误', { confirmButtonText: '确定' });
+          this.$alert(data.message, '登录错误', { confirmButtonText: '确定' });
         }
       });
     },
     register() {
       SkmService.register(this.registerData).then(data => {
-        if (data.code === 0) {
+        if (data.code === 200) {
           this.$router.go(0);
         } else {
           alert(data.message);
@@ -249,26 +245,14 @@ export default {
                 邮箱
                 <span class="login-back-link">登陆?</span>
               </label>
-              <input
-                type="email"
-                autocomplete="email"
-                name="email"
-                v-model="userData.username"
-                class="lowin-input username"
-              />
+              <input type="email" autocomplete="email" name="email" v-model="userData.username" class="lowin-input username" />
             </div>
             <div class="lowin-group password-group">
               <label>
                 密码
                 <span class="forgot-link">忘记密码?</span>
               </label>
-              <input
-                type="password"
-                name="password"
-                autocomplete="current-password"
-                class="lowin-input passwd"
-                v-model="userData.password"
-              />
+              <input type="password" name="password" autocomplete="current-password" class="lowin-input passwd" v-model="userData.password" />
             </div>
             <div @click="login" class="lowin-btn login-btn loginBtn">登陆</div>
             <div class="text-foot">
@@ -286,33 +270,15 @@ export default {
             <p>创建你的账号</p>
             <div class="lowin-group">
               <label>用户名</label>
-              <input
-                type="text"
-                name="username"
-                autocomplete="username"
-                class="lowin-input"
-                v-model="registerData.username"
-              />
+              <input type="text" name="username" autocomplete="username" class="lowin-input" v-model="registerData.username" />
             </div>
             <div class="lowin-group">
               <label>邮箱</label>
-              <input
-                type="email"
-                autocomplete="email"
-                name="email"
-                class="lowin-input"
-                v-model="registerData.email"
-              />
+              <input type="email" autocomplete="email" name="email" class="lowin-input" v-model="registerData.email" />
             </div>
             <div class="lowin-group">
               <label>密码</label>
-              <input
-                type="password"
-                name="password"
-                autocomplete="current-password"
-                class="lowin-input"
-                v-model="registerData.password"
-              />
+              <input type="password" name="password" autocomplete="current-password" class="lowin-input" v-model="registerData.password" />
             </div>
             <div class="lowin-btn" @click="register">注册</div>
             <div class="text-foot">

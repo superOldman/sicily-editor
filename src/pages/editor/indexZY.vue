@@ -68,7 +68,7 @@ export default {
         // this.$route.query.id
         let articleId = window.location.href.split('?id=')[1];
         const result = await SkmService.searchById({ id: articleId });
-        if (result.code === 0) {
+        if (result.code === 200) {
           this.options = result.list;
           this.isNewEditor = false;
           this.isShowEditor = true;
@@ -80,7 +80,7 @@ export default {
     },
     async getFolderList() {
       const result = await SkmService.getFolderList();
-      if (result.code === 0) {
+      if (result.code === 200) {
         result.data.forEach((item, index) => {
           this.folderList[index] = item.folderName;
         });

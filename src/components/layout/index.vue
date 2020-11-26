@@ -1,11 +1,13 @@
 <script>
+import { setCookie } from '../../utils/cookie'
+
 import MODULES_INFO from '../../constant/navModule.js';
 import SkmService from '../../services/api';
 import userContent from '../userContent/index.vue';
 import { mapGetters } from 'vuex';
 export default {
   name: 'layout',
-  data: function() {
+  data: function () {
     return {
       MODULES_INFO,
       pageMessageIcon: MODULES_INFO[0].icon,
@@ -44,7 +46,7 @@ export default {
       }
     }
   },
-  created() {this.renderTime();},
+  created() { this.renderTime(); },
   mounted() {
     // console.log(MODULES_INFO)
     this.isLogin();
@@ -76,7 +78,7 @@ export default {
     },
     renderTime() {
       this.getMyTime();
-      this.timerId = setInterval(()=>{
+      this.timerId = setInterval(() => {
         this.getMyTime();
       }, 1000);
     },
@@ -88,6 +90,8 @@ export default {
       // this.userMessage = this.$store.state.userDetails.userDetails;
       if (!this.getUserInfo) {
         SkmService.islogin().then(data => {
+
+          setCookie('loginName', data.username)
           this.$store.commit('userMessageModule/refushUser', data.userMessage);
 
         });
@@ -153,17 +157,8 @@ export default {
     </el-header>
     <el-container>
       <el-aside width="225px">
-        <el-menu
-          @select="selectHandle"
-          router
-          :default-active="MODULES_INFO.find(a => a.router === $route.name).name"
-        >
-          <el-menu-item
-            v-for="(item,index) in MODULES_INFO.filter(a=> a.navShow)"
-            :key="index"
-            :index="item.name"
-            :route="{name: item.router}"
-          >
+        <el-menu @select="selectHandle" router :default-active="MODULES_INFO.find(a => a.router === $route.name).name">
+          <el-menu-item v-for="(item,index) in MODULES_INFO.filter(a=> a.navShow)" :key="index" :index="item.name" :route="{name: item.router}">
             <i :class="item.icon" class="icon_color"></i>
             {{item.name}}
           </el-menu-item>
@@ -278,11 +273,10 @@ export default {
   border-right: 1px solid rgba(0, 0, 0, 0.4);
 }
 
-
-.levelbar{
+.levelbar {
   width: 200px;
 }
-.levelText{
+.levelText {
   height: 20px;
   line-height: 28px;
   text-align: left;
@@ -291,7 +285,7 @@ export default {
   padding: 0 24px;
 }
 
-.levelText li:nth-child(2){
+.levelText li:nth-child(2) {
   font-size: 12px;
   line-height: 34px;
   color: beige;
@@ -321,7 +315,8 @@ export default {
 .el-menu-item {
   color: #fff;
 }
-.el-menu-item:hover, .is-active {
+.el-menu-item:hover,
+.is-active {
   background-color: rgba(0, 0, 0, 0.2);
   border-left: 2px solid #fff;
   margin-left: -2px;
@@ -399,7 +394,7 @@ export default {
   border-bottom: 1px solid #ddd;
   color: #9ea7b3;
 }
-.motto{
+.motto {
   text-align: center;
 }
 .slot {
@@ -414,9 +409,10 @@ body > .el-container {
 .warp {
   height: 100%;
   /* background: url("../../assets/images/bg_city.png") center top / cover no-repeat fixed; */
-  background: url("../../assets/images/bg3.jpg") center top / cover no-repeat fixed;
+  background: url("../../assets/images/bg3.jpg") center top / cover no-repeat
+    fixed;
 }
-.icon_color{
+.icon_color {
   color: #fff;
 }
 @-webkit-keyframes move {

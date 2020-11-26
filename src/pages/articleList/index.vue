@@ -90,7 +90,7 @@ export default {
         .then(async () => {
           let { _id, stick } = val;
           const data = await SkmService.setTop({ _id, stick: !stick });
-          if (data.code === 0) {
+          if (data.code === 200) {
             val.stick = !val.stick;
           } else {
             this.$alert(data.message, '提示', { confirmButtonText: '确定' });
@@ -113,7 +113,7 @@ export default {
       this.$confirm('确认删除？')
         .then(async () => {
           const data = await SkmService.destroyById({ _id: row._id });
-          if (data.code === 0) {
+          if (data.code === 200) {
             this.getList();
           }
         })

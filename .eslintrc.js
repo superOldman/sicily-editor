@@ -45,6 +45,7 @@ module.exports = {
     'space-before-blocks': 1, // 代码块前后空格
     'comma-dangle': [1, 'never'], // always-multiline：多行模式必须带逗号，单行模式不能带逗号
     'comma-spacing': [1, { 'before': false, 'after': true }], // 控制逗号前后的空格
-    'key-spacing': [1, { 'beforeColon': false, 'afterColon': true }]// 对象字面量中冒号的前后空格
+    'key-spacing': [1, { 'beforeColon': false, 'afterColon': true }],// 对象字面量中冒号的前后空格
+    'no-debugger': [0]
   }
 };

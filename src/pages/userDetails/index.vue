@@ -152,7 +152,7 @@ export default {
 
     async userUpDate(params) {
       const result = await SkmService.userUpdate(params);
-      if (result.code === 0) {
+      if (result.code === 200) {
         this.$store.commit('userMessageModule/clearUser');
         this.$router.push({ name: 'login' });
       } else {

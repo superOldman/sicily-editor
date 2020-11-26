@@ -65,7 +65,7 @@ export default {
       this.$confirm('确认删除？')
         .then(async () => {
           const data = await SkmService.deleteImage({ _id });
-          if (data.code === 0) {
+          if (data.code === 200) {
             this.getList();
           }
         })

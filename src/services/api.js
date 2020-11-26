@@ -1,6 +1,7 @@
 import {  http_get, http_post } from './index';
-const baseAddress = process.env.NODE_ENV === 'production' ? 'http://47.96.2.170:3000' : 'http://localhost:3000';
+// const baseAddress = process.env.NODE_ENV === 'production' ? 'http://47.96.2.170:3000' : 'http://localhost:3000';
 // const baseAddress =  'http://47.96.2.170:3000';
+const baseAddress =  '/api';
 
 // 环境的切换 例子
 // if (process.env.NODE_ENV == 'development') {
@@ -12,33 +13,32 @@ const baseAddress = process.env.NODE_ENV === 'production' ? 'http://47.96.2.170:
 //   axios.defaults.baseURL = 'https://www.production.com';
 // }
 
-
 class SkmService {
   // 登陆接口
   async signin(params) {
-    const result = await http_post({ api: baseAddress + '/users/login', params });
-    return result.data;
+    return await http_post({ api: baseAddress + '/users/login', params });
+    
   }
   async logout() {
-    const result = await http_get({ api: baseAddress + '/users/logout' });
-    return result.data;
+    return await http_get({ api: baseAddress + '/users/logout' });
+    
   }
   async islogin() {
-    const result = await http_get({ api: baseAddress + '/islogin' });
-    return result.data;
+    return await http_get({ api: baseAddress + '/users/islogin' });
+    
   }
 
 
   // 编辑
   async saveHtml(params) {
-    const result = await http_post({ api: baseAddress + '/editor/saveHtml', params });
-    return result.data;
+    return await http_post({ api: baseAddress + '/editor/saveHtml', params });
+    
   }
 
 
-  async saveEditorHtml(params) {
-    const result = await http_post({ api: baseAddress + '/editor/saveEditorHtml', params });
-    return result.data;
+  async saveEditorHtml(params) {   
+    return await http_post({ api: baseAddress + '/editor/saveEditorHtml', params });
+    
   }
 
 
@@ -46,18 +46,18 @@ class SkmService {
   // 列表页
 
   async get_list(params) {
-    const result = await http_get({ api: baseAddress + '/list', params: { params } });
-    return result.data;
+    return await http_get({ api: baseAddress + '/list', params: { params } });
+    
   }
 
   async setTop(params) {
-    const result = await http_post({ api: baseAddress + '/editor/setTop', params });
-    return result.data;
+    return await http_post({ api: baseAddress + '/editor/setTop', params });
+    
   }
 
   async destroyById(params) {
-    const result = await http_post({ api: baseAddress + '/editor/destroy', params });
-    return result.data;
+    return await http_post({ api: baseAddress + '/editor/destroy', params });
+    
   }
 
 
@@ -67,97 +67,97 @@ class SkmService {
 
   // 文件夹接口
   async getFolderList(params) {
-    const result = await http_get({ api: baseAddress + '/folder/getFolderList', params: { params } });
-    return result.data;
+    return await http_get({ api: baseAddress + '/folder/getFolderList', params: { params } });
+    
   }
 
 
 
   async deleteFolder(params) {
-    const result = await http_post({ api: baseAddress + '/folder/deleteFolder', params });
-    return result.data;
+    return await http_post({ api: baseAddress + '/folder/deleteFolder', params });
+    
   }
 
   async saveFolder(params) {
-    const result = await http_post({ api: baseAddress + '/folder/saveFolder', params });
-    return result.data;
+    return await http_post({ api: baseAddress + '/folder/saveFolder', params });
+    
   }
 
   async saveEditorFolder(params) {
-    const result = await http_post({ api: baseAddress + '/folder/saveEditorFolder', params });
-    return result.data;
+    return await http_post({ api: baseAddress + '/folder/saveEditorFolder', params });
+    
   }
 
   async pushPaper(params) {
-    const result = await http_post({ api: baseAddress + '/folder/pushPaper', params });
-    return result.data;
+    return await http_post({ api: baseAddress + '/folder/pushPaper', params });
+    
   }
 
   async get_titleList(params) {
-    const result = await http_post({ api: baseAddress + '/search/getTitleList', params });
-    return result.data;
+    return await http_post({ api: baseAddress + '/search/getTitleList', params });
+    
   }
 
 
 
   async searchById(params) {
-    const result = await http_get({ api: baseAddress + '/searchById', params: { params } });
-    return result.data;
+    return await http_get({ api: baseAddress + '/searchById', params: { params } });
+    
   }
 
 
 
   // 注册
   async register(params) {
-    const result = await http_post({ api: baseAddress + '/users/register', params });
-    return result.data;
+    return await http_post({ api: baseAddress + '/users/register', params });
+    
   }
 
 
 
   // 首页
   async resourceStats(params) {
-    const result = await http_get({ api: baseAddress + '/statsHome/resourceStats', params: { params } });
-    return result.data;
+    return await http_get({ api: baseAddress + '/statsHome/resourceStats', params: { params } });
+    
   }
 
   async visitList(params) {
-    const result = await http_get({ api: baseAddress + '/statsHome/visitList', params: { params } });
-    return result.data;
+    return await http_get({ api: baseAddress + '/statsHome/visitList', params: { params } });
+    
   }
 
 
   async pushPaperCount(params) {
-    const result = await http_get({ api: baseAddress + '/statsHome/lastYearPushPaperCount', params: { params } });
-    return result.data;
+    return await http_get({ api: baseAddress + '/statsHome/lastYearPushPaperCount', params: { params } });
+    
   }
 
   // 用户详情
 
   async userUpdate(params) {
-    const result = await http_post({ api: baseAddress + '/users/userUpdate', params });
-    return result.data;
+    return await http_post({ api: baseAddress + '/users/userUpdate', params });
+    
   }
 
   async uploadUserMotto(params) {
-    const result = await http_post({ api: baseAddress + '/users/uploadUserMotto', params });
-    return result.data;
+    return await http_post({ api: baseAddress + '/users/uploadUserMotto', params });
+    
   }
 
   async writeOff(params) {
-    const result = await http_post({ api: baseAddress + '/users/writeOff', params });
-    return result.data;
+    return await http_post({ api: baseAddress + '/users/writeOff', params });
+    
   }
 
 
   // 图片列表
   async imageList(params) {
-    const result = await http_get({ api: baseAddress + '/picture/imageList', params: { params } });
-    return result.data;
+    return await http_get({ api: baseAddress + '/picture/imageList', params: { params } });
+    
   }
   async deleteImage(params) {
-    const result = await http_post({ api: baseAddress + '/picture/deleteImage', params });
-    return result.data;
+    return await http_post({ api: baseAddress + '/picture/deleteImage', params });
+    
   }
 
 
