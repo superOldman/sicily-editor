@@ -1,10 +1,10 @@
 <script>
 import { setCookie } from '../../utils/cookie'
 
-import MODULES_INFO from '../../constant/navModule.js';
-import SkmService from '../../services/api';
-import userContent from '../userContent/index.vue';
-import { mapGetters } from 'vuex';
+import MODULES_INFO from '../../constant/navModule.js'
+import SkmService from '../../services/api'
+import userContent from '../userContent/index.vue'
+import { mapGetters } from 'vuex'
 export default {
   name: 'layout',
   data: function () {
@@ -29,7 +29,7 @@ export default {
         9: '#0e0e0e',
         0: ''
       }
-    };
+    }
   },
   components: {
     userContent
@@ -41,50 +41,50 @@ export default {
   watch: {
     getUserInfo: {
       handler(val) {
-        console.log('监听', val);
-        this.percentage = val.level.textSize / 10000 * 100;
+        console.log('监听', val)
+        this.percentage = val.level.textSize / 10000 * 100
       }
     }
   },
-  created() { this.renderTime(); },
+  created() { this.renderTime() },
   mounted() {
     // console.log(MODULES_INFO)
-    this.isLogin();
+    this.isLogin()
 
-    this.bg_animate();
+    this.bg_animate()
   },
   beforeDestroy() {
-    clearInterval(this.timerId);
+    clearInterval(this.timerId)
   },
   methods: {
     getMyTime(time) {
-      let nowTime;
+      let nowTime
       if (time) {
-        nowTime = new Date(time);
+        nowTime = new Date(time)
         return `${nowTime.getFullYear()}-${addZero(nowTime.getMonth() + 1)}-${addZero(nowTime.getDate())}
-        ${addZero(nowTime.getHours())}:${addZero(nowTime.getMinutes())}:${addZero(nowTime.getSeconds())}`;
+        ${addZero(nowTime.getHours())}:${addZero(nowTime.getMinutes())}:${addZero(nowTime.getSeconds())}`
       } else {
-        nowTime = new Date();
+        nowTime = new Date()
         this.date_year_mounth = `${nowTime.getFullYear()}-${addZero(
           nowTime.getMonth() + 1
-        )}-${addZero(nowTime.getDate())}`;
+        )}-${addZero(nowTime.getDate())}`
         this.date_hour_min_sec = `${addZero(nowTime.getHours())}:${addZero(
           nowTime.getMinutes()
-        )}:${addZero(nowTime.getSeconds())}`;
+        )}:${addZero(nowTime.getSeconds())}`
       }
       function addZero(num) {
-        return num >= 10 ? num : `0${num}`;
+        return num >= 10 ? num : `0${num}`
       }
     },
     renderTime() {
-      this.getMyTime();
+      this.getMyTime()
       this.timerId = setInterval(() => {
-        this.getMyTime();
-      }, 1000);
+        this.getMyTime()
+      }, 1000)
     },
     selectHandle(item) {
-      this.pageMessage = item.name;
-      this.pageMessageIcon = item.icon;
+      this.pageMessage = item.name
+      this.pageMessageIcon = item.icon
     },
     isLogin() {
       // this.userMessage = this.$store.state.userDetails.userDetails;
@@ -92,33 +92,33 @@ export default {
         SkmService.islogin().then(data => {
 
           setCookie('loginName', data.username)
-          this.$store.commit('userMessageModule/refushUser', data.userMessage);
+          this.$store.commit('userMessageModule/refushUser', data.userMessage)
 
-        });
+        })
       }
     },
 
     /** 字体背景动画 */
     bg_animate() {
-      const canvas = document.createElement('canvas');
-      this.ctx = canvas.getContext('2d');
-      this.ctx.font = 'oblique bolder 24px fantasy';
+      const canvas = document.createElement('canvas')
+      this.ctx = canvas.getContext('2d')
+      this.ctx.font = 'oblique bolder 24px fantasy'
       const textWidth =
-        Math.ceil(this.ctx.measureText('sicilymarmot').width) + 10;
-      canvas.width = textWidth;
-      this.ctx.font = 'oblique bolder 24px fantasy';
-      this.ctx.fillText('sicilymarmot', 0, 50);
-      this.dom = document.getElementById('logo');
-      this.dom.style.width = textWidth + 'px';
+        Math.ceil(this.ctx.measureText('sicilymarmot').width) + 10
+      canvas.width = textWidth
+      this.ctx.font = 'oblique bolder 24px fantasy'
+      this.ctx.fillText('sicilymarmot', 0, 50)
+      this.dom = document.getElementById('logo')
+      this.dom.style.width = textWidth + 'px'
       this.dom.style.webkitMask =
-        'url(' + canvas.toDataURL('image/png', 0.92) + ')';
+        'url(' + canvas.toDataURL('image/png', 0.92) + ')'
     },
-    format() { return; },
+    format() { return },
     customColorMethod() {
-      return this.colors[this.getUserInfo.level.lv];
+      return this.colors[this.getUserInfo.level.lv]
     }
   }
-};
+}
 </script>
 
 <template>

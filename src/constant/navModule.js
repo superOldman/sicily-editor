@@ -38,5 +38,5 @@ const MODULES_INFO = [
     router: 'userDetails',
     navShow: false
   }
-];
-export default MODULES_INFO;
+]
+export default MODULES_INFO

@@ -4,46 +4,46 @@
  * date: 2020/03/20
  * desc: 用户详情页
  */
-import SkmService from '../../services/api';
-import { mapGetters } from 'vuex';
-import address from '../../constant/address';
+import SkmService from '../../services/api'
+import { mapGetters } from 'vuex'
+import address from '../../constant/address'
 export default {
   data() {
     var baseCheck = (rule, value, callback) => {
       if (!value) {
-        return callback(new Error('不能为空'));
+        return callback(new Error('不能为空'))
       }
-      callback();
-    };
+      callback()
+    }
     var checkUserName = (rule, value, callback) => {
       if (!value) {
-        return callback(new Error('不能为空'));
+        return callback(new Error('不能为空'))
       } else {
         if (this.ruleForm2.delete !== this.getUserInfo.userName) {
-          callback(new Error('用户名输错了'));
+          callback(new Error('用户名输错了'))
         }
-        callback();
+        callback()
       }
-    };
+    }
     var validatePass = (rule, value, callback) => {
       if (value === '') {
-        callback(new Error('请输入密码'));
+        callback(new Error('请输入密码'))
       } else {
         if (this.ruleForm.checkNewPass !== '') {
-          this.$refs.ruleForm.validateField('checkNewPass');
+          this.$refs.ruleForm.validateField('checkNewPass')
         }
-        callback();
+        callback()
       }
-    };
+    }
     var validatePass2 = (rule, value, callback) => {
       if (value === '') {
-        callback(new Error('请再次输入密码'));
+        callback(new Error('请再次输入密码'))
       } else if (value !== this.ruleForm.newPass) {
-        callback(new Error('两次输入密码不一致!'));
+        callback(new Error('两次输入密码不一致!'))
       } else {
-        callback();
+        callback()
       }
-    };
+    }
     return {
       showUPForm: false,
       showEMForm: false,
@@ -82,7 +82,7 @@ export default {
         9: '#0e0e0e',
         0: ''
       }
-    };
+    }
   },
   computed: {
     ...mapGetters('userMessageModule', ['getUserInfo'])
@@ -91,91 +91,91 @@ export default {
   watch: {
     '$store.state.userMessageModule.userDetails.motto': {
       handler(val) {
-        this.motto = val;
-        console.log('监听 motto', val);
+        this.motto = val
+        console.log('监听 motto', val)
       }
     },
     ruleForm: {
       handler(val) {
-        console.log('监听 ruleForm', val);
+        console.log('监听 ruleForm', val)
       },
       deep: true
     }
   },
   mounted() {
     if(this.getUserInfo) {
-      this.motto = this.getUserInfo.motto;
+      this.motto = this.getUserInfo.motto
     }
   },
   methods: {
     handleAvatarSuccess(res, file) {
-      console.log('上传回调');
-      console.log(res, file);
-      this.$store.dispatch('userMessageModule/refushUserPhotoFun', URL.createObjectURL(file.raw));
+      console.log('上传回调')
+      console.log(res, file)
+      this.$store.dispatch('userMessageModule/refushUserPhotoFun', URL.createObjectURL(file.raw))
     },
     beforeAvatarUpload(file) {
-      const isJPG = file.type; // === ('image/jpeg' || 'image/png' || 'image/jpg');
-      const isLt2M = file.size / 1024 / 1024 < 2;
+      const isJPG = file.type // === ('image/jpeg' || 'image/png' || 'image/jpg');
+      const isLt2M = file.size / 1024 / 1024 < 2
 
       if (!isJPG) {
-        this.$message.error('上传头像图片只能是 jpeg/jpg/png 格式!');
+        this.$message.error('上传头像图片只能是 jpeg/jpg/png 格式!')
       }
       if (!isLt2M) {
-        this.$message.error('上传头像图片大小不能超过 2MB!');
+        this.$message.error('上传头像图片大小不能超过 2MB!')
       }
-      return isJPG && isLt2M;
+      return isJPG && isLt2M
     },
 
     submitForm(formName) {
       this.$refs[formName].validate(valid => {
         if (valid) {
-          let userMessage = this.ruleForm;
-          this.userUpDate({ username: this.getUserInfo.userName, userMessage });
+          let userMessage = this.ruleForm
+          this.userUpDate({ username: this.getUserInfo.userName, userMessage })
         }
-      });
+      })
     },
     deleteUser(formName) {
       this.$refs[formName].validate(valid => {
         if (valid) {
           this.$confirm('确定删除该用户？')
             .then(() => {
-              this.$store.commit('userMessageModule/clearUser');
-              SkmService.writeOff({ username: this.ruleForm2.delete });
+              this.$store.commit('userMessageModule/clearUser')
+              SkmService.writeOff({ username: this.ruleForm2.delete })
             })
-            .catch(() => {});
+            .catch(() => {})
         }
-      });
+      })
     },
     resetForm(formName) {
-      this.$refs[formName].resetFields();
+      this.$refs[formName].resetFields()
     },
 
     async userUpDate(params) {
-      const result = await SkmService.userUpdate(params);
+      const result = await SkmService.userUpdate(params)
       if (result.code === 200) {
-        this.$store.commit('userMessageModule/clearUser');
-        this.$router.push({ name: 'login' });
+        this.$store.commit('userMessageModule/clearUser')
+        this.$router.push({ name: 'login' })
       } else {
-        this.$alert(result.message, '错误', { confirmButtonText: '确定' });
+        this.$alert(result.message, '错误', { confirmButtonText: '确定' })
       }
     },
     async upDateMotto() {
       if(this.motto !== this.getUserInfo.motto) {
-        const result = await SkmService.uploadUserMotto({ motto: this.motto });
+        const result = await SkmService.uploadUserMotto({ motto: this.motto })
         if (result.code === 1) {
-          this.$alert('告警', result.message);
-          return;
+          this.$alert('告警', result.message)
+          return
         }
-        this.$store.dispatch('userMessageModule/refushUserMottoFun', this.motto);
+        this.$store.dispatch('userMessageModule/refushUserMottoFun', this.motto)
       }
     },
     setColor(num) {
-      let index = num.toString().substring(num.length - 1, 1);
-      return this.colors[index];
+      let index = num.toString().substring(num.length - 1, 1)
+      return this.colors[index]
     }
 
   }
-};
+}
 </script>
 
 <template>

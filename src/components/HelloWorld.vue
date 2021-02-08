@@ -8,7 +8,7 @@
 export default {
   data () {
     return {
-    };
+    }
   },
   mounted () {
 
@@ -16,7 +16,7 @@ export default {
   methods: {
 
   }
-};
+}
 </script>
 
 <style  scoped >

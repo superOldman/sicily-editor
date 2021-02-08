@@ -4,7 +4,7 @@ export default {
     return {
       restaurants: [],
       input: ''
-    };
+    }
   },
   props: ['dialogVisible', 'dialogTitle', 'dialogBtn', 'hasResetForm'],
   //   props: {
@@ -14,17 +14,17 @@ export default {
   //   },
   methods: {
     closeMyDialog() {
-      this.$emit('closeMyDialog');
+      this.$emit('closeMyDialog')
     },
     resetForm() {
-      this.$emit('resetForm');
+      this.$emit('resetForm')
     },
     submitForm() {
-      this.$emit('submitForm');
+      this.$emit('submitForm')
     }
   }
 
-};
+}
 
 </script>
 

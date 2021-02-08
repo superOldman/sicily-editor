@@ -4,8 +4,8 @@
  * date: 2020/03/17
  * desc: login
  */
-import SkmService from '../../services/api';
-import { mapGetters } from 'vuex';
+import SkmService from '../../services/api'
+import { mapGetters } from 'vuex'
 export default {
   data() {
     return {
@@ -18,30 +18,30 @@ export default {
         email: '',
         password: ''
       }
-    };
+    }
   },
   mounted() {
-    this.init();
-    this.addKeyBoardListener();
+    this.init()
+    this.addKeyBoardListener()
   },
   computed: {
     ...mapGetters('userMessageModule', ['getUserInfo'])
   },
   destroyed() {
-    this.removeKeyBoardListener();
+    this.removeKeyBoardListener()
   },
   methods: {
     async init() {
       if (!this.getUserInfo) {
-        const result = await SkmService.islogin();
+        const result = await SkmService.islogin()
         if (result && result.code === 200) {
-          this.$router.push({ name: 'home' });
-          this.$store.commit('userMessageModule/refushUser', result.userMessage);
+          this.$router.push({ name: 'home' })
+          this.$store.commit('userMessageModule/refushUser', result.userMessage)
         } else {
-          this.initDom();
+          this.initDom()
         }
       } else {
-        this.$router.push({ name: 'home' });
+        this.$router.push({ name: 'home' })
       }
     },
     initDom() {
@@ -65,93 +65,93 @@ export default {
           option: {}
         },
         register(e) {
-          Auth.vars.lowin_login.className += ' lowin-animated';
+          Auth.vars.lowin_login.className += ' lowin-animated'
           setTimeout(() => {
-            Auth.vars.lowin_login.style.display = 'none';
-          }, 500);
-          Auth.vars.lowin_register.style.display = 'block';
-          Auth.vars.lowin_register.className += ' lowin-animated-flip';
+            Auth.vars.lowin_login.style.display = 'none'
+          }, 500)
+          Auth.vars.lowin_register.style.display = 'block'
+          Auth.vars.lowin_register.className += ' lowin-animated-flip'
           Auth.setHeight(
             Auth.vars.lowin_register.offsetHeight +
             Auth.vars.lowin_footer.offsetHeight
-          );
-          e.preventDefault();
+          )
+          e.preventDefault()
         },
         login(e) {
-          Auth.vars.lowin_register.classList.remove('lowin-animated-flip');
-          Auth.vars.lowin_register.className += ' lowin-animated-flipback';
-          Auth.vars.lowin_login.style.display = 'block';
-          Auth.vars.lowin_login.classList.remove('lowin-animated');
-          Auth.vars.lowin_login.className += ' lowin-animatedback';
+          Auth.vars.lowin_register.classList.remove('lowin-animated-flip')
+          Auth.vars.lowin_register.className += ' lowin-animated-flipback'
+          Auth.vars.lowin_login.style.display = 'block'
+          Auth.vars.lowin_login.classList.remove('lowin-animated')
+          Auth.vars.lowin_login.className += ' lowin-animatedback'
           setTimeout(() => {
-            Auth.vars.lowin_register.style.display = 'none';
-          }, 500);
+            Auth.vars.lowin_register.style.display = 'none'
+          }, 500)
           setTimeout(() => {
             Auth.vars.lowin_register.classList.remove(
               'lowin-animated-flipback'
-            );
-            Auth.vars.lowin_login.classList.remove('lowin-animatedback');
-          }, 1000);
+            )
+            Auth.vars.lowin_login.classList.remove('lowin-animatedback')
+          }, 1000)
           Auth.setHeight(
             Auth.vars.lowin_login.offsetHeight +
             Auth.vars.lowin_footer.offsetHeight
-          );
-          e.preventDefault();
+          )
+          e.preventDefault()
         },
         forgot(e) {
-          Auth.vars.password_group.classList += ' lowin-animated';
-          Auth.vars.login_back_link.style.display = 'block';
+          Auth.vars.password_group.classList += ' lowin-animated'
+          Auth.vars.login_back_link.style.display = 'block'
           setTimeout(() => {
-            Auth.vars.login_back_link.style.opacity = 1;
-            Auth.vars.password_group.style.height = 60;
-            Auth.vars.password_group.style.margin = 0;
-          }, 100);
-          Auth.vars.login_btn.innerText = 'Forgot Password';
+            Auth.vars.login_back_link.style.opacity = 1
+            Auth.vars.password_group.style.height = 60
+            Auth.vars.password_group.style.margin = 0
+          }, 100)
+          Auth.vars.login_btn.innerText = 'Forgot Password'
           Auth.setHeight(
             Auth.vars.lowin_wrapper_height - Auth.vars.password_group_height
-          );
+          )
           Auth.vars.lowin_login
             .querySelector('form')
-            .setAttribute('action', Auth.vars.option.forgot_url);
-          e.preventDefault();
+            .setAttribute('action', Auth.vars.option.forgot_url)
+          e.preventDefault()
         },
         loginback(e) {
 
-          Auth.vars.password_group.classList.remove('lowin-animated');
-          Auth.vars.password_group.classList += ' lowin-animated-back';
-          Auth.vars.password_group.style.display = 'block';
+          Auth.vars.password_group.classList.remove('lowin-animated')
+          Auth.vars.password_group.classList += ' lowin-animated-back'
+          Auth.vars.password_group.style.display = 'block'
 
-          console.log('heihgt', Auth.vars.password_group_height);
+          console.log('heihgt', Auth.vars.password_group_height)
           setTimeout(() => {
-            Auth.vars.login_back_link.style.opacity = 0;
+            Auth.vars.login_back_link.style.opacity = 0
             Auth.vars.password_group.style.height =
-              Auth.vars.password_group_height + 'px';
-            Auth.vars.password_group.style.marginBottom = 30 + 'px';
-          }, 100);
+              Auth.vars.password_group_height + 'px'
+            Auth.vars.password_group.style.marginBottom = 30 + 'px'
+          }, 100)
           setTimeout(() => {
-            Auth.vars.login_back_link.style.display = 'none';
-            Auth.vars.password_group.classList.remove('lowin-animated-back');
-          }, 1000);
-          Auth.vars.login_btn.innerText = 'Sign In';
+            Auth.vars.login_back_link.style.display = 'none'
+            Auth.vars.password_group.classList.remove('lowin-animated-back')
+          }, 1000)
+          Auth.vars.login_btn.innerText = 'Sign In'
           Auth.vars.lowin_login
             .querySelector('form')
-            .setAttribute('action', Auth.vars.option.login_url);
-          Auth.setHeight(Auth.vars.lowin_wrapper_height);
-          e.preventDefault();
+            .setAttribute('action', Auth.vars.option.login_url)
+          Auth.setHeight(Auth.vars.lowin_wrapper_height)
+          e.preventDefault()
         },
         setHeight(height) {
-          Auth.vars.lowin_wrapper.style.minHeight = height + 'px';
+          Auth.vars.lowin_wrapper.style.minHeight = height + 'px'
         },
         brand() {
-          Auth.vars.lowin_brand.classList += ' lowin-animated';
+          Auth.vars.lowin_brand.classList += ' lowin-animated'
           setTimeout(() => {
-            Auth.vars.lowin_brand.classList.remove('lowin-animated');
-          }, 1000);
+            Auth.vars.lowin_brand.classList.remove('lowin-animated')
+          }, 1000)
         },
         init(option) {
           Auth.setHeight(
             Auth.vars.box[0].offsetHeight + Auth.vars.lowin_footer.offsetHeight
-          );
+          )
           // Auth.vars.password_group.style.height =
           //   Auth.vars.password_group.offsetHeight + "px";
           // Auth.vars.password_group_height =
@@ -160,73 +160,73 @@ export default {
           // Auth.vars.option = option;
           Auth.vars.lowin_login
             .querySelector('form')
-            .setAttribute('action', option.login_url);
-          const len = Auth.vars.box.length - 1;
+            .setAttribute('action', option.login_url)
+          const len = Auth.vars.box.length - 1
           for (let i = 0; i <= len; i++) {
             if (i !== 0) {
-              Auth.vars.box[i].className += ' lowin-flip';
+              Auth.vars.box[i].className += ' lowin-flip'
             }
           }
           Auth.vars.forgot_link.addEventListener('click', e => {
-            Auth.forgot(e);
-          });
+            Auth.forgot(e)
+          })
           Auth.vars.register_link.addEventListener('click', e => {
-            Auth.brand();
-            Auth.register(e);
-          });
+            Auth.brand()
+            Auth.register(e)
+          })
           Auth.vars.login_link.addEventListener('click', e => {
-            Auth.brand();
-            Auth.login(e);
-          });
+            Auth.brand()
+            Auth.login(e)
+          })
           Auth.vars.login_back_link.addEventListener('click', e => {
-            Auth.loginback(e);
-          });
+            Auth.loginback(e)
+          })
         }
-      };
+      }
       Auth.init({
         login_url: '#login',
         forgot_url: '#forgot'
-      });
+      })
     },
     login() {
       SkmService.signin(this.userData).then(data => {
         if (data.code === 200) {
-          console.log('登陆成功！');
+          console.log('登陆成功！')
 
-          let pageName = 'home';
-          let url = window.location.href;
+          let pageName = 'home'
+          let url = window.location.href
           if (url.indexOf('?') !== -1) {
-            pageName = url.split('?redirect=%2F')[1];
+            pageName = url.split('?redirect=%2F')[1]
           }
-          this.$router.push({ name: pageName });
+          this.$router.push({ name: pageName })
         } else {
-          this.$alert(data.message, '登录错误', { confirmButtonText: '确定' });
+          this.$alert(data.message, '登录错误', { confirmButtonText: '确定' })
         }
-      });
+      })
     },
     register() {
       SkmService.register(this.registerData).then(data => {
         if (data.code === 200) {
-          this.$router.go(0);
+          this.$router.go(0)
         } else {
-          alert(data.message);
+          alert(data.message)
         }
-      });
+      })
     },
     addKeyBoardListener() {
-      window.addEventListener('keydown', this.keyboardListenerFn);
+      window.addEventListener('keydown', this.keyboardListenerFn)
     },
     keyboardListenerFn(e) {
       if (e && e.keyCode === 13) {
-        this.login();
+        this.login()
       }
     },
     removeKeyBoardListener() {
-      console.log('chanshu?');
-      window.removeEventListener('keydown', this.keyboardListenerFn);
+      console.log('chanshu?')
+      window.removeEventListener('keydown', this.keyboardListenerFn)
     }
   }
-};
+}
 </script>
 
 <template>

@@ -17,7 +17,7 @@ export default {
           date1: '',
           date2: '',
           _id: ''
-        };
+        }
       }
     }
   },
@@ -25,12 +25,12 @@ export default {
   },
   methods: {
     onSubmit() {
-      console.log('submit!');
+      console.log('submit!')
       // const self = this;
-      this.$router.push({ path: '/editor', query: { id: this.formData._id } });
+      this.$router.push({ path: '/editor', query: { id: this.formData._id } })
     }
   }
-};
+}
 </script>
 
 <template>

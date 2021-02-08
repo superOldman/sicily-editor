@@ -7,8 +7,11 @@
 <script>
 export default {
   name: 'App',
-  components: {}
-};
+  components: {},
+  created() {
+    window.build_time = build_time
+  }
+}
 </script>
 
 <style scoped>

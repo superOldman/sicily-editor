@@ -1,33 +1,39 @@
-import axios from 'axios';
-import qs from 'qs';
+import axios from 'axios'
+import qs from 'qs'
 
-import router from '../router/index';
+import router from '../router/index'
 
-import ElementUI from 'element-ui';
+import ElementUI from 'element-ui'
 
-import store from '../store/index';
+import store from '../store/index'
 
 import { getToken, removeToken, setToken } from '../utils/cookie'
 
 
 // 让ajax携带cookie
-axios.defaults.withCredentials = true;
+// axios.defaults.withCredentials = true
 
 // 请求超时
-axios.defaults.timeout = 10000;
+// axios.defaults.timeout = 10000
 
 // 默认请求头
-axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded;charset=UTF-8';
+// axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded;charset=UTF-8'
 
+console.log(process.env.VUE_APP_BASE_API)
 
+const service = axios.create({
+  baseURL: process.env.VUE_APP_BASE_API, // process.env.BASE_API, // api的base_url
+  timeout: 30000, // 请求超时时间
+  withCredentials: true
+})
 
 // 用户掉线
-let isHoldup = false;
+let isHoldup = false
 
 // 全局未登录提示唯一
 sessionStorage.setItem('isHoldup', 0)
 
-axios.interceptors.request.use(
+service.interceptors.request.use(
   config => {
     // debugger
 
@@ -39,69 +45,67 @@ axios.interceptors.request.use(
 
     if (config.url.endsWith('list')) {
 
-      store.commit('pageStatsModule/changeLoadingStatus');
+      store.commit('pageStatsModule/changeLoadingStatus')
     }
 
-    return config;
+    return config
   },
   error => {
-    return Promise.error(error);
+    return Promise.error(error)
   }
-);
+)
 
-axios.interceptors.response.use(
+service.interceptors.response.use(
   response => {
-    // debugger
-    // debugger
     if (response.data && response.data.code === 200) {
 
-      // /users/login
-      // loading 状态
       if (response.config.url.endsWith('list')) {
-        store.commit('pageStatsModule/changeLoadingStatus');
+        store.commit('pageStatsModule/changeLoadingStatus')
       }
-      // 403 状态
       if (response.config.url.endsWith('islogin')) {
-        isHoldup = false;
+        isHoldup = false
       }
 
-      // if (response.data) {
-        console.log(111111111, response.config.url)
-        if (response.config.url.endsWith('/login')) {
-          setToken(response.data.data)
-        }
-      // }
 
-      
+      if (response.config.url.endsWith('/login')) {
+        setToken(response.data.data)
+      }
 
-      return response.data;
-    } 
-    else if(response.data.code === 403){
-      console.log('path',window.location.href)
+
+
+      return response.data
+    }
+    else if (response.data.code === 401) {
+      // 退出登录
+      const baseAddress = process.env.NODE_ENV === 'production' ? 'http://47.96.2.170:4000' : 'http://localhost:4000'
+      window.location.href = baseAddress + '/#/login'
+    }
+    else if(response.data.code === 403) {
+      // 登录过期 || 未登录
       if (sessionStorage.getItem('isHoldup') === '0' && !window.location.href.includes('/login')) {
         sessionStorage.setItem('isHoldup', 1)
         ElementUI.MessageBox.alert('登录过期，请重新登录', '提示', {
           confirmButtonText: '确定',
           callback: (action) => {
-            console.log('确定之后', action);
+            console.log('确定之后', action)
             // 清除token
             removeToken()
             // ...todo
-            store.commit('userMessageModule/clearUser');
+            store.commit('userMessageModule/clearUser')
             // 跳转
             router.replace({
               path: '/login',
               query: {
                 redirect: router.currentRoute.fullPath
               }
-            });
+            })
             sessionStorage.setItem('isHoldup', 0)
           }
-        });
+        })
       }
     }
     else {
-      return Promise.resolve(response);
+      return Promise.resolve(response)
     }
   },
   error => {
@@ -111,51 +115,51 @@ axios.interceptors.response.use(
 
     if (error && error.response && error.response.status) {
       switch (error.response.status) {
-        // 401 未登录
-        case 401:
+      // 401 未登录
+      case 401:
 
         console.log(401)
-          removeToken()
-          router.push({ name: 'login' });
-          break;
+        removeToken()
+        router.push({ name: 'login' })
+        break
         // 403 登陆过期
-        case 403:
+      case 403:
 
-          if (!isHoldup) {
-            isHoldup = true;
-            ElementUI.MessageBox.alert('登录过期，请重新登录', '提示', {
-              confirmButtonText: '确定',
-              callback: (action) => {
-                console.log('确定之后', action);
-                // 清除token
+        if (!isHoldup) {
+          isHoldup = true
+          ElementUI.MessageBox.alert('登录过期，请重新登录', '提示', {
+            confirmButtonText: '确定',
+            callback: (action) => {
+              console.log('确定之后', action)
+              // 清除token
 
-                // ...todo
-                store.commit('userMessageModule/clearUser');
-                // 跳转
-                router.replace({
-                  path: '/login',
-                  query: {
-                    redirect: router.currentRoute.fullPath
-                  }
-                });
-              }
-            });
-          }
+              // ...todo
+              store.commit('userMessageModule/clearUser')
+              // 跳转
+              router.replace({
+                path: '/login',
+                query: {
+                  redirect: router.currentRoute.fullPath
+                }
+              })
+            }
+          })
+        }
 
-          break;
+        break
         // 错误
-        case 404:
+      case 404:
 
-          break;
+        break
         // 其他
-        default:
+      default:
       }
 
-      return Promise.reject(error.response);
+      return Promise.reject(error.response)
 
     }
   }
-);
+)
 
 // 响应拦截器
 // axios.interceptors.response.use(
@@ -234,52 +238,40 @@ axios.interceptors.response.use(
 
 
 export function http_post(config) {
-  const _data = config.params;
+  const _data = config.params
   if (config.format) {
     return new Promise((resolve, reject) => {
-      axios.post(config.api, qs.stringify(_data, { headers: { 'Content-Type': 'application/x-www-form-urlencoded' } }))
+      service.post(config.api, qs.stringify(_data, { headers: { 'Content-Type': 'application/x-www-form-urlencoded' } }))
         .then((res) => {
-          resolve(res);
+          resolve(res)
         }).catch((err) => {
-          reject(err);
-        });
-    });
+          reject(err)
+        })
+    })
   } else {
     return new Promise((resolve, reject) => {
-      axios.post(config.api, _data).then((res) => {
-        resolve(res);
+      service.post(config.api, _data).then((res) => {
+        resolve(res)
       }).catch((err) => {
-        reject(err);
-      });
-    });
+        reject(err)
+      })
+    })
   }
 }
 
 
 export function http_get(config) {
-  let _data = null;
+  let _data = null
   if (config.params) {
-    _data = config.params;
+    _data = config.params
   }
   return new Promise((resolve, reject) => {
-    axios.get(config.api, _data)
+    service.get(config.api, _data)
       .then((res) => {
-        resolve(res);
+        resolve(res)
       })
       .catch((err) => {
-        reject(err);
-      });
-  });
-  // console.log(config)
-  // return new Promise((resolve) => {
-  //   axios.get(config.api, _data)
-  //   .catch((err) => {
-  //     if (err) {
-  //       return err;
-  //     }
-  //   })
-  //   .then((res) => {
-  //     resolve(res);
-  //   });
-  // });
+        reject(err)
+      })
+  })
 }

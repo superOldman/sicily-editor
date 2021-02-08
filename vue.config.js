@@ -1,3 +1,5 @@
+const webpack = require('webpack')
+
 const cdn = {
   // 忽略打包的第三方库
   externals: {
@@ -12,7 +14,7 @@ const cdn = {
     'https://cdn.bootcss.com/vue/2.6.11/vue.runtime.min.js',
     'https://cdn.bootcss.com/vue-router/3.1.2/vue-router.min.js',
     'https://cdn.bootcss.com/vuex/3.1.2/vuex.min.js',
-    'https://cdn.bootcss.com/axios/0.19.2/axios.min.js',
+    'https://cdn.bootcss.com/axios/0.19.2/axios.min.js'
     // 'https://cdn.bootcss.com/moment.js/2.24.0/moment.min.js',
     // 'https://cdn.bootcss.com/echarts/3.7.1/echarts.min.js'
   ],
@@ -49,13 +51,21 @@ module.exports = {
       return args
     })
   },
-
-  configureWebpack: config => {
-    console.log('打包配置config', config)
-
-    config.devtool = 'source-map'
-    // 忽略打包配置
-    config.externals = cdn.externals
+  configureWebpack: {
+    devtool: 'source-map',
+    externals: cdn.externals,
+    plugins: [
+      new webpack.DefinePlugin({
+        'build_time': JSON.stringify(new Date().toLocaleString())
+      })
+    ]
   }
+  // configureWebpack: config => {
+  //   console.log('打包配置config', config)
 
-};
+  //   config.devtool = 'source-map'
+  //   // 忽略打包配置
+  //   config.externals = cdn.externals
+  // }
+
+}

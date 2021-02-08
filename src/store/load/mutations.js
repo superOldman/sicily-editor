@@ -2,6 +2,6 @@
 
 export default {
   changeLoadingStatus(state) {
-    state.loading = !state.loading;
+    state.loading = !state.loading
   }
-};
+}

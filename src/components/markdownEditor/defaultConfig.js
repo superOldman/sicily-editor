@@ -42,7 +42,7 @@ const defaultConfig = {
   //    // this.height(480);
   //    // this.resize("100%", 640);
   // },
-};
+}
 export {
   defaultConfig
-};
+}

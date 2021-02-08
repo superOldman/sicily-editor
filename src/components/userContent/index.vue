@@ -4,8 +4,8 @@
  * date: 2020/03/20
  * desc: 用户信息组件
  */
-import SkmServes from '../../services/api';
-import { mapGetters } from 'vuex';
+import SkmServes from '../../services/api'
+import { mapGetters } from 'vuex'
 export default {
   data() {
     return {
@@ -22,7 +22,7 @@ export default {
         9: '#0e0e0e',
         0: ''
       }
-    };
+    }
   },
   computed: {
     ...mapGetters('userMessageModule', ['getUserInfo'])
@@ -40,18 +40,18 @@ export default {
   },
   methods: {
     pageToDetails() {
-      this.$router.push({ name: 'userDetails' });
+      this.$router.push({ name: 'userDetails' })
     },
     logout() {
-      this.$store.commit('userMessageModule/refushUser', null);
-      SkmServes.logout();
+      this.$store.commit('userMessageModule/refushUser', null)
+      SkmServes.logout()
     },
     setColor(num) {
-      let index = num.toString().substring(num.length - 1, 1);
-      return this.colors[index];
+      let index = num.toString().substring(num.length - 1, 1)
+      return this.colors[index]
     }
   }
-};
+}
 </script>
 
 <template>

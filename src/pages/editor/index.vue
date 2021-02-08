@@ -4,11 +4,11 @@
  * date: 2020/03/17
  * desc: 文章编辑
  */
-import twMarkdownView from '../../components/markdownEditor/markdownEditor.vue';
-import setTags from '../../components/setTags/setTags.vue';
-import SkmService from '../../services/api';
-import address from '../../constant/address';
-import { mapGetters } from 'vuex';
+import twMarkdownView from '../../components/markdownEditor/markdownEditor.vue'
+import setTags from '../../components/setTags/setTags.vue'
+import SkmService from '../../services/api'
+import address from '../../constant/address'
+import { mapGetters } from 'vuex'
 export default {
   data() {
     return {
@@ -43,7 +43,7 @@ export default {
       uploadAddress: address + '/editor/uploadImg',
 
       flag: true
-    };
+    }
   },
   components: {
     twMarkdownView,
@@ -53,136 +53,136 @@ export default {
     ...mapGetters('userMessageModule', ['getUserInfo'])
   },
   created() {
-    this.getArticleById();
-    this.getFolderList();
+    this.getArticleById()
+    this.getFolderList()
   },
   mounted() {},
   methods: {
     async getArticleById() {
       if (window.location.href.indexOf('?') !== -1) {
-        let articleId = this.$route.query.id;
-        const result = await SkmService.searchById({ id: articleId });
+        let articleId = this.$route.query.id
+        const result = await SkmService.searchById({ id: articleId })
         if (result.code === 200) {
-          this.options = result.list;
-          this.isNewEditor = false;
-          this.isShowEditor = true;
+          this.options = result.list
+          this.isNewEditor = false
+          this.isShowEditor = true
         }
       } else {
-        this.isNewEditor = true;
-        this.isShowEditor = true;
+        this.isNewEditor = true
+        this.isShowEditor = true
       }
     },
     async getFolderList() {
-      const result = await SkmService.getFolderList();
+      const result = await SkmService.getFolderList()
       if (result.code === 200) {
         result.data.forEach((item, index) => {
-          this.folderList[index] = item.folderName;
-        });
-        this.folderListShow = true;
+          this.folderList[index] = item.folderName
+        })
+        this.folderListShow = true
       }
       if (!this.folderList.length) {
-        this.createfolderShow = true;
+        this.createfolderShow = true
       }
     },
 
     onchange(obj) {
-      this.options.content = obj.html;
-      this.options.markdown = obj.markdown;
+      this.options.content = obj.html
+      this.options.markdown = obj.markdown
       if (this.isNewEditor) {
-        this.newEditor();
+        this.newEditor()
       } else {
-        this.againEditor();
+        this.againEditor()
       }
     },
     async againEditor() {
-      const imgReg = /<img.*?src="(.*?)".*?\/?>/gi;
-      const srcReg = /src=[\'\"]?([^\'\"]*)[\'\"]?/i;
-      const arr = this.options.content.match(imgReg);
-      this.options.paperUseImg = [];
+      const imgReg = /<img.*?src="(.*?)".*?\/?>/gi
+      const srcReg = /src=[\'\"]?([^\'\"]*)[\'\"]?/i
+      const arr = this.options.content.match(imgReg)
+      this.options.paperUseImg = []
       arr &&
         arr.forEach(img => {
-          const src = img.match(srcReg)[1];
+          const src = img.match(srcReg)[1]
           if (src.startsWith(address)) {
-            this.options.paperUseImg.push(src);
+            this.options.paperUseImg.push(src)
           }
-        });
+        })
 
-      const result = await SkmService.saveEditorHtml(this.options);
+      const result = await SkmService.saveEditorHtml(this.options)
 
       this.$confirm(result.message)
         .then(async confirm => {
           if (confirm) {
             // this.$router.go(0);
             // this.$forceUpdate();
-            this.$router.push({ name: 'editor' });
+            this.$router.push({ name: 'editor' })
             // 还是不行的话  或者这样 在你整个组件上面加个v-if标识 创建一个变量flag  点保存的时候先this.flag = false  然后await this.$nextTick()  然后this.flag = true
 
-            this.flag = false;
-            await this.$nextTick();
-            this.flag = true;
+            this.flag = false
+            await this.$nextTick()
+            this.flag = true
           }
         })
-        .catch(() => {});
+        .catch(() => {})
     },
     async newEditor() {
-      this.options.author = this.getUserInfo.userName;
+      this.options.author = this.getUserInfo.userName
 
-      const imgReg = /<img.*?src="(.*?)".*?\/?>/gi;
-      const srcReg = /src=[\'\"]?([^\'\"]*)[\'\"]?/i;
-      const arr = this.options.content.match(imgReg);
+      const imgReg = /<img.*?src="(.*?)".*?\/?>/gi
+      const srcReg = /src=[\'\"]?([^\'\"]*)[\'\"]?/i
+      const arr = this.options.content.match(imgReg)
 
       arr &&
         arr.forEach(img => {
-          const src = img.match(srcReg)[1];
+          const src = img.match(srcReg)[1]
           if (src.startsWith(address)) {
-            this.options.paperUseImg.push(src);
+            this.options.paperUseImg.push(src)
           }
-        });
+        })
 
-      const result = await SkmService.saveHtml(this.options);
+      const result = await SkmService.saveHtml(this.options)
 
       this.$confirm(result.message)
         .then(confirm => {
           if (confirm) {
-            this.$router.go(0);
+            this.$router.go(0)
           }
         })
-        .catch(() => {});
+        .catch(() => {})
     },
     handleAvatarSuccess(res, file) {
-      this.imageUrl = URL.createObjectURL(file.raw);
-      this.options.saveImageUrl = res.file.path;
+      this.imageUrl = URL.createObjectURL(file.raw)
+      this.options.saveImageUrl = res.file.path
     },
     beforeAvatarUpload(file) {
-      const isJPG = file.type; // === ("image/jpeg" || "image/png" || "image/jpg");
-      const isLt2M = file.size / 1024 / 1024 < 2;
+      const isJPG = file.type // === ("image/jpeg" || "image/png" || "image/jpg");
+      const isLt2M = file.size / 1024 / 1024 < 2
 
       if (!isJPG) {
-        this.$message.error('上传头像图片只能是 jpeg/jpg/png 格式!');
+        this.$message.error('上传头像图片只能是 jpeg/jpg/png 格式!')
       }
       if (!isLt2M) {
-        this.$message.error('上传头像图片大小不能超过 2MB!');
+        this.$message.error('上传头像图片大小不能超过 2MB!')
       }
-      return isJPG && isLt2M;
+      return isJPG && isLt2M
     },
     addTags(item) {
-      item && this.options.hasTags.push(item);
+      item && this.options.hasTags.push(item)
     },
     removeTag(index) {
-      this.options.hasTags.splice(index, 1);
+      this.options.hasTags.splice(index, 1)
     },
     addFolder(name) {
-      this.options.hasFolder = this.showFolderName = name;
+      this.options.hasFolder = this.showFolderName = name
     },
     // 新建文件夹
     createFolder() {
-      this.$router.push({ name: 'createFolder', query: { id: 12312313 } });
+      this.$router.push({ name: 'createFolder', query: { id: 12312313 } })
     },
     selectName(name) {
-      this.showFolderName = name;
+      this.showFolderName = name
     }
   }
-};
+}
 </script>
 
 <template>

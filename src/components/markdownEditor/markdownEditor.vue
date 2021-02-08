@@ -6,9 +6,9 @@
  */
 
 // @ts-ignore
-import scriptjs from 'scriptjs';
+import scriptjs from 'scriptjs'
 
-import { defaultConfig } from './defaultConfig';
+import { defaultConfig } from './defaultConfig'
 // @Component({
 //   name: 'markdownEditor',
 //   components: {},
@@ -21,7 +21,7 @@ export default {
       doc: {},
       jsLoadOver: false,
       editorId: 'markdown-editor'
-    };
+    }
   },
   props: {
     // initData: "",
@@ -34,66 +34,66 @@ export default {
 
   },
   mounted() {
-    console.log('加载 编辑页面');
-    console.log(this.config);
-    this.init();
+    console.log('加载 编辑页面')
+    console.log(this.config)
+    this.init()
   },
   methods: {
     fetchScript(url) {
       return new Promise(resolve => {
         scriptjs(url, () => {
-          resolve();
-        });
-      });
+          resolve()
+        })
+      })
     },
     getConfig() {
-      return { ...defaultConfig, ...this.config };
+      return { ...defaultConfig, ...this.config }
     },
     getEditor() {
-      return this.editor;
+      return this.editor
     },
     getDoc() {
-      return this.doc;
+      return this.doc
     },
     watch() {
-      return this.editor.watch();
+      return this.editor.watch()
     },
     unwatch() {
-      return this.editor.unwatch();
+      return this.editor.unwatch()
     },
     previewing() {
-      return this.editor.previewing();
+      return this.editor.previewing()
     },
     getHTML() {
-      return this.editor.getHTML();
+      return this.editor.getHTML()
     },
     getMarkdown() {
-      return this.editor.getMarkdown();
+      return this.editor.getMarkdown()
     },
     setMarkdown(markdown) {
-      return this.editor.setMarkdown(markdown);
+      return this.editor.setMarkdown(markdown)
     },
     saveHtml() {
-      const html = this.editor.getPreviewedHTML();
+      const html = this.editor.getPreviewedHTML()
       const savehtml = {
         markdown: this.editor.getMarkdown(),
         html,
         text: window.$(html).text()
-      };
+      }
 
-      this.$emit('onchange', savehtml);
+      this.$emit('onchange', savehtml)
     },
     init() {
-      const vm = this;
+      const vm = this
       const config = vm.getConfig();
       (async () => {
         await vm.fetchScript(
           'https://cdn.bootcss.com/jquery/1.11.3/jquery.min.js'
-        );
-        await vm.fetchScript('./static/editor.md-master/editormd.js');
+        )
+        await vm.fetchScript('./static/editor.md-master/editormd.js')
         vm.$nextTick(() => {
           // @ts-ignore
-          vm.editor = window.editormd(vm.editorId, config);
+          vm.editor = window.editormd(vm.editorId, config)
           // vm.editor.on('load', () => {
           //     setTimeout(() => { // hack bug: 一个页面多个编辑器只能初始化其中一个数据问题
           //     vm.initData && vm.editor.setMarkdown(vm.initData)
@@ -108,11 +108,11 @@ export default {
           //   };
           //   vm.onchange(savehtml);
           // });
-        });
-      })();
+        })
+      })()
     }
   }
-};
+}
 </script>
 
 <template>

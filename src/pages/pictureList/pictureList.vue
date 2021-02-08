@@ -1,7 +1,7 @@
 <script type='text/ecmascript-6'>
-import SkmService from '../../services/api';
+import SkmService from '../../services/api'
 // import { mapGetters } from "vuex";
-import { myGetTime } from '../../utils/utils';
+import { myGetTime } from '../../utils/utils'
 
 export default {
   data() {
@@ -19,11 +19,11 @@ export default {
         'darkseagreen',
         'darkkhaki'
       ]
-    };
+    }
   },
   // components: { editorForm },
   created() {
-    this.getList();
+    this.getList()
   },
   mounted() {},
   computed: {},
@@ -35,51 +35,51 @@ export default {
         pageSize: this.pageSize
       }
     ) {
-      const result = await SkmService.imageList(params);
+      const result = await SkmService.imageList(params)
       result.data.list.forEach(item => {
-        item.updated_at = myGetTime(item.updated_at);
+        item.updated_at = myGetTime(item.updated_at)
         if (!item.connection.length) {
-          item.connection.push('/');
+          item.connection.push('/')
         }
-      });
+      })
 
-      this.listData = result.data.list;
-      this.paperSum = result.data.sum;
+      this.listData = result.data.list
+      this.paperSum = result.data.sum
     },
 
     handleSizeChange(val) {
       this.getList({
         page: (this.currentPage = val),
         pageSize: this.pageSize
-      });
+      })
     },
     handleCurrentChange(val) {
       this.getList({
         page: (this.currentPage = val),
         pageSize: this.pageSize
-      });
+      })
     },
 
     // 删除
     deleteImage(_id) {
       this.$confirm('确认删除？')
         .then(async () => {
-          const data = await SkmService.deleteImage({ _id });
+          const data = await SkmService.deleteImage({ _id })
           if (data.code === 200) {
-            this.getList();
+            this.getList()
           }
         })
-        .catch(() => {});
+        .catch(() => {})
     },
     handleClose(done) {
       this.$confirm('确认关闭？')
         .then(() => {
-          done();
+          done()
         })
-        .catch(() => {});
+        .catch(() => {})
     }
   }
-};
+}
 </script>
 
 <template>

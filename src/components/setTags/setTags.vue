@@ -49,7 +49,7 @@ export default {
     return {
       restaurants: [],
       input: ''
-    };
+    }
   },
   props: {
     hasInput: {
@@ -59,25 +59,25 @@ export default {
     hasTags: {
       type: Array,
       default() {
-        return [];
+        return []
       }
     }
   },
   methods: {
     addTag() {
       if (this.input) {
-        this.$emit('addTag', this.input);
-        this.input = '';
+        this.$emit('addTag', this.input)
+        this.input = ''
       } else {
         this.$alert('请先输入文字', '错误', {
           lockScroll: false
-        });
+        })
       }
     },
     handleClose(index) {
-      this.$emit('removeTag', index);
+      this.$emit('removeTag', index)
     }
   },
   mounted() {}
-};
+}
 </script>

@@ -4,22 +4,22 @@
  * date: 2020/03/17
  * desc: home
  */
-import echarts from 'echarts';
-import SkmService from '../../services/api';
+import echarts from 'echarts'
+import SkmService from '../../services/api'
 // const echarts = require('echarts');
 export default {
   data() {
     return {
       sourceStats: {
-        // pictureDetail: {
-        //   count: 16,
-        //   size: "19.21mb"
-        // },
-        // baseDataSize: "1.04kb",
-        // paperDetail: {
-        //   count: 1,
-        //   size: "0.31kb"
-        // }
+        pictureDetail: {
+          count: 0,
+          size: '0'
+        },
+        baseDataSize: '0',
+        paperDetail: {
+          count: 0,
+          size: '0'
+        }
       },
       sourceSpace: 0,
       sourceStatsPercent: 0,
@@ -27,27 +27,27 @@ export default {
       pushPaperCountData: [],
       myLineChart: null,
       myCalendarChart: null
-    };
+    }
   },
   async mounted() {
     // 显示状态栏
-    this.resourceStats();
+    this.resourceStats()
     // 访问表
-    this.createDayMap();
+    this.createDayMap()
 
-    this.getVirtulData();
-    await this.$nextTick();
-    this.resizeEcharts();
+    this.getVirtulData()
+    await this.$nextTick()
+    this.resizeEcharts()
   },
   methods: {
     /** 重回图标 */
     resizeEcharts() {
       setTimeout(() => {
         window.onresize = () => {
-          this.myLineChart.resize();
-          this.myCalendarChart.resize();
-        };
-      }, 200);
+          this.myLineChart.resize()
+          this.myCalendarChart.resize()
+        }
+      }, 200)
     },
     async getVirtulData() {
       // year = year || "2020";
@@ -58,71 +58,71 @@ export default {
       // for (let time = date; time < end; time += dayTime) {
       //   data.push([echarts.format.formatTime("yyyy-MM-dd", time), 10]);
       // }
-      const result = await SkmService.pushPaperCount();
+      const result = await SkmService.pushPaperCount()
 
-      this.pushPaperCountData = result.data;
-      this.lastYearPushPaperCount();
+      this.pushPaperCountData = result.data
+      this.lastYearPushPaperCount()
     },
 
     getMyTime(time) {
-      let nowTime;
+      let nowTime
       if (time) {
-        nowTime = new Date(time);
+        nowTime = new Date(time)
       } else {
-        nowTime = new Date();
+        nowTime = new Date()
       }
       return {
-        date_year_mounth: `${nowTime.getFullYear()}-${ addZero(nowTime.getMonth() + 1)}-${addZero(nowTime.getDate())}`,
+        date_year_mounth: `${nowTime.getFullYear()}-${addZero(nowTime.getMonth() + 1)}-${addZero(nowTime.getDate())}`,
         date_hour_min_sec: `${addZero(nowTime.getHours())}:${addZero(nowTime.getMinutes())}:${addZero(nowTime.getSeconds())}`
-      };
+      }
       function addZero(num) {
-        return  num >= 10 ? num : `0${num}`;
+        return num >= 10 ? num : `0${num}`
       }
     },
     async createDayMap() {
       //  let  data = [["2000-06-05",116],["2000-06-06",129],["2000-06-08",129]];
-      const result = await SkmService.visitList();
-      let resultData = [];
-      let setMax = [];
-      result.data.forEach( item => {
-        resultData.push([this.getMyTime(item.updated_at).date_year_mounth, item.visit]);
-        setMax.push(item.visit);
-      });
-      const date = new Date();
-      const year = date.getFullYear();
-      const month = date.getMonth();
-      let day = date.getDate();
-      let data = [];
+      const result = await SkmService.visitList()
+      let resultData = []
+      let setMax = []
+      result.data.forEach(item => {
+        resultData.push([this.getMyTime(item.updated_at).date_year_mounth, item.visit])
+        setMax.push(item.visit)
+      })
+      const date = new Date()
+      const year = date.getFullYear()
+      const month = date.getMonth()
+      let day = date.getDate()
+      let data = []
 
       for (let i = 0; i < 30; i++) {
-        let theDate = this.getMyTime(new Date(year, month, day)).date_year_mounth;
-        let _index;
+        let theDate = this.getMyTime(new Date(year, month, day)).date_year_mounth
+        let _index
         for (let j = 0; j < resultData.length; j++) {
           if (resultData[j].includes(theDate)) {
-            _index = j;
+            _index = j
           }
         }
-        let pushData;
+        let pushData
         if (_index) {
-          pushData = [theDate, resultData[_index][1]];
+          pushData = [theDate, resultData[_index][1]]
         } else {
-          pushData = [theDate, 0.1];
+          pushData = [theDate, 0.1]
         }
 
-        data.push(pushData);
-        day--;
+        data.push(pushData)
+        day--
       }
 
-      data.reverse();
+      data.reverse()
 
       let dateList = data.map(function (item) {
-        return item[0];
-      });
+        return item[0]
+      })
       let valueList = data.map(function (item) {
-        return item[1];
-      });
-      setMax.sort((a, b)=>b-a);
-      const mainColor = '#fff';
+        return item[1]
+      })
+      setMax.sort((a, b) => b - a)
+      const mainColor = '#fff'
       let option3 = {
         title: {
           text: '博客访问量',
@@ -178,7 +178,7 @@ export default {
           data: valueList,
           lineStyle: {
             color: '#457fca',
-            width: 1,
+            width: 1
           },
           areaStyle: {
             color: {
@@ -189,44 +189,47 @@ export default {
               y2: 1,
               colorStops: [{
                 offset: 0, color: '#2980b9' // 100% 处的颜色
-                }, {
+              }, {
                 offset: 1, color: '#5691c8' // 0% 处的颜色
               }],
               global: false // 缺省为 false
             }
           }
         }]
-      };
+      }
       // 绘制图表
-      this.myLineChart = echarts.init(document.getElementById('dayMap'));
-      this.myLineChart.setOption(option3);
+      this.myLineChart = echarts.init(document.getElementById('dayMap'))
+      this.myLineChart.setOption(option3)
 
     },
 
     async resourceStats() {
-      const { data } = await SkmService.resourceStats();
-      this.sourceStats = data;
-      const estimateCapacity = parseInt(this.estimateCapacity);
-      // 算比例
-      const allSize = data.pictureDetail.size + data.paperDetail.size + data.baseDataSize;
-      this.sourceSpace =( allSize / 1024 / 1024 ).toFixed(2) + 'mb';
-      this.sourceStatsPercent = Math.max( (allSize / 1024 / 1024  / 1024  / estimateCapacity ).toFixed(2), 0.01 );
-      // 换算
-      this.sourceStats.pictureDetail.size = this.getUnit(this.sourceStats.pictureDetail.size);
-      this.sourceStats.paperDetail.size = this.getUnit(this.sourceStats.paperDetail.size);
+      const { data } = await SkmService.resourceStats()
+      if (data && data.length) {
+        this.sourceStats = data
+        const estimateCapacity = parseInt(this.estimateCapacity)
+        // 算比例
+        const allSize = data.pictureDetail.size + data.paperDetail.size + data.baseDataSize
+        this.sourceSpace = (allSize / 1024 / 1024).toFixed(2) + 'mb'
+        this.sourceStatsPercent = Math.max((allSize / 1024 / 1024 / 1024 / estimateCapacity).toFixed(2), 0.01)
+        // 换算
+        this.sourceStats.pictureDetail.size = this.getUnit(this.sourceStats.pictureDetail.size)
+        this.sourceStats.paperDetail.size = this.getUnit(this.sourceStats.paperDetail.size)
+
+      }
     },
 
     getUnit(size) {
-      if((size / 1024 / 1024 / 1024 ) > 1) {
-        return (size / 1024 / 1024 / 1024 ).toFixed(2) + 'gb';
+      if ((size / 1024 / 1024 / 1024) > 1) {
+        return (size / 1024 / 1024 / 1024).toFixed(2) + 'gb'
       }
-      else if ((size / 1024 / 1024  ) > 1) {
-        return (size / 1024 / 1024  ).toFixed(2) + 'mb';
+      else if ((size / 1024 / 1024) > 1) {
+        return (size / 1024 / 1024).toFixed(2) + 'mb'
       }
-      else if((size / 1024 ) > 1) {
-        return (size/1024).toFixed(2)  + 'kb';
-      }else{
-        return size;
+      else if ((size / 1024) > 1) {
+        return (size / 1024).toFixed(2) + 'kb'
+      } else {
+        return size
       }
     },
     /**
@@ -235,7 +238,7 @@ export default {
      * @param {*} colorBox 区间颜色集
      */
     generatePieces() {
-      let colorBox = ['#fff', '#65C7F7', '#3498db', '#004e92', '#1e3c72'];
+      let colorBox = ['#fff', '#65C7F7', '#3498db', '#004e92', '#1e3c72']
       // let colorBox = ['#ebedf0', '#c6e48b', '#7bc96f', '#239a3b', '#196127'];
       // gte >             lte <
       let pieces = [
@@ -244,13 +247,13 @@ export default {
         { gte: 2, lte: 3, color: colorBox[2] },
         { gte: 4, lte: 5, color: colorBox[3] },
         { gte: 5, color: colorBox[4] }
-      ];
-      return pieces;
+      ]
+      return pieces
     },
 
     // 提交表
     lastYearPushPaperCount() {
-      const mainColor= '#fff';
+      const mainColor = '#fff'
       let option = {
         title: {
           text: '文章提交统计',
@@ -317,7 +320,7 @@ export default {
           coordinateSystem: 'calendar',
           data: this.pushPaperCountData
         }
-      };
+      }
 
 
       // function getVirtulData(year) {
@@ -333,13 +336,13 @@ export default {
       //     return data;
       // };
       // 绘制图表
-      this.myCalendarChart = echarts.init(document.getElementById('dayMap2'));
-      this.myCalendarChart.setOption(option);
+      this.myCalendarChart = echarts.init(document.getElementById('dayMap2'))
+      this.myCalendarChart.setOption(option)
 
     }
 
   }
-};
+}
 </script>
 
 <template>
@@ -347,12 +350,12 @@ export default {
     <div class="homeTop">
       <!-- <h4 class="homeMainTitle">容量监测</h4> -->
 
-      <el-row class="homeTopContent" :gutter="20" type="flex" v-if="sourceStatsPercent">
+      <el-row class="homeTopContent" :gutter="20" type="flex" v-if="true ||sourceStatsPercent">
         <el-col :span="8" class="statsBlock">
           <div class="cardTitle">总容量</div>
           <p class="cardInfo">资源占有量：{{sourceSpace}}</p>
           <p class="cardInfo">预估容量：20G</p>
-          <el-progress class="statsBlock_progress" :text-inside="true" :stroke-width="18" :percentage="sourceStatsPercent" status="success" color="#FDC830"/>
+          <el-progress class="statsBlock_progress" :text-inside="true" :stroke-width="18" :percentage="sourceStatsPercent" status="success" color="#FDC830" />
         </el-col>
         <el-col :span="8" class="statsBlock">
           <div class="cardTitle">图片资源</div>
@@ -410,7 +413,7 @@ export default {
   .homeMid {
     #dayMap {
       width: 100%;
-      height: 400px
+      height: 400px;
     }
   }
   .homeBot {
@@ -420,7 +423,5 @@ export default {
       padding-top: 20px;
     }
   }
-
-
 }
 </style>

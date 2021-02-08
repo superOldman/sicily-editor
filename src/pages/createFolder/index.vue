@@ -1,8 +1,8 @@
 <script>
-import myDialog from '../../components/myDialog/index.vue';
-import SkmService from '../../services/api';
-import address from '../../constant/address';
-import { myGetTime } from '../../utils/utils';
+import myDialog from '../../components/myDialog/index.vue'
+import SkmService from '../../services/api'
+import address from '../../constant/address'
+import { myGetTime } from '../../utils/utils'
 export default {
   name: 'createFolder',
   data() {
@@ -69,7 +69,7 @@ export default {
       ],
       paperList_currentPage: 1,
       multipleSelection: []
-    };
+    }
   },
   components: {
 
@@ -79,11 +79,11 @@ export default {
     /** 初始化加载 */
 
     async getFolderList() {
-      const result = await SkmService.getFolderList();
+      const result = await SkmService.getFolderList()
       result.data.forEach(item => {
-        item.updated_at = myGetTime(item.updated_at);
-      });
-      this.listData = result.data;
+        item.updated_at = myGetTime(item.updated_at)
+      })
+      this.listData = result.data
     },
 
     /** 列表编辑 */
@@ -94,26 +94,26 @@ export default {
         info: row.info,
         index,
         _id: row._id
-      };
-      this.isCreate = false;
-      this.dialogTitle = '编辑';
-      this.dialogBtn = '立即保存';
-      this.dialogVisible = true;
+      }
+      this.isCreate = false
+      this.dialogTitle = '编辑'
+      this.dialogBtn = '立即保存'
+      this.dialogVisible = true
     },
 
     pushPaperBtn(index, row) {
-      console.log(index, row);
+      console.log(index, row)
 
       // this.dialogPPVisible = true;
       SkmService.get_list({ unclassified: true }).then(data => {
         if (data.data.length) {
-          this.pushPaperFormFolderId = row._id;
-          this.paperList = data.data;
-          this.dialogPPVisible = true;
+          this.pushPaperFormFolderId = row._id
+          this.paperList = data.data
+          this.dialogPPVisible = true
         } else {
-          this.$message({ type: 'info', message: '暂时没有未分配的文章!' });
+          this.$message({ type: 'info', message: '暂时没有未分配的文章!' })
         }
-      });
+      })
     },
 
     handleDelete(index, row) {
@@ -125,142 +125,142 @@ export default {
         .then(() => {
           SkmService.deleteFolder({ _id: row._id }).then(data => {
             if (data.code === 200) {
-              this.$message({ type: 'success', message: '删除成功!' });
-              this.listData.splice(index, 1); // 请求接口删除  why 前端操作
+              this.$message({ type: 'success', message: '删除成功!' })
+              this.listData.splice(index, 1) // 请求接口删除  why 前端操作
             }
-          });
+          })
         })
         .catch(() => {
-          this.$message({ type: 'info', message: '已取消删除' });
-        });
+          this.$message({ type: 'info', message: '已取消删除' })
+        })
     },
 
     /** 表单弹窗 */
 
     showDialog() {
-      this.dialogVisible = true;
+      this.dialogVisible = true
       this.ruleForm = {
         folderName: '',
         cover: '',
         info: '',
         _id: ''
-      };
-      this.isCreate = true;
-      this.dialogTitle = '新建文件夹';
-      this.dialogBtn = '立即创建';
+      }
+      this.isCreate = true
+      this.dialogTitle = '新建文件夹'
+      this.dialogBtn = '立即创建'
 
     },
     submitForm() {
-      console.log('this.$refs');
-      console.log(this.$refs);
-      console.log(this.$refs.newFolderform);
+      console.log('this.$refs')
+      console.log(this.$refs)
+      console.log(this.$refs.newFolderform)
 
       this.$refs.newFolderform.validate(valid => {
-        console.log(valid);
+        console.log(valid)
         if (valid) {
-          this.changeList();
+          this.changeList()
         } else {
-          console.log('error submit!!');
-          return false;
+          console.log('error submit!!')
+          return false
         }
-      });
+      })
     },
     resetForm(formName) {
-      console.log(formName);
+      console.log(formName)
       // this.$refs[formName].resetFields();
-      this.ruleForm.folderName = '';
-      this.ruleForm.cover = '';
-      this.ruleForm.info = '';
-      this.ruleForm._id = '';
+      this.ruleForm.folderName = ''
+      this.ruleForm.cover = ''
+      this.ruleForm.info = ''
+      this.ruleForm._id = ''
     },
 
     async changeList() {
-      this.dialogVisible = false;
+      this.dialogVisible = false
 
       if (this.isCreate) {
-        let insertObj = {};
+        let insertObj = {}
 
         for (let item in this.ruleForm) {
           if (item !== '_id') {
-            insertObj[item] = this.ruleForm[item];
+            insertObj[item] = this.ruleForm[item]
           }
         }
 
-        const result = await SkmService.saveFolder(insertObj);
-        this.listData.push(result.data);
-        this.$message({ type: 'success', message: '创建成功!' });
+        const result = await SkmService.saveFolder(insertObj)
+        this.listData.push(result.data)
+        this.$message({ type: 'success', message: '创建成功!' })
       } else {
-        await SkmService.saveEditorFolder(this.ruleForm);
+        await SkmService.saveEditorFolder(this.ruleForm)
         // this.listData[this.ruleForm.index] = result.data;
-        await this.getFolderList();
-        this.$message({ type: 'success', message: '修改成功!' });
+        await this.getFolderList()
+        this.$message({ type: 'success', message: '修改成功!' })
       }
     },
 
     /** 上传图片 */
 
     handleAvatarSuccess(res) {
-      this.ruleForm.cover = address + '/' + res.file.path;
+      this.ruleForm.cover = address + '/' + res.file.path
     },
     beforeAvatarUpload(file) {
-      const isJPG = file.type; // === ("image/jpeg" || "image/png" || "image/jpg");
-      const isLt2M = file.size / 1024 / 1024 < 2;
+      const isJPG = file.type // === ("image/jpeg" || "image/png" || "image/jpg");
+      const isLt2M = file.size / 1024 / 1024 < 2
 
       if (!isJPG) {
-        this.$message.error('上传头像图片只能是 jpeg/jpg/png 格式!');
+        this.$message.error('上传头像图片只能是 jpeg/jpg/png 格式!')
       }
       if (!isLt2M) {
-        this.$message.error('上传头像图片大小不能超过 2MB!');
+        this.$message.error('上传头像图片大小不能超过 2MB!')
       }
-      return isJPG && isLt2M;
+      return isJPG && isLt2M
     },
 
     /** 加文章 */
 
     closeMydialog() {
-      this.dialogVisible = false;
-      this.multipleSelection = [];
+      this.dialogVisible = false
+      this.multipleSelection = []
     },
     closeMydialogPP() {
-      this.dialogPPVisible = false;
-      this.multipleSelection = [];
+      this.dialogPPVisible = false
+      this.multipleSelection = []
     },
 
     handleSelectionChange(val) {
-      this.multipleSelection = val;
-      console.log('xuanze:');
-      console.log(this.multipleSelection);
+      this.multipleSelection = val
+      console.log('xuanze:')
+      console.log(this.multipleSelection)
     },
     submitFormPP() {
       if (this.multipleSelection.length === 0) {
-        this.$message({ type: 'info', message: '还没选择添加的文章!' });
+        this.$message({ type: 'info', message: '还没选择添加的文章!' })
       } else {
-        let folderHasPaper = [];
+        let folderHasPaper = []
         this.multipleSelection.forEach(item => {
           folderHasPaper.push({
             _id: item._id,
             title: item.title
-          });
-        });
+          })
+        })
         SkmService.pushPaper({
           _id: this.pushPaperFormFolderId,
           folderHasPaper
         }).then(data => {
           if (data.code === 200) {
-            this.dialogPPVisible = false;
-            this.$message({ type: 'success', message: '添加完毕!' });
-            this.multipleSelection = [];
-            this.getFolderList();
+            this.dialogPPVisible = false
+            this.$message({ type: 'success', message: '添加完毕!' })
+            this.multipleSelection = []
+            this.getFolderList()
           }
-        });
+        })
       }
     }
   },
   mounted() {},
   created() {
-    this.getFolderList();
+    this.getFolderList()
   }
-};
+}
 </script>
 <template>
 
