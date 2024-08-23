@@ -3,6 +3,7 @@ import myDialog from '../../components/myDialog/index.vue'
 import SkmService from '../../services/api'
 import address from '../../constant/address'
 import { myGetTime } from '../../utils/utils'
+import { getToken } from '../../utils/cookie'
 export default {
   name: 'createFolder',
   data() {
@@ -51,8 +52,10 @@ export default {
         info: [{ required: true, message: '请填文件夹简介', trigger: 'blur' }]
       },
 
-      uploadAddress: address + '/editor/uploadImg',
-
+      uploadAddress: process.env.VUE_APP_BASE_API + '/editor/uploadImg',
+      headers: {
+        'k-token' : getToken()
+      },
       /** 文分类文章列表 */
       pushPaperFormFolderId: '',
       paperList: [
@@ -256,7 +259,7 @@ export default {
       }
     }
   },
-  mounted() {},
+  mounted() { },
   created() {
     this.getFolderList()
   }
@@ -264,90 +267,58 @@ export default {
 </script>
 <template>
 
-    <div class="massive_css createFolderWarp">
-      <el-row class="listTop">
-        <el-col :span="6">
-          <div class="listTop_left">
-            <div class="saveButton">
-              <i class="el-icon-upload"></i>
-            </div>
-            <div class="pageTitle">Folder</div>
+  <div class="massive_css createFolderWarp">
+    <el-row class="listTop">
+      <el-col :span="6">
+        <div class="listTop_left">
+          <div class="saveButton">
+            <i class="el-icon-upload"></i>
           </div>
-        </el-col>
-        <el-col :span="4" :offset="14">
-          <ul class="btns">
-            <li @click="showDialog">
-              <i class="el-icon-folder-add"></i>新建文件夹
-            </li>
-            <li></li>
-          </ul>
-        </el-col>
-      </el-row>
-      <el-table :data="listData" style="width: 98%; margin: 0 auto;">
-        <el-table-column label="名称" prop="folderName" width="100"></el-table-column>
-        <el-table-column label="背景" width="100">
-          <template slot-scope="scope">
-            <img
-              :src="scope.row.cover || 'http://img0.imgtn.bdimg.com/it/u=1003180970,3716906246&fm=26&gp=0.jpg'"
-              width="80"
-              height="80"
-              class="head_pic"
-            />
-          </template>
-        </el-table-column>
-        <el-table-column label="创建日期" prop="updated_at" width="180"></el-table-column>
-        <el-table-column label="简介" prop="info" width></el-table-column>
-        <el-table-column label="包含文章" width>
-          <template slot-scope="scope">
-            <el-tag v-for="(item,key) in scope.row.folderHasPaper" :key="key">{{item.title}}</el-tag>
-          </template>
-        </el-table-column>
-        <el-table-column label="编辑" width="280">
-          <template slot-scope="scope">
-            <el-button size="mini" @click="pushPaperBtn(scope.$index, scope.row)">加文章</el-button>
-            <el-button size="mini" @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
-            <el-button size="mini" type="danger" @click="handleDelete(scope.$index, scope.row)">删除</el-button>
-          </template>
-        </el-table-column>
-      </el-table>
+          <div class="pageTitle">Folder</div>
+        </div>
+      </el-col>
+      <el-col :span="4" :offset="14">
+        <ul class="btns">
+          <li @click="showDialog">
+            <i class="el-icon-folder-add"></i>新建文件夹
+          </li>
+          <li></li>
+        </ul>
+      </el-col>
+    </el-row>
+    <el-table :data="listData" style="width: 98%; margin: 0 auto;">
+      <el-table-column label="名称" prop="folderName" width="100"></el-table-column>
+      <el-table-column label="背景" width="100">
+        <template slot-scope="scope">
+          <img :src="scope.row.cover || 'http://img0.imgtn.bdimg.com/it/u=1003180970,3716906246&fm=26&gp=0.jpg'" width="80" height="80" class="head_pic" />
+        </template>
+      </el-table-column>
+      <el-table-column label="创建日期" prop="updated_at" width="180"></el-table-column>
+      <el-table-column label="简介" prop="info" width></el-table-column>
+      <el-table-column label="包含文章" width>
+        <template slot-scope="scope">
+          <el-tag v-for="(item,key) in scope.row.folderHasPaper" :key="key">{{item.title}}</el-tag>
+        </template>
+      </el-table-column>
+      <el-table-column label="编辑" width="280">
+        <template slot-scope="scope">
+          <el-button size="mini" @click="pushPaperBtn(scope.$index, scope.row)">加文章</el-button>
+          <el-button size="mini" @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
+          <el-button size="mini" type="danger" @click="handleDelete(scope.$index, scope.row)">删除</el-button>
+        </template>
+      </el-table-column>
+    </el-table>
 
-      <el-pagination
-        v-if="listData.length"
-        :current-page="currentPage"
-        :page-size="10"
-        layout="total, prev, pager, next  "
-        :total="listData.length"
-      ></el-pagination>
+    <el-pagination v-if="listData.length" :current-page="currentPage" :page-size="10" layout="total, prev, pager, next  " :total="listData.length"></el-pagination>
 
-    <myDialog
-      v-if="dialogVisible"
-      :dialogVisible="dialogVisible"
-      :dialogTitle="dialogTitle"
-      :dialogBtn="dialogBtn"
-      :hasResetForm="hasResetForm"
-      @closeMyDialog="closeMydialog"
-      @resetForm="resetForm"
-      @submitForm="submitForm"
-      class="create-folder-dialog"
-    >
+    <myDialog v-if="dialogVisible" :dialogVisible="dialogVisible" :dialogTitle="dialogTitle" :dialogBtn="dialogBtn" :hasResetForm="hasResetForm" @closeMyDialog="closeMydialog" @resetForm="resetForm"
+      @submitForm="submitForm" class="create-folder-dialog">
       <div class="myDialogBody">
-        <el-form
-          :model="ruleForm"
-          :rules="rules"
-          ref="newFolderform"
-          label-width="100px"
-          class="demo-ruleForm"
-        >
+        <el-form :model="ruleForm" :rules="rules" ref="newFolderform" label-width="100px" class="demo-ruleForm">
           <el-form-item label="封面">
-            <el-upload
-              class="avatar-uploader"
-              :action="uploadAddress"
-              :with-credentials="true"
-              :show-file-list="false"
-              :on-success="handleAvatarSuccess"
-              :before-upload="beforeAvatarUpload"
-            >
-              <el-image v-if="ruleForm.cover" :src="ruleForm.cover" class="avatar" :fit="'cover'"/>
+            <el-upload class="avatar-uploader" :action="uploadAddress" :headers="headers" :with-credentials="true" :show-file-list="false" :on-success="handleAvatarSuccess"
+              :before-upload="beforeAvatarUpload">
+              <el-image v-if="ruleForm.cover" :src="ruleForm.cover" class="avatar" :fit="'cover'" />
               <i v-else class="el-icon-plus avatar-uploader-icon"></i>
             </el-upload>
           </el-form-item>
@@ -363,45 +334,26 @@ export default {
       </div>
     </myDialog>
 
-    <myDialog
-      v-if="dialogPPVisible"
-      :dialogVisible="dialogPPVisible"
-      :dialogTitle="dialogPPTitle"
-      :dialogBtn="dialogPPBtn"
-      :hasResetForm="hasResetFormPP"
-      @closeMyDialog="closeMydialogPP"
-      @submitForm="submitFormPP"
-    >
+    <myDialog v-if="dialogPPVisible" :dialogVisible="dialogPPVisible" :dialogTitle="dialogPPTitle" :dialogBtn="dialogPPBtn" :hasResetForm="hasResetFormPP" @closeMyDialog="closeMydialogPP"
+      @submitForm="submitFormPP">
       <div class="myDialogBody">
-        <el-table
-          ref="multipleTable"
-          :data="paperList"
-          tooltip-effect="dark"
-          style="width: 100%"
-          @selection-change="handleSelectionChange"
-        >
+        <el-table ref="multipleTable" :data="paperList" tooltip-effect="dark" style="width: 100%" @selection-change="handleSelectionChange">
           <el-table-column type="selection" width="55"></el-table-column>
           <el-table-column prop="_id" label="id" width></el-table-column>
           <el-table-column prop="title" label="标题" width></el-table-column>
           <el-table-column prop="info" label="简介" show-overflow-tooltip></el-table-column>
         </el-table>
-        <el-pagination
-          v-if="paperList.length"
-          :current-page="paperList_currentPage"
-          :page-size="10"
-          layout="total, prev, pager, next"
-          :total="paperList.length"
-        ></el-pagination>
+        <el-pagination v-if="paperList.length" :current-page="paperList_currentPage" :page-size="10" layout="total, prev, pager, next" :total="paperList.length"></el-pagination>
         <el-divider>
           <i class="el-icon-mobile-phone"></i>
         </el-divider>
         <div>
-          <el-tag v-for="item in multipleSelection" :key="item.title" >{{item.title}}</el-tag>
+          <el-tag v-for="item in multipleSelection" :key="item.title">{{item.title}}</el-tag>
         </div>
       </div>
     </myDialog>
 
-    </div>
+  </div>
 
 </template>
 

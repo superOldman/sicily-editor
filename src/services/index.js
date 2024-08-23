@@ -38,9 +38,11 @@ service.interceptors.request.use(
     // debugger
 
     // removeToken()
+    console.log('getToken',getToken());
     if (getToken()) {
       config.headers['K-Token'] = getToken() // 让每个请求携带自定义token 请根据实际情况自行修改
     }
+    console.log('config',config);
 
 
     if (config.url.endsWith('list')) {

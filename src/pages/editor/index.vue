@@ -40,7 +40,7 @@ export default {
       createfolderShow: false,
       folderList: [],
       showFolderName: '选择文件夹',
-      uploadAddress: address + '/editor/uploadImg',
+      uploadAddress: process.env.VUE_APP_BASE_API + '/editor/uploadImg',
 
       flag: true
     }

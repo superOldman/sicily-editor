@@ -65,12 +65,7 @@ export default {
     },
 
     getMyTime(time) {
-      let nowTime
-      if (time) {
-        nowTime = new Date(time)
-      } else {
-        nowTime = new Date()
-      }
+      let nowTime = time ? new Date(time) : new Date()
       return {
         date_year_mounth: `${nowTime.getFullYear()}-${addZero(nowTime.getMonth() + 1)}-${addZero(nowTime.getDate())}`,
         date_hour_min_sec: `${addZero(nowTime.getHours())}:${addZero(nowTime.getMinutes())}:${addZero(nowTime.getSeconds())}`
@@ -205,8 +200,11 @@ export default {
 
     async resourceStats() {
       const { data } = await SkmService.resourceStats()
-      if (data && data.length) {
+      console.log(data)
+      // debugger
+      if (data) {
         this.sourceStats = data
+        
         const estimateCapacity = parseInt(this.estimateCapacity)
         // 算比例
         const allSize = data.pictureDetail.size + data.paperDetail.size + data.baseDataSize
